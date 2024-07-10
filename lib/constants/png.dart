@@ -19,4 +19,5 @@ class ZeelPng {
   static const String swap = 'assets/images/swap.png';
   static const String bills = 'assets/images/bills.png';
   static const String tradeCrypto = 'assets/images/trade_crypto.png';
+  static const String avatar = 'assets/images/image.png';
 }

@@ -175,7 +175,7 @@ class DashBoardScreen extends StatelessWidget {
                       width: MediaQuery.of(context).size.width,
                       child: GridView.builder(
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: 6,
+                        itemCount: _buildMenuItems(context).length,
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 3,

@@ -56,3 +56,59 @@ class ZeelTile extends StatelessWidget {
     );
   }
 }
+
+class ZeelListTile extends StatelessWidget {
+  final String title;
+  final String leadingIcon;
+  final String? route;
+  final void Function()? onTap;
+  const ZeelListTile(
+      {super.key,
+      required this.title,
+      required this.leadingIcon,
+      this.route,
+      this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Card(
+        color: Colors.white,
+        shadowColor: const Color.fromRGBO(0, 0, 0, 0),
+        child: ListTile(
+          title: Text(title,
+              style: ShadTheme.of(context).textTheme.small.copyWith(
+                  fontWeight: FontWeight.normal,
+                  fontSize: 16,
+                  color: title.toString().toLowerCase() == "logout"
+                      ? Colors.red
+                      : null)),
+          leading: Container(
+            padding: const EdgeInsets.all(10),
+            height: 40,
+            width: 40,
+            child: ShadImage.square(
+              leadingIcon,
+              size: 30,
+              fit: BoxFit.contain,
+            ),
+          ),
+          trailing: title.toString().toLowerCase() == "logout"
+              ? const SizedBox.shrink()
+              : const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    ShadImage.square(
+                      ZeelSvg.forwardArrow,
+                      size: 20,
+                      color: Colors.grey,
+                    ),
+                  ],
+                ),
+        ),
+      ),
+    );
+  }
+}

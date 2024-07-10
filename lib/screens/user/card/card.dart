@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:zeelpay/constants/png.dart';
+import 'package:zeelpay/screens/user/widgets/zeel_tile.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 
 class CardScreen extends StatelessWidget {
@@ -48,7 +50,32 @@ class CardScreen extends StatelessWidget {
                   alignment: Alignment.bottomCenter,
                   child: ZeelButton(
                     text: "Create",
-                    onPressed: () {},
+                    onPressed: () {
+                      showShadSheet(
+                          side: ShadSheetSide.bottom,
+                          context: context,
+                          builder: (context) => const ShadSheet(
+                                removeBorderRadiusWhenTiny: false,
+                                title: Text("Card Type"),
+                                content: Padding(
+                                  padding: EdgeInsets.only(bottom: 50, top: 10),
+                                  child: Column(
+                                    children: [
+                                      ZeelTile(
+                                          title: "Naira Card",
+                                          subtitle:
+                                              "Pay for anything with your local currency card",
+                                          leadingImage: ZeelPng.buyCrypto),
+                                      ZeelTile(
+                                          title: "Dollar Card",
+                                          subtitle:
+                                              "Pay for anything globally with your dollar card",
+                                          leadingImage: ZeelPng.sellCrypto),
+                                    ],
+                                  ),
+                                ),
+                              ));
+                    },
                   ),
                 ),
               ),

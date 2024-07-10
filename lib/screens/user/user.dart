@@ -5,6 +5,7 @@ import 'package:zeelpay/constants/png.dart';
 import 'package:zeelpay/constants/svg.dart';
 import 'package:zeelpay/screens/user/card/card.dart';
 import 'package:zeelpay/screens/user/dashboard/dashboard.dart';
+import 'package:zeelpay/screens/user/more/more.dart';
 import 'package:zeelpay/screens/user/pay/pay.dart';
 import 'package:zeelpay/screens/user/trade/trade.dart';
 
@@ -88,7 +89,7 @@ List<Widget> _screens = const [
   Pay(),
   TradeScreen(),
   CardScreen(),
-  Pay(),
+  More(),
 ];
 
 final currentScreenProvider = StateProvider<int>((ref) {

@@ -19,7 +19,7 @@ class Pay extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             child: GridView.builder(
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: 9,
+              itemCount: _buildMenuItems().length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3, mainAxisSpacing: 5, crossAxisSpacing: 10),
               itemBuilder: (context, index) {

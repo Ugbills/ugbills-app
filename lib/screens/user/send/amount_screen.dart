@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:zeelpay/constants/svg.dart';
+import 'package:zeelpay/screens/user/send/bank/bank.dart';
 import 'package:zeelpay/screens/widgets/number_pad.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 
@@ -85,18 +86,28 @@ class AmountScreen extends ConsumerWidget {
               ref: ref,
             ),
 
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Expanded(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: ZeelAltButton(
-                    onPressed: () {},
-                    text: "Proceed",
-                  ),
-                ),
+            Expanded(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: ZeelAltButton(
+                      onPressed: amount == "0.00"
+                          ? null
+                          : () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) {
+                                        return const BankTransfer();
+                                      },
+                                      settings:
+                                          RouteSettings(arguments: amount)));
+                            },
+                      text: "Proceed",
+                    )),
               ),
-            )
+            ),
           ],
         ),
       ),

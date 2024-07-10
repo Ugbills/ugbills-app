@@ -19,4 +19,12 @@ class ZeelSvg {
   static const String copy = 'assets/svgs/copy.svg';
   static const String tag = 'assets/svgs/tag.svg';
   static const String delete = 'assets/svgs/delete.svg';
+  static const String accountStatement = 'assets/svgs/account_statement.svg';
+  static const String accountLevels = 'assets/svgs/account_levels.svg';
+  static const String refer = 'assets/svgs/refer.svg';
+  static const String beneficiary = 'assets/svgs/beneficiary.svg';
+  static const String settings = 'assets/svgs/settings.svg';
+  static const String contact = 'assets/svgs/contact.svg';
+  static const String about = 'assets/svgs/about.svg';
+  static const String logout = 'assets/svgs/logout.svg';
 }
