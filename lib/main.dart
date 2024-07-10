@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:zeelpay/screens/account_screen.dart';
+import 'package:zeelpay/screens/onboarding/onboarding.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -19,12 +19,14 @@ class MyApp extends StatelessWidget {
 
           //We are defining the theme for the app
           brightness: Brightness.light,
-          colorScheme:
-              const ShadZincColorScheme.light(primary: Color(0xf020013a)),
+          colorScheme: const ShadZincColorScheme.light(
+            primary: Color(0xf020013a),
+            background: Color(0xfffafafa),
+          ),
           textTheme: ShadTextTheme.fromGoogleFont(
             GoogleFonts.cabin,
           )),
-      home: const AccountScreen(),
+      home: const Onboarding(),
     );
   }
 }

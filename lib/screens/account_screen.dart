@@ -11,13 +11,6 @@ class AccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leadingWidth: 100,
-        leading: const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.0),
-          child: SizedBox.shrink(),
-        ),
-      ),
       body: CustomScrollView(
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           slivers: [

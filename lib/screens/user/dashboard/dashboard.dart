@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:zeelpay/constants/svg.dart';
 import 'package:zeelpay/screens/user/fund/fund_options.dart';
 import 'package:zeelpay/screens/user/notifications/notification.dart';
+import 'package:zeelpay/screens/user/send/amount_screen.dart';
 import 'package:zeelpay/screens/user/transaction/history.dart';
 import 'package:zeelpay/screens/user/widgets/action_button.dart';
 
@@ -24,8 +25,8 @@ class DashBoardScreen extends StatelessWidget {
                     width: MediaQuery.of(context).size.width,
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(50),
-                        bottomRight: Radius.circular(50),
+                        bottomLeft: Radius.circular(30),
+                        bottomRight: Radius.circular(30),
                       ),
                       color: Color(0xff20013A),
                       image: DecorationImage(
@@ -145,8 +146,8 @@ class DashBoardScreen extends StatelessWidget {
                                 decoration: const BoxDecoration(
                                   color: Colors.black,
                                   borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(50),
-                                    bottomRight: Radius.circular(50),
+                                    bottomLeft: Radius.circular(30),
+                                    bottomRight: Radius.circular(30),
                                   ),
                                 ),
                                 child: const Padding(
@@ -197,7 +198,7 @@ class DashBoardScreen extends StatelessWidget {
                       ),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.grey[50],
+                          color: Colors.white,
                           borderRadius: BorderRadius.circular(20),
                         ),
                         padding: const EdgeInsets.all(20),
@@ -287,10 +288,20 @@ List<Widget> _buildMenuItems(BuildContext context) {
         color: Color(0xffFFC9CE),
       ),
     ),
-    const ZeelActionButton(
-      text: "Send",
-      icon: ZeelSvg.send,
-      color: Color(0xffFFD3B3),
+    GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const AmountScreen(),
+          ),
+        );
+      },
+      child: const ZeelActionButton(
+        text: "Send",
+        icon: ZeelSvg.send,
+        color: Color(0xffFFD3B3),
+      ),
     ),
     const ZeelActionButton(
       text: "TV",

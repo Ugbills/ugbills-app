@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/screens/auth/reset/new_password_screen.dart';
+import 'package:zeelpay/screens/auth/login_screen.dart';
 import 'package:zeelpay/screens/widgets/images_widget.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
@@ -10,13 +10,6 @@ class PassswordSavedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leadingWidth: 100,
-        leading: const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.0),
-          child: SizedBox.shrink(),
-        ),
-      ),
       body: CustomScrollView(
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           slivers: [
@@ -56,7 +49,7 @@ class PassswordSavedScreen extends StatelessWidget {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              const NewPasswordScreen()));
+                                              const LoginScreen()));
                                 },
                               ),
                             ],

@@ -18,4 +18,5 @@ class ZeelSvg {
   static const String search = 'assets/svgs/search.svg';
   static const String copy = 'assets/svgs/copy.svg';
   static const String tag = 'assets/svgs/tag.svg';
+  static const String delete = 'assets/svgs/delete.svg';
 }

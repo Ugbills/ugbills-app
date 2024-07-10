@@ -18,7 +18,7 @@ class ZeelButton extends StatelessWidget {
         child: ElevatedButton(
             style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0)),
+                    borderRadius: BorderRadius.circular(15.0)),
                 backgroundColor: const Color(0xff20013A)),
             onPressed: onPressed,
             child: Text(
@@ -48,6 +48,9 @@ class ZeelAltButton extends StatelessWidget {
         height: 57.0,
         child: ElevatedButton(
             style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0),
+              ),
               side: const BorderSide(
                 width: 1.0,
                 color: Color(0xff20013A),
@@ -66,8 +69,10 @@ class ZeelAltButton extends StatelessWidget {
 }
 
 class ZeelBackButton extends StatelessWidget {
+  final Color? color;
   const ZeelBackButton({
     super.key,
+    this.color = Colors.transparent,
   });
 
   @override
@@ -78,9 +83,10 @@ class ZeelBackButton extends StatelessWidget {
       },
       child: Container(
           alignment: Alignment.center,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             shape: BoxShape.circle,
-            border: Border.fromBorderSide(BorderSide(color: Colors.grey)),
+            color: color,
+            border: const Border.fromBorderSide(BorderSide(color: Colors.grey)),
           ),
           height: 48,
           width: 48,

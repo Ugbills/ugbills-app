@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class ZeelTitleText extends StatelessWidget {
   final String text;
@@ -43,11 +44,7 @@ class ZeelTextFieldTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: const TextStyle(
-        fontSize: 18.0,
-        fontWeight: FontWeight.w700,
-        color: Colors.black,
-      ),
+      style: ShadTheme.of(context).textTheme.h1.copyWith(fontSize: 16),
     );
   }
 }

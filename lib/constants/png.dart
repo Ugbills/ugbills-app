@@ -13,5 +13,10 @@ class ZeelPng {
   static const String mtn = 'assets/images/mtn.png';
   static const String glo = 'assets/images/glo.png';
   static const String airtel = 'assets/images/airtel.png';
-  static const String 9mobile = 'assets/images/9mobile.png';
+  static const String mobile = 'assets/images/9mobile.png';
+  static const String giftCard = 'assets/images/gift_card.png';
+  static const String topUp = 'assets/images/top_up.png';
+  static const String swap = 'assets/images/swap.png';
+  static const String bills = 'assets/images/bills.png';
+  static const String tradeCrypto = 'assets/images/trade_crypto.png';
 }
