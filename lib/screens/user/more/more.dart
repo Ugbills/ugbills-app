@@ -3,7 +3,6 @@ import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:zeelpay/constants/png.dart';
 import 'package:zeelpay/constants/svg.dart';
 import 'package:zeelpay/screens/user/widgets/zeel_tile.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 
 class More extends StatelessWidget {
   const More({super.key});

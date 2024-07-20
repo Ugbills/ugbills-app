@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:zeelpay/constants/svg.dart';
+import 'package:zeelpay/screens/user/bills/airtime.dart';
+import 'package:zeelpay/screens/user/bills/betting.dart';
+import 'package:zeelpay/screens/user/bills/data.dart';
+import 'package:zeelpay/screens/user/bills/tv.dart';
 import 'package:zeelpay/screens/user/fund/fund_options.dart';
 import 'package:zeelpay/screens/user/notifications/notification.dart';
 import 'package:zeelpay/screens/user/send/amount_screen.dart';
@@ -303,22 +307,81 @@ List<Widget> _buildMenuItems(BuildContext context) {
         color: Color(0xffFFD3B3),
       ),
     ),
-    const ZeelActionButton(
-      text: "TV",
-      icon: ZeelSvg.tv,
-      color: Color(0xffCFC6FF),
+    GestureDetector(
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const TVBills(),
+        ),
+      ),
+      child: const ZeelActionButton(
+        text: "TV",
+        icon: ZeelSvg.tv,
+        color: Color(0xffCFC6FF),
+      ),
     ),
-    const ZeelActionButton(
-      text: "Buy Data",
-      icon: ZeelSvg.data,
-      color: Color(0xffFED4FF),
+    GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const DataBills(),
+          ),
+        );
+      },
+      child: const ZeelActionButton(
+        text: "Buy Data",
+        icon: ZeelSvg.data,
+        color: Color(0xffFED4FF),
+      ),
     ),
-    const ZeelActionButton(
-      text: "Buy Airtime",
-      icon: ZeelSvg.airtime,
-      color: Color(0xffB6E1FF),
+    GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const AirtimeBills(),
+          ),
+        );
+      },
+      child: const ZeelActionButton(
+        text: "Buy Airtime",
+        icon: ZeelSvg.airtime,
+        color: Color(0xffB6E1FF),
+      ),
     ),
-    const ZeelActionButton(
-        text: "Betting", icon: ZeelSvg.betting, color: Color(0xffAEFFCF)),
+    GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          _createRoute(
+            const BettingBills(),
+          ),
+        );
+      },
+      child: const ZeelActionButton(
+          text: "Betting", icon: ZeelSvg.betting, color: Color(0xffAEFFCF)),
+    ),
   ];
+}
+
+Route _createRoute(Widget child) {
+  return PageRouteBuilder(
+    transitionDuration: const Duration(milliseconds: 300),
+    reverseTransitionDuration: const Duration(milliseconds: 300),
+    pageBuilder: (context, animation, secondaryAnimation) => child,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(0.0, 1.0);
+      const end = Offset.zero;
+      const curve = Curves.ease;
+      final tween =
+          Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+      final offsetAnimation = animation.drive(tween);
+
+      return SlideTransition(
+        position: offsetAnimation,
+        child: child,
+      );
+    },
+  );
 }

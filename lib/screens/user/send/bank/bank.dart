@@ -4,6 +4,7 @@ import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
+import 'package:zeelpay/screens/widgets/zeel_scrollable_widget.dart';
 
 class BankTransfer extends ConsumerWidget {
   const BankTransfer({super.key});
@@ -96,16 +97,3 @@ class BankTransfer extends ConsumerWidget {
 final saveBeneficiaryProvider = StateProvider<bool>((ref) {
   return false;
 });
-
-class ZeelScrollable extends StatelessWidget {
-  final Widget child;
-  const ZeelScrollable({super.key, required this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomScrollView(
-        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-        reverse: true,
-        slivers: [SliverFillRemaining(hasScrollBody: false, child: child)]);
-  }
-}

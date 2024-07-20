@@ -1,4 +1,4 @@
-package com.example.zealpay
+package com.zgt.zeelpay
 
 import io.flutter.embedding.android.FlutterActivity
 
