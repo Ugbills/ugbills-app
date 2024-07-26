@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:zeelpay/constants/svg.dart';
+import 'package:zeelpay/screens/user/bills/airtime.dart';
+import 'package:zeelpay/screens/user/bills/betting.dart';
+import 'package:zeelpay/screens/user/bills/data.dart';
+import 'package:zeelpay/screens/user/bills/tv.dart';
+import 'package:zeelpay/screens/user/fund/fund_options.dart';
+import 'package:zeelpay/screens/user/send/amount_screen.dart';
 import 'package:zeelpay/screens/user/widgets/action_button.dart';
 
 class Pay extends StatelessWidget {
@@ -19,11 +25,11 @@ class Pay extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             child: GridView.builder(
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: _buildMenuItems().length,
+              itemCount: _buildMenuItems(context).length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3, mainAxisSpacing: 5, crossAxisSpacing: 10),
               itemBuilder: (context, index) {
-                return _buildMenuItems()[index];
+                return _buildMenuItems(context)[index];
               },
             ),
           ),
@@ -33,40 +39,120 @@ class Pay extends StatelessWidget {
   }
 }
 
-List<Widget> _buildMenuItems() {
+List<Widget> _buildMenuItems(BuildContext context) {
   return [
-    const ZeelActionButton(
+    ZeelActionButton(
       text: "Fund",
       icon: ZeelSvg.fund,
-      color: Color(0xffFFC9CE),
+      color: const Color(0xffFFC9CE),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const FundOptions(),
+          ),
+        );
+      },
     ),
-    const ZeelActionButton(
+    ZeelActionButton(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const AmountScreen(),
+          ),
+        );
+      },
       text: "Send",
       icon: ZeelSvg.send,
-      color: Color(0xffFFD3B3),
+      color: const Color(0xffFFD3B3),
     ),
-    const ZeelActionButton(
+    ZeelActionButton(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const TVBills(),
+          ),
+        );
+      },
       text: "TV",
       icon: ZeelSvg.tv,
-      color: Color(0xffCFC6FF),
+      color: const Color(0xffCFC6FF),
     ),
-    const ZeelActionButton(
+    ZeelActionButton(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const DataBills(),
+          ),
+        );
+      },
       text: "Buy Data",
       icon: ZeelSvg.data,
-      color: Color(0xffFED4FF),
+      color: const Color(0xffFED4FF),
     ),
-    const ZeelActionButton(
+    ZeelActionButton(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const AirtimeBills(),
+          ),
+        );
+      },
       text: "Buy Airtime",
       icon: ZeelSvg.airtime,
-      color: Color(0xffB6E1FF),
+      color: const Color(0xffB6E1FF),
     ),
-    const ZeelActionButton(
-        text: "Gift Card", icon: ZeelSvg.betting, color: Color(0xffE0FFAE)),
-    const ZeelActionButton(
-        text: "Airtime Swap", icon: ZeelSvg.betting, color: Color(0xffAEFFCF)),
-    const ZeelActionButton(
-        text: "Electricity", icon: ZeelSvg.betting, color: Color(0xffFFC7AE)),
-    const ZeelActionButton(
-        text: "Betting", icon: ZeelSvg.betting, color: Color(0xffAECAFF)),
+    ZeelActionButton(
+        onTap: () {
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(
+          //     builder: (context) => const (),
+          //   ),
+          // );
+        },
+        text: "Gift Card",
+        icon: ZeelSvg.betting,
+        color: const Color(0xffE0FFAE)),
+    ZeelActionButton(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AmountScreen(),
+            ),
+          );
+        },
+        text: "Airtime Swap",
+        icon: ZeelSvg.betting,
+        color: const Color(0xffAEFFCF)),
+    ZeelActionButton(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AmountScreen(),
+            ),
+          );
+        },
+        text: "Electricity",
+        icon: ZeelSvg.betting,
+        color: const Color(0xffFFC7AE)),
+    ZeelActionButton(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const BettingBills(),
+            ),
+          );
+        },
+        text: "Betting",
+        icon: ZeelSvg.betting,
+        color: const Color(0xffAECAFF)),
   ];
 }

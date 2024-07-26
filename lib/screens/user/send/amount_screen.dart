@@ -75,7 +75,7 @@ class AmountScreen extends ConsumerWidget {
                 ],
               ),
             ),
-
+            const Spacer(),
             // Number Pad Section Starts Here
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.1,

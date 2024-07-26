@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:zeelpay/constants/png.dart';
+import 'package:zeelpay/screens/user/card/naira.dart';
 import 'package:zeelpay/screens/user/widgets/zeel_tile.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 
@@ -54,19 +54,30 @@ class CardScreen extends StatelessWidget {
                       showShadSheet(
                           side: ShadSheetSide.bottom,
                           context: context,
-                          builder: (context) => const ShadSheet(
+                          builder: (context) => ShadSheet(
                                 removeBorderRadiusWhenTiny: false,
-                                title: Text("Card Type"),
+                                title: const Text("Card Type"),
                                 content: Padding(
-                                  padding: EdgeInsets.only(bottom: 50, top: 10),
+                                  padding: const EdgeInsets.only(
+                                      bottom: 50, top: 10),
                                   child: Column(
                                     children: [
                                       ZeelTile(
+                                          onTap: () {
+                                            Navigator.pop(context);
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const NairaCardScreen(),
+                                              ),
+                                            );
+                                          },
                                           title: "Naira Card",
                                           subtitle:
                                               "Pay for anything with your local currency card",
                                           leadingImage: ZeelPng.buyCrypto),
-                                      ZeelTile(
+                                      const ZeelTile(
                                           title: "Dollar Card",
                                           subtitle:
                                               "Pay for anything globally with your dollar card",

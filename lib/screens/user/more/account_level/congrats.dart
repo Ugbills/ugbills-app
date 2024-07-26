@@ -1,0 +1,45 @@
+import 'package:flutter/material.dart';
+import 'package:zeelpay/screens/onboarding/onboarding.dart';
+import 'package:zeelpay/screens/user/more/account_level/tier-2/tier_2.dart';
+import 'package:zeelpay/screens/user/more/account_level/tier-3/tier_3.dart';
+import 'package:zeelpay/screens/user/user.dart';
+import 'package:zeelpay/screens/widgets/texts_widget.dart';
+import 'package:zeelpay/themes/palette.dart';
+
+class Congrats extends StatelessWidget {
+  const Congrats({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          alignment: Alignment.center,
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Image.asset("assets/images/zeel-top-logo.png"),
+              const Spacer(),
+              Image.asset("assets/images/congrats.png"),
+              const ZeelTitleText(text: "Congratulations!"),
+              const Text(
+                "Your BVN verification request has been submitted successfully. You will be notified once your BVN has been verified.",
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.grey),
+              ),
+              const Spacer(),
+              ZeelButton(
+                text: "Back",
+                onPressed: () {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (_) => const AccountTier3()));
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
