@@ -3,8 +3,11 @@ import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:zeelpay/constants/png.dart';
 import 'package:zeelpay/constants/svg.dart';
 import 'package:zeelpay/screens/user/more/account_level/tier-2/tier_2.dart';
+import 'package:zeelpay/screens/user/more/beneficiaries/beneficiaries.dart';
+import 'package:zeelpay/screens/user/more/contact/contact.dart';
 import 'package:zeelpay/screens/user/more/profile/edit.dart';
 import 'package:zeelpay/screens/user/more/refer-and-earn/refer_and_earn.dart';
+import 'package:zeelpay/screens/user/more/security/security.dart';
 import 'package:zeelpay/screens/user/more/statement/statement.dart';
 import 'package:zeelpay/screens/user/widgets/zeel_tile.dart';
 
@@ -119,9 +122,20 @@ List<Tiles> tiles = [
     leadingIcon: ZeelSvg.refer,
     route: const ReferAndEarn(),
   ),
-  Tiles(title: "Beneficiaries", leadingIcon: ZeelSvg.beneficiary),
-  Tiles(title: "Security Settings", leadingIcon: ZeelSvg.settings),
-  Tiles(title: "Contact Us", leadingIcon: ZeelSvg.contact),
+  Tiles(
+    title: "Beneficiaries",
+    leadingIcon: ZeelSvg.beneficiary,
+    route: const SavedBeneficiaries(),
+  ),
+  Tiles(
+    title: "Security Settings",
+    leadingIcon: ZeelSvg.settings,
+    route: const SecuritySettings(),
+  ),
+  Tiles(
+      title: "Contact Us",
+      leadingIcon: ZeelSvg.contact,
+      route: const ContactUs()),
   Tiles(title: "About Us", leadingIcon: ZeelSvg.about),
   Tiles(title: "Logout", leadingIcon: ZeelSvg.logout),
 ];

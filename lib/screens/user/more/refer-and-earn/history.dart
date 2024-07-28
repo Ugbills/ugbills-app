@@ -5,8 +5,6 @@ class ReferralHistory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-        // body: ,
-        );
+    return const Scaffold();
   }
 }

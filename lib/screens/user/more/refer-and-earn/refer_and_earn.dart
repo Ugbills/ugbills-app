@@ -6,9 +6,17 @@ import 'package:zeelpay/constants/svg.dart';
 import 'package:zeelpay/screens/onboarding/onboarding.dart';
 import 'package:zeelpay/screens/user/more/refer-and-earn/earnings.dart';
 import 'package:zeelpay/themes/palette.dart';
+import 'package:flutter_share/flutter_share.dart';
 
 class ReferAndEarn extends StatelessWidget {
   const ReferAndEarn({super.key});
+
+  Future<void> shareReferralLink() async {
+    await FlutterShare.share(
+      title: 'Referral Link',
+      text: "https://url.com/user/me/referral_link",
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,17 +51,17 @@ class ReferAndEarn extends StatelessWidget {
             // const Spacer(),
             ZeelButton(
               text: "Share Referral Link",
-              onPressed: () {
-                // Share.share("hi");
-              },
+              onPressed: shareReferralLink,
             ),
             const SizedBox(height: 12),
             SizedBox(
               width: double.infinity,
               child: FilledButton(
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => ReferralEarnings()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => const ReferralEarnings()));
                 },
                 style: FilledButton.styleFrom(
                   backgroundColor: Colors.transparent,
