@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:zeelpay/constants/png.dart';
 import 'package:zeelpay/constants/svg.dart';
+import 'package:zeelpay/screens/user/more/account_level/tier-2/tier_2.dart';
+import 'package:zeelpay/screens/user/more/beneficiaries/beneficiaries.dart';
+import 'package:zeelpay/screens/user/more/contact/contact.dart';
+import 'package:zeelpay/screens/user/more/profile/edit.dart';
+import 'package:zeelpay/screens/user/more/refer-and-earn/refer_and_earn.dart';
+import 'package:zeelpay/screens/user/more/security/security.dart';
+import 'package:zeelpay/screens/user/more/statement/statement.dart';
 import 'package:zeelpay/screens/user/widgets/zeel_tile.dart';
 
 class More extends StatelessWidget {
@@ -53,7 +60,12 @@ class More extends StatelessWidget {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20.0)),
                               backgroundColor: const Color(0xff20013A)),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => const EditProfile()));
+                          },
                           child: Text(
                             "Edit Profile",
                             style: ShadTheme.of(context)
@@ -66,18 +78,24 @@ class More extends StatelessWidget {
                 ],
               ),
               Expanded(
-                child: Padding(
+                child: ListView.builder(
                   padding: const EdgeInsets.symmetric(vertical: 20),
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: tiles.length,
-                    itemBuilder: (context, index) {
-                      return ZeelListTile(
-                          title: tiles[index].title,
-                          leadingIcon: tiles[index].leadingIcon);
-                    },
-                  ),
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: tiles.length,
+                  itemBuilder: (context, index) {
+                    return ZeelListTile(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => tiles[index].route,
+                            ),
+                          );
+                        },
+                        title: tiles[index].title,
+                        leadingIcon: tiles[index].leadingIcon);
+                  },
                 ),
               ),
             ],
@@ -89,12 +107,35 @@ class More extends StatelessWidget {
 }
 
 List<Tiles> tiles = [
-  Tiles(title: "Account Statement", leadingIcon: ZeelSvg.accountStatement),
-  Tiles(title: "Account Levels", leadingIcon: ZeelSvg.accountLevels),
-  Tiles(title: "Refer and Earn", leadingIcon: ZeelSvg.refer),
-  Tiles(title: "Beneficiaries", leadingIcon: ZeelSvg.beneficiary),
-  Tiles(title: "Security Settings", leadingIcon: ZeelSvg.settings),
-  Tiles(title: "Contact Us", leadingIcon: ZeelSvg.contact),
+  Tiles(
+    title: "Account Statement",
+    leadingIcon: ZeelSvg.accountStatement,
+    route: const AccountStatement(),
+  ),
+  Tiles(
+    title: "Account Levels",
+    leadingIcon: ZeelSvg.accountLevels,
+    route: const AccountTier2(),
+  ),
+  Tiles(
+    title: "Refer and Earn",
+    leadingIcon: ZeelSvg.refer,
+    route: const ReferAndEarn(),
+  ),
+  Tiles(
+    title: "Beneficiaries",
+    leadingIcon: ZeelSvg.beneficiary,
+    route: const SavedBeneficiaries(),
+  ),
+  Tiles(
+    title: "Security Settings",
+    leadingIcon: ZeelSvg.settings,
+    route: const SecuritySettings(),
+  ),
+  Tiles(
+      title: "Contact Us",
+      leadingIcon: ZeelSvg.contact,
+      route: const ContactUs()),
   Tiles(title: "About Us", leadingIcon: ZeelSvg.about),
   Tiles(title: "Logout", leadingIcon: ZeelSvg.logout),
 ];
@@ -102,7 +143,11 @@ List<Tiles> tiles = [
 class Tiles {
   final String title;
   final String leadingIcon;
-  final String? route;
+  final Widget route;
 
-  Tiles({required this.title, required this.leadingIcon, this.route});
+  Tiles({
+    required this.title,
+    required this.leadingIcon,
+    this.route = const AccountTier2(),
+  });
 }

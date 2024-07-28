@@ -4,9 +4,14 @@ import 'package:zeelpay/screens/user/more/refer-and-earn/history.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
-class ReferralEarnings extends StatelessWidget {
-  ReferralEarnings({super.key});
-app
+class ReferralEarnings extends StatefulWidget {
+  const ReferralEarnings({super.key});
+
+  @override
+  State<ReferralEarnings> createState() => _ReferralEarningsState();
+}
+
+class _ReferralEarningsState extends State<ReferralEarnings> {
   final List referrals = [
     ["Henry Eze", "06:59 PM", "18 Mar", false],
     ["Akin Layi", "06:59 PM", "18 Mar", false],
@@ -17,6 +22,8 @@ app
     ["Oyin Lawal", "06:59 PM", "18 Mar", false],
   ];
 
+  bool stealth = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +31,14 @@ app
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 24).copyWith(top: 24),
           children: [
-            showBalance(),
+            showBalance(
+              stealth ? "***********" : "₦73,000.00",
+              () {
+                setState(() {
+                  stealth = !stealth;
+                });
+              },
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 12),
               child: Row(
@@ -84,7 +98,8 @@ app
   }
 }
 
-Widget showBalance() {
+Widget showBalance(String balance, Function()? onPressed) {
+  // bool show = true;
   return Container(
     padding: const EdgeInsets.all(24),
     alignment: Alignment.center,
@@ -101,16 +116,16 @@ Widget showBalance() {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
-              "₦73,000.00",
-              style: TextStyle(
+            Text(
+              balance,
+              style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.w700,
                 fontSize: 22,
               ),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: onPressed,
               icon: const Icon(
                 Icons.remove_red_eye_outlined,
                 color: Colors.white,
