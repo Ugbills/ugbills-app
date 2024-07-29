@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:zeelpay/screens/onboarding/onboarding.dart';
-import 'package:zeelpay/screens/user/more/statement/done.dart';
+import 'package:zeelpay/screens/user/more/success.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
@@ -164,7 +164,12 @@ class _AccountStatementState extends State<AccountStatement> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => const StatementDone(),
+                        builder: (_) => const Success(
+                          title: "Done",
+                          body:
+                              "Your account statement has been successfully generated and sent to your email. Check your inbox for the details.",
+                          button: "Back",
+                        ),
                       ));
                 },
               ),

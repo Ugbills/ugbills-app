@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zeelpay/screens/onboarding/onboarding.dart';
+import 'package:zeelpay/screens/user/more/success.dart';
 import 'package:zeelpay/screens/user/user.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
@@ -42,7 +43,11 @@ class ChangePassword extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (_) => const UpdatedSuccessfully()));
+                        builder: (_) => const Success(
+                            title: "Updated",
+                            body:
+                                "Your password has been updated successfully and should be used on next login."),
+                      ));
                 },
               ),
             ],
@@ -77,37 +82,37 @@ Widget inputField(TextEditingController controller, {bool obscure = true}) {
   );
 }
 
-class UpdatedSuccessfully extends StatelessWidget {
-  const UpdatedSuccessfully({super.key});
+// class UpdatedSuccessfully extends StatelessWidget {
+//   const UpdatedSuccessfully({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        alignment: Alignment.center,
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            const Spacer(),
-            Image.asset("assets/images/sent.png"),
-            const ZeelTitleText(text: "Updated"),
-            const Text(
-              "Your password has been updated successfully and should be used on next login.",
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.grey),
-            ),
-            const Spacer(),
-            ZeelButton(
-              text: "Back",
-              onPressed: () {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (_) => const UserScreen()));
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: Container(
+//         alignment: Alignment.center,
+//         padding: const EdgeInsets.all(24.0),
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.end,
+//           children: [
+//             const Spacer(),
+//             Image.asset("assets/images/sent.png"),
+//             const ZeelTitleText(text: "Updated"),
+//             const Text(
+//               "Your password has been updated successfully and should be used on next login.",
+//               textAlign: TextAlign.center,
+//               style: TextStyle(color: Colors.grey),
+//             ),
+//             const Spacer(),
+//             ZeelButton(
+//               text: "Back",
+//               onPressed: () {
+//                 Navigator.pushReplacement(context,
+//                     MaterialPageRoute(builder: (_) => const UserScreen()));
+//               },
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }

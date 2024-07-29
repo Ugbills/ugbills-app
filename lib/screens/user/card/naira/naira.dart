@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zeelpay/screens/onboarding/onboarding.dart';
+import 'package:zeelpay/screens/user/card/created.dart';
+import 'package:zeelpay/themes/palette.dart';
 
 class NairaCardScreen extends StatefulWidget {
   const NairaCardScreen({super.key});
@@ -59,7 +61,12 @@ class _NairaCardScreenState extends State<NairaCardScreen> {
               const Spacer(),
               ZeelButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const CardCreated(),
+                    ),
+                  );
                 },
                 text: "Pay",
               ),

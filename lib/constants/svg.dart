@@ -33,4 +33,12 @@ class ZeelSvg {
   static const String facebook = 'assets/svgs/facebook.svg';
   static const String instagram = 'assets/svgs/instagram.svg';
   static const String x = 'assets/svgs/x.svg';
+  static const String faq = 'assets/svgs/FAQ.svg';
+  static const String terms = 'assets/svgs/terms.svg';
+  static const String policy = 'assets/svgs/policy.svg';
+  static const String fundCard = 'assets/svgs/fund-card.svg';
+  static const String withdraw = 'assets/svgs/withdraw-dollar.svg';
+  static const String details = 'assets/svgs/card-detail.svg';
+  static const String transaction = 'assets/svgs/dollar-transactions.svg';
+  static const String freeze = 'assets/svgs/freeze-card.svg';
 }

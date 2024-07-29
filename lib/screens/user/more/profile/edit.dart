@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:zeelpay/screens/onboarding/onboarding.dart';
 import 'package:zeelpay/screens/user/more/profile/updated.dart';
+import 'package:zeelpay/screens/user/more/success.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 // import 'package:image_picker/image_picker.dart';
@@ -93,7 +94,10 @@ class _EditProfileState extends State<EditProfile> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (_) => const ProfileUpdated()));
+                            builder: (_) => const Success(
+                                title: "Updated",
+                                body:
+                                    "You have successfully updated your email address.")));
                   },
                   style: FilledButton.styleFrom(
                     shape: RoundedRectangleBorder(

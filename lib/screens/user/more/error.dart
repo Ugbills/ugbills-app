@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:zeelpay/screens/onboarding/onboarding.dart';
 import 'package:zeelpay/themes/palette.dart';
 
-class StatementError extends StatelessWidget {
-  const StatementError({super.key});
+class Error extends StatelessWidget {
+  final String title, body, button;
+  const Error(
+      {super.key,
+      required this.title,
+      required this.body,
+      required this.button});
 
   @override
   Widget build(BuildContext context) {
@@ -17,22 +22,22 @@ class StatementError extends StatelessWidget {
               Image.asset("assets/images/zeel-top-logo.png"),
               const Spacer(),
               Image.asset("assets/images/failed.png"),
-              const Text(
-                "Failed!",
+              Text(
+                title,
                 style: TextStyle(
                   color: ZealPalette.errorRed,
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              const Text(
-                "An error occurred while generating your account statement. Please try again later.",
+              Text(
+                body,
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.grey),
               ),
               const Spacer(),
               ZeelButton(
-                text: "Try Again",
+                text: button,
                 onPressed: () {},
               ),
             ],

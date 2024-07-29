@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:zeelpay/constants/png.dart';
-import 'package:zeelpay/screens/user/card/naira.dart';
+import 'package:zeelpay/screens/user/card/dollar/dollar.dart';
+import 'package:zeelpay/screens/user/card/naira/naira.dart';
 import 'package:zeelpay/screens/user/widgets/zeel_tile.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 
@@ -55,6 +56,10 @@ class CardScreen extends StatelessWidget {
                           side: ShadSheetSide.bottom,
                           context: context,
                           builder: (context) => ShadSheet(
+                                radius: const BorderRadius.only(
+                                  topLeft: Radius.circular(24),
+                                  topRight: Radius.circular(24),
+                                ),
                                 removeBorderRadiusWhenTiny: false,
                                 title: const Text("Card Type"),
                                 content: Padding(
@@ -77,7 +82,17 @@ class CardScreen extends StatelessWidget {
                                           subtitle:
                                               "Pay for anything with your local currency card",
                                           leadingImage: ZeelPng.buyCrypto),
-                                      const ZeelTile(
+                                      ZeelTile(
+                                          onTap: () {
+                                            Navigator.pop(context);
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const DollarVirtualcard(),
+                                              ),
+                                            );
+                                          },
                                           title: "Dollar Card",
                                           subtitle:
                                               "Pay for anything globally with your dollar card",

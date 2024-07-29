@@ -19,17 +19,17 @@ class AboutUs extends StatelessWidget {
         padding: const EdgeInsets.all(24),
         children: [
           aboutTile(
-            ZeelSvg.chat,
+            ZeelSvg.faq,
             "Frequently asked Questions",
             () {},
           ),
           aboutTile(
-            ZeelSvg.chat,
+            ZeelSvg.terms,
             "Terms and Conditions",
             () {},
           ),
           aboutTile(
-            ZeelSvg.chat,
+            ZeelSvg.policy,
             "Privacy Policy",
             () {},
           ),

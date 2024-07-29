@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zeelpay/screens/user/more/success.dart';
 import 'package:zeelpay/screens/user/user.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
@@ -18,7 +19,13 @@ class _ConfirmTransactionPinState extends State<ConfirmTransactionPin> {
   void onPinComplete() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const UpdatedSuccessfully()),
+      MaterialPageRoute(
+        builder: (context) => const Success(
+          title: "Updated",
+          body:
+              "Your password has been updated successfully and should be used on next login.",
+        ),
+      ),
     );
   }
 

@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
+import 'package:zeelpay/constants/png.dart';
 import 'package:zeelpay/screens/onboarding/onboarding.dart';
 import 'package:zeelpay/screens/user/user.dart';
 import 'package:zeelpay/themes/palette.dart';
 
-class StatementDone extends StatelessWidget {
-  const StatementDone({super.key});
+class Success extends StatelessWidget {
+  final String title, body, button;
+  final String? secondButton;
+  final Widget? button2;
+  const Success({
+    super.key,
+    required this.title,
+    required this.body,
+    this.button = "Back",
+    this.secondButton,
+    this.button2,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,25 +28,27 @@ class StatementDone extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             const Spacer(),
-            Image.asset("assets/images/sent.png"),
-            const Text(
-              "Done",
-              style: TextStyle(
+            Image.asset(ZeelPng.done),
+            Text(
+              title,
+              style: const TextStyle(
                   fontWeight: FontWeight.w700,
                   color: ZealPalette.primaryPurple),
             ),
-            const Text(
-              "Your account statement has been successfully generated and sent to your email. Check your inbox for the details.",
-              style: TextStyle(color: Colors.grey),
+            Text(
+              body,
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: Colors.grey),
             ),
             const Spacer(),
             ZeelButton(
-              text: "Back",
+              text: button,
               onPressed: () {
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (_) => const UserScreen()));
               },
             ),
+            // button2!,
           ],
         ),
       ),
