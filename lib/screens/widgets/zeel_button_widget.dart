@@ -15,8 +15,8 @@ class ZeelButton extends StatelessWidget {
     return SizedBox(
         width: double.infinity,
         height: 57.0,
-        child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
+        child: FilledButton(
+            style: FilledButton.styleFrom(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0)),
                 backgroundColor: const Color(0xff20013A)),

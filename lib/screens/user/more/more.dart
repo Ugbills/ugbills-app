@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:zeelpay/constants/png.dart';
 import 'package:zeelpay/constants/svg.dart';
+import 'package:zeelpay/screens/user/more/about/about.dart';
 import 'package:zeelpay/screens/user/more/account_level/tier-2/tier_2.dart';
 import 'package:zeelpay/screens/user/more/beneficiaries/beneficiaries.dart';
 import 'package:zeelpay/screens/user/more/contact/contact.dart';
@@ -136,7 +137,11 @@ List<Tiles> tiles = [
       title: "Contact Us",
       leadingIcon: ZeelSvg.contact,
       route: const ContactUs()),
-  Tiles(title: "About Us", leadingIcon: ZeelSvg.about),
+  Tiles(
+    title: "About Us",
+    leadingIcon: ZeelSvg.about,
+    route: const AboutUs(),
+  ),
   Tiles(title: "Logout", leadingIcon: ZeelSvg.logout),
 ];
 

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:zeelpay/screens/onboarding/onboarding.dart';
+import 'package:zeelpay/screens/user/more/statement/done.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
+
+// import '../../../widgets/zeel_button_widget.dart';
 
 class AccountStatement extends StatefulWidget {
   const AccountStatement({super.key});
@@ -48,6 +52,12 @@ class _AccountStatementState extends State<AccountStatement> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leadingWidth: 100,
+        title: Text("Fund Your Account",
+            style: ShadTheme.of(context).textTheme.h3),
+        // leading: const ZeelBackButton(),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24),
@@ -121,6 +131,23 @@ class _AccountStatementState extends State<AccountStatement> {
                         ),
                       ),
                     ),
+                    const SizedBox(height: 12),
+
+                    const ZeelTextFieldTitle(text: "File Format"),
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: ZealPalette.darkerGrey),
+                      ),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("PDF"),
+                          Icon(Icons.keyboard_arrow_down_rounded),
+                        ],
+                      ),
+                    ),
                     // DropdownButton(
                     //     items: [],
                     //     onChanged: ((newValue) {
@@ -133,7 +160,13 @@ class _AccountStatementState extends State<AccountStatement> {
               ),
               ZeelButton(
                 text: "Generate Statement",
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const StatementDone(),
+                      ));
+                },
               ),
             ],
           ),

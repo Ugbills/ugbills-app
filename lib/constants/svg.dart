@@ -27,4 +27,10 @@ class ZeelSvg {
   static const String contact = 'assets/svgs/contact.svg';
   static const String about = 'assets/svgs/about.svg';
   static const String logout = 'assets/svgs/logout.svg';
+  static const String call = 'assets/svgs/call-us.svg';
+  static const String chat = 'assets/svgs/chat.svg';
+  static const String email = 'assets/svgs/chat.svg';
+  static const String facebook = 'assets/svgs/facebook.svg';
+  static const String instagram = 'assets/svgs/instagram.svg';
+  static const String x = 'assets/svgs/x.svg';
 }
