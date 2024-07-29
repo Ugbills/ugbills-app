@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:zeelpay/screens/onboarding/onboarding.dart';
-import 'package:zeelpay/screens/user/card/created.dart';
-import 'package:zeelpay/themes/palette.dart';
+import 'package:zeelpay/screens/user/card/available.dart';
 
-class NairaCardScreen extends StatefulWidget {
-  const NairaCardScreen({super.key});
+class CardType extends StatefulWidget {
+  const CardType({super.key});
 
   @override
-  State<NairaCardScreen> createState() => _NairaCardScreenState();
+  State<CardType> createState() => _CardTypeState();
 }
 
-class _NairaCardScreenState extends State<NairaCardScreen> {
+class _CardTypeState extends State<CardType> {
   String? selectedCardType;
   final List<String> items = [
     'Visa',
@@ -64,7 +63,7 @@ class _NairaCardScreenState extends State<NairaCardScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => const CardCreated(),
+                      builder: (_) => const AvailableCards(),
                     ),
                   );
                 },

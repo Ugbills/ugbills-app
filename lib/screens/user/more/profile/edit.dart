@@ -1,10 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:zeelpay/screens/onboarding/onboarding.dart';
-import 'package:zeelpay/screens/user/more/profile/updated.dart';
 import 'package:zeelpay/screens/user/more/success.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';

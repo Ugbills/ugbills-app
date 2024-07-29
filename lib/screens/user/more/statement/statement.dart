@@ -17,7 +17,7 @@ class AccountStatement extends StatefulWidget {
 class _AccountStatementState extends State<AccountStatement> {
   DateTime? _endDate;
   DateTime? _startDate;
-  final String _selectedFormat = "PDF";
+  // final String _selectedFormat = "PDF";
 
   void _showStartDate() {
     showDatePicker(

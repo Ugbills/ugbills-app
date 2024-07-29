@@ -39,10 +39,8 @@ dependencies:
   flutter_riverpod: ^2.5.1
   shadcn_ui: ^0.6.2
   smooth_page_indicator: ^1.1.0
-  flutter_svg: ^2.0.10+1
   image_picker: ^1.1.2
   flutter_share: ^2.0.0
-  # share: ^2.0.4
 
 dev_dependencies:
   custom_lint:

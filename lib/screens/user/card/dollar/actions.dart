@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:zeelpay/constants/png.dart';
 import 'package:zeelpay/constants/svg.dart';
-import 'package:zeelpay/screens/user/card/created.dart';
+import 'package:zeelpay/screens/user/card/available.dart';
+import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
-class DollarVirtualcard extends StatelessWidget {
-  const DollarVirtualcard({super.key});
+class DollarVirtualcardActions extends StatelessWidget {
+  const DollarVirtualcardActions({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,31 +15,37 @@ class DollarVirtualcard extends StatelessWidget {
       [
         ZeelSvg.fundCard,
         "Fund",
-        const CardCreated(),
+        const AvailableCards(),
       ],
       [
         ZeelSvg.withdraw,
         "Withdraw",
-        const CardCreated(),
+        const AvailableCards(),
       ],
       [
         ZeelSvg.details,
         "Card Details",
-        const CardCreated(),
+        const AvailableCards(),
       ],
       [
         ZeelSvg.transaction,
         "Transactions",
-        const CardCreated(),
+        const AvailableCards(),
       ],
       [
         ZeelSvg.freeze,
         "Freeze Card",
-        const CardCreated(),
+        const AvailableCards(),
       ],
     ];
 
     return Scaffold(
+      appBar: AppBar(
+        leadingWidth: 100,
+        title: Text("Dollar Virtual Card",
+            style: ShadTheme.of(context).textTheme.h3),
+        leading: const ZeelBackButton(),
+      ),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(24),

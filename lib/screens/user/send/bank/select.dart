@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:zeelpay/screens/user/send/bank/bank.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
@@ -22,13 +21,13 @@ class _SelectBankState extends State<SelectBank> {
     ["assets/svgs/access-bank.svg", "Diamond"],
   ];
 
-  int _selectedValue = 1;
+  // int _selectedValue = 1;
 
-  void _handleRadioValueChange(int? value) {
-    setState(() {
-      _selectedValue = value!;
-    });
-  }
+  // void _handleRadioValueChange(int? value) {
+  //   setState(() {
+  //     _selectedValue = value!;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {

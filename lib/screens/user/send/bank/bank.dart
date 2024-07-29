@@ -1,14 +1,11 @@
-import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:zeelpay/screens/user/send/bank/select.dart';
 import 'package:zeelpay/screens/user/send/sent.dart';
 import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_scrollable_widget.dart';
-import 'package:zeelpay/themes/palette.dart';
 
 class BankTransfer extends ConsumerWidget {
   const BankTransfer({super.key});

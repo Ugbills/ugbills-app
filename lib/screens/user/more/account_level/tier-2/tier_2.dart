@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zeelpay/screens/onboarding/onboarding.dart';
-import 'package:zeelpay/screens/user/more/account_level/congrats.dart';
 import 'package:zeelpay/screens/user/more/account_level/tier-2/kyc.dart';
-import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
-import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
 class AccountTier2 extends StatelessWidget {

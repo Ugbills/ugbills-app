@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zeelpay/screens/onboarding/onboarding.dart';
 import 'package:zeelpay/screens/user/send/details.dart';
-import 'package:zeelpay/screens/user/send/failed.dart';
-import 'package:zeelpay/screens/user/transaction/history.dart';
 import 'package:zeelpay/screens/user/user.dart';
 import 'package:zeelpay/themes/palette.dart';
 

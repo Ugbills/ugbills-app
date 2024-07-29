@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:zeelpay/constants/png.dart';
 import 'package:zeelpay/screens/onboarding/onboarding.dart';
 import 'package:zeelpay/screens/user/user.dart';
@@ -48,7 +47,6 @@ class Success extends StatelessWidget {
                     MaterialPageRoute(builder: (_) => const UserScreen()));
               },
             ),
-            // button2!,
           ],
         ),
       ),
