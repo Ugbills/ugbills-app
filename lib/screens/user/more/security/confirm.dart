@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zeelpay/screens/user/more/success.dart';
-import 'package:zeelpay/screens/user/user.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
 class ConfirmTransactionPin extends StatefulWidget {
@@ -149,41 +147,6 @@ class _ConfirmTransactionPinState extends State<ConfirmTransactionPin> {
               ),
             ),
             const Spacer(),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class UpdatedSuccessfully extends StatelessWidget {
-  const UpdatedSuccessfully({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        alignment: Alignment.center,
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            const Spacer(),
-            Image.asset("assets/images/sent.png"),
-            const ZeelTitleText(text: "Updated"),
-            const Text(
-              "Your password has been updated successfully and should be used on next login.",
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.grey),
-            ),
-            const Spacer(),
-            ZeelButton(
-              text: "Back",
-              onPressed: () {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (_) => const UserScreen()));
-              },
-            ),
           ],
         ),
       ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:zeelpay/constants/png.dart';
 import 'package:zeelpay/screens/user/card/dollar/actions.dart';
 import 'package:zeelpay/screens/user/card/modal.dart';
+import 'package:zeelpay/screens/user/card/naira/actions.dart';
 import 'package:zeelpay/themes/palette.dart';
 
 class AvailableCards extends StatelessWidget {
@@ -33,10 +34,11 @@ class AvailableCards extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 24),
-            availableCard(ZealPalette.primaryPurple, "Dollar", context),
+            availableCard(ZealPalette.primaryPurple, "Dollar",
+                const DollarVirtualCardActions(), context),
             const SizedBox(height: 24),
-            availableCard(
-                const Color.fromRGBO(20, 20, 20, 1), "Naira", context),
+            availableCard(const Color.fromRGBO(20, 20, 20, 1), "Naira",
+                const NairaVirtualCardActions(), context),
           ],
         ),
       ),
@@ -44,13 +46,14 @@ class AvailableCards extends StatelessWidget {
   }
 }
 
-Widget availableCard(Color color, String currency, BuildContext context) {
+Widget availableCard(
+    Color color, String currency, Widget route, BuildContext context) {
   return GestureDetector(
     onTap: () {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (_) => const DollarVirtualcardActions(),
+            builder: (_) => route,
           ));
     },
     child: Container(

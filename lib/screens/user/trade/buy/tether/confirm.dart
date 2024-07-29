@@ -1,0 +1,131 @@
+import 'package:flutter/material.dart';
+import 'package:zeelpay/screens/user/send/sent.dart';
+import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
+import 'package:zeelpay/themes/palette.dart';
+
+class ConfirmTetherDetails extends StatelessWidget {
+  const ConfirmTetherDetails({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Buy Tether',
+            style: TextStyle(fontWeight: FontWeight.bold)),
+        leading: const ZeelBackButton(
+          color: Colors.white,
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Column(
+                      children: [
+                        _detail("Transaction ID", "d230982wj23"),
+                        _detail("USD Amount", "₦15,000"),
+                        _detail("Token Amount", "10 USDT"),
+                        _detail("Date & Time", "Mar 09 2024, 5:04PM"),
+                        _detail("Fees", "₦150"),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              "Status",
+                              style:
+                                  TextStyle(color: Colors.grey, fontSize: 12),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.all(6),
+                              decoration: BoxDecoration(
+                                color: ZealPalette.rustColor.withAlpha(20),
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              child: const Text(
+                                "Pending",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 12,
+                                  color: ZealPalette.rustColor,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "USDT Address",
+                          style: TextStyle(color: Colors.grey, fontSize: 12),
+                        ),
+                        Text(
+                          "0x000000000000000000000000000000000000dEaD",
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700, fontSize: 12),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            ZeelButton(
+              text: "Confirm",
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const SentSuccessfully(
+                        title: "Done",
+                        body:
+                            "You have successfully purchased \$20 USDT. The coins have been sent to your wallet address 0XXXX.",
+                      ),
+                    ));
+              },
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+Widget _detail(String key, String value) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 12.0),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          key,
+          style: const TextStyle(color: Colors.grey, fontSize: 12),
+        ),
+        Text(
+          value,
+          style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 12),
+        ),
+      ],
+    ),
+  );
+}

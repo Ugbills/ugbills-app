@@ -118,7 +118,11 @@ class BankTransfer extends ConsumerWidget {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (_) => const SentSuccessfully(),
+                                      builder: (_) => const SentSuccessfully(
+                                        title: "Sent",
+                                        body:
+                                            "You have successfully sent ₦10,000 to Mary Doe.",
+                                      ),
                                     ));
                               },
                             ),

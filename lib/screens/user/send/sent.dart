@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:zeelpay/constants/png.dart';
 import 'package:zeelpay/screens/onboarding/onboarding.dart';
 import 'package:zeelpay/screens/user/send/details.dart';
 import 'package:zeelpay/screens/user/user.dart';
 import 'package:zeelpay/themes/palette.dart';
 
 class SentSuccessfully extends StatelessWidget {
-  const SentSuccessfully({super.key});
+  final String title, body;
+  const SentSuccessfully({super.key, required this.title, required this.body});
 
   @override
   Widget build(BuildContext context) {
@@ -17,16 +19,16 @@ class SentSuccessfully extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             const Spacer(),
-            Image.asset("assets/images/sent.png"),
-            const Text(
-              "Sent",
-              style: TextStyle(
+            Image.asset(ZeelPng.done),
+            Text(
+              title,
+              style: const TextStyle(
                   fontWeight: FontWeight.w700,
                   color: ZealPalette.primaryPurple),
             ),
-            const Text(
-              "You have successfully sent ₦10,000 to Mary Doe.",
-              style: TextStyle(color: Colors.grey),
+            Text(
+              body,
+              style: const TextStyle(color: Colors.grey),
             ),
             const Spacer(),
             ZeelButton(

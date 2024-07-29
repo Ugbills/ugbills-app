@@ -9,8 +9,8 @@ import 'package:zeelpay/screens/user/card/history.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
-class DollarVirtualCardActions extends StatelessWidget {
-  const DollarVirtualCardActions({super.key});
+class NairaVirtualCardActions extends StatelessWidget {
+  const NairaVirtualCardActions({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class DollarVirtualCardActions extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leadingWidth: 100,
-        title: Text("Dollar Virtual Card",
+        title: Text("Naira Virtual Card",
             style: ShadTheme.of(context).textTheme.h3),
         leading: const ZeelBackButton(),
       ),
@@ -36,7 +36,7 @@ class DollarVirtualCardActions extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: ZealPalette.primaryPurple,
+                color: const Color.fromRGBO(20, 20, 20, 1),
                 borderRadius: BorderRadius.circular(24),
               ),
               child: Stack(
@@ -74,7 +74,7 @@ class DollarVirtualCardActions extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                "\$20.00",
+                                "₦15,020.00",
                                 style: TextStyle(
                                   fontSize: ShadTheme.of(context)
                                       .textTheme

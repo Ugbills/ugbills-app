@@ -24,4 +24,9 @@ class ZeelPng {
   static const String ellipse = 'assets/images/ellipse.png';
   static const String mastercard = 'assets/images/mastercard.png';
   static const String whitezeel = 'assets/images/white-logo.png';
+  static const String playstore = 'assets/images/playstore.png';
+  static const String amazon = 'assets/images/amazon.png';
+  static const String tether = 'assets/images/tether.png';
+  static const String bitcoin = 'assets/images/bitcoin.png';
+  static const String ethereum = 'assets/images/ethereum.png';
 }

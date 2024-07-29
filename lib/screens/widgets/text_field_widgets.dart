@@ -4,13 +4,13 @@ import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:zeelpay/constants/svg.dart';
 
 class ZeelTextField extends StatelessWidget {
-  final String hint;
+  final String? hint;
   final bool enabled;
   final bool copy;
   final TextEditingController? controller;
   const ZeelTextField({
     super.key,
-    required this.hint,
+    this.hint,
     required this.enabled,
     this.controller,
     this.copy = false,
