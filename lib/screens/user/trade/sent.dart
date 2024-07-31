@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:zeelpay/constants/png.dart';
 import 'package:zeelpay/screens/onboarding/onboarding.dart';
 import 'package:zeelpay/screens/user/send/details.dart';
+import 'package:zeelpay/screens/user/trade/details.dart';
 import 'package:zeelpay/screens/user/user.dart';
 import 'package:zeelpay/themes/palette.dart';
 
-class SentSuccessfully extends StatelessWidget {
+class CryptoSentSuccessfully extends StatelessWidget {
   final String title, body;
-  const SentSuccessfully({super.key, required this.title, required this.body});
+  const CryptoSentSuccessfully(
+      {super.key, required this.title, required this.body});
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +30,7 @@ class SentSuccessfully extends StatelessWidget {
             ),
             Text(
               body,
+              textAlign: TextAlign.center,
               style: const TextStyle(color: Colors.grey),
             ),
             const Spacer(),
@@ -39,17 +42,17 @@ class SentSuccessfully extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => const BankTransactionDetails(
-                      bankLogo: ZeelPng.firstbank,
-                      amount: "₦10,000",
-                      transactionID: "#2D94ty823",
-                      dateAndTime: "Mar 10 2023, 2:33PM",
-                      bankName: "First Bank of Nigeria",
-                      accountName: "243802003835",
-                      accountNumber: "243802003835",
-                      fee: "₦10.00",
-                      note: "None",
-                    ),
+                    builder: (_) => const CryptoTransactionDetails(
+                        cryptoCoinLogo: ZeelPng.tether,
+                        amount: "₦15,000.00",
+                        transactionID: "#2D94ty823",
+                        dateAndTime: "Mar 10 2023, 2:33PM",
+                        usdAmount: "\$10",
+                        tokenAmount: "10 USDT",
+                        token: "USDT",
+                        type: "Buy Crypto",
+                        usdtAddress: "0x93490355344433443",
+                        fee: "₦10.00"),
                   ),
                 );
               },

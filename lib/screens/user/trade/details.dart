@@ -1,28 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:zeelpay/constants/png.dart';
 import 'package:zeelpay/screens/onboarding/onboarding.dart';
 import 'package:zeelpay/themes/palette.dart';
 
-class BankTransactionDetails extends StatelessWidget {
-  final String bankLogo,
+class CryptoTransactionDetails extends StatelessWidget {
+  final String cryptoCoinLogo,
       amount,
       transactionID,
       dateAndTime,
-      bankName,
-      accountName,
-      accountNumber,
-      fee,
-      note;
-  const BankTransactionDetails({
+      usdAmount,
+      tokenAmount,
+      token,
+      type,
+      usdtAddress,
+      fee;
+  const CryptoTransactionDetails({
     super.key,
-    required this.bankLogo,
+    required this.cryptoCoinLogo,
     required this.amount,
     required this.transactionID,
     required this.dateAndTime,
-    required this.bankName,
-    required this.accountName,
-    required this.accountNumber,
+    required this.usdAmount,
+    required this.tokenAmount,
+    required this.token,
+    required this.type,
+    required this.usdtAddress,
     required this.fee,
-    required this.note,
   });
 
   @override
@@ -50,7 +53,7 @@ class BankTransactionDetails extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset("assets/images/firstbank-img.png"),
+                    Image.asset(ZeelPng.tetherImage),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 12.0),
                       child: Text(
@@ -98,11 +101,12 @@ class BankTransactionDetails extends StatelessWidget {
                     const SizedBox(height: 12),
                     showDetails("Transaction ID", transactionID),
                     showDetails("Date & time", dateAndTime),
-                    showDetails("Bank Name", bankName),
-                    showDetails("Account Name", accountName),
-                    showDetails("Account Number", accountNumber),
+                    showDetails("USD Amount", usdAmount),
+                    showDetails("Token Amount", tokenAmount),
+                    showDetails("Token", token),
+                    showDetails("Type", type),
+                    showDetails("USDT Address", usdtAddress),
                     showDetails("Fee", fee),
-                    showDetails("Note", note),
                     const Spacer(),
                     ZeelButton(
                       text: "Share Transaction",

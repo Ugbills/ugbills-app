@@ -29,4 +29,6 @@ class ZeelPng {
   static const String tether = 'assets/images/tether.png';
   static const String bitcoin = 'assets/images/bitcoin.png';
   static const String ethereum = 'assets/images/ethereum.png';
+  static const String firstbank = 'assets/images/firstbank-img.png';
+  static const String tetherImage = 'assets/images/big-tether.png';
 }

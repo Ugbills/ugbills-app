@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:zeelpay/screens/user/trade/buy/confirm.dart';
+import 'package:zeelpay/screens/user/trade/sell/confirm.dart';
 import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
-class BuyTether extends StatefulWidget {
-  const BuyTether({super.key});
+class SellEthereum extends StatefulWidget {
+  const SellEthereum({super.key});
 
   @override
-  State<BuyTether> createState() => _BuyTetherState();
+  State<SellEthereum> createState() => _SellEthereumState();
 }
 
-class _BuyTetherState extends State<BuyTether> {
+class _SellEthereumState extends State<SellEthereum> {
   final TextEditingController _amountController = TextEditingController();
   String _amountInDollar = "";
 
@@ -58,7 +58,7 @@ class _BuyTetherState extends State<BuyTether> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Buy Tether',
+          'Sell Ethereum',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         leading: const ZeelBackButton(
@@ -109,8 +109,13 @@ class _BuyTetherState extends State<BuyTether> {
                   ),
                   const SizedBox(height: 12),
                   const ZeelTextFieldTitle(text: "USDT Address"),
-                  const ZeelTextField(
-                      enabled: true, hint: "Paste wallet address"),
+                  ZeelTextField(
+                    enabled: false,
+                    copy: true,
+                    controller: TextEditingController(
+                      text: "0x000000000000000000000000000000000000dEaD",
+                    ),
+                  ),
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.all(12),
@@ -130,7 +135,7 @@ class _BuyTetherState extends State<BuyTether> {
                           ),
                         ),
                         Text(
-                          "Please paste only USDT (TRC-20) Wallet address, putting a different wallet address might lead to crypto loss.",
+                          "Please send only USDT (TRC-20) to the above generated Wallet address.",
                           style: TextStyle(color: Colors.grey, fontSize: 10),
                         )
                       ],
@@ -144,7 +149,8 @@ class _BuyTetherState extends State<BuyTether> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => const ConfirmBuyDetails(),
+                      builder: (_) =>
+                          const ConfirmSellDetails(title: "Ethereum"),
                     ));
               },
               text: "Buy",

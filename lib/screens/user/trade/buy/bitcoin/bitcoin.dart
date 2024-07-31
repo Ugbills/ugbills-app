@@ -6,14 +6,14 @@ import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
-class BuyTether extends StatefulWidget {
-  const BuyTether({super.key});
+class BuyBitcoin extends StatefulWidget {
+  const BuyBitcoin({super.key});
 
   @override
-  State<BuyTether> createState() => _BuyTetherState();
+  State<BuyBitcoin> createState() => _BuyBitcoinState();
 }
 
-class _BuyTetherState extends State<BuyTether> {
+class _BuyBitcoinState extends State<BuyBitcoin> {
   final TextEditingController _amountController = TextEditingController();
   String _amountInDollar = "";
 
@@ -58,7 +58,7 @@ class _BuyTetherState extends State<BuyTether> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Buy Tether',
+          'Buy Bitcoin',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         leading: const ZeelBackButton(
@@ -144,7 +144,7 @@ class _BuyTetherState extends State<BuyTether> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => const ConfirmBuyDetails(),
+                      builder: (_) => const ConfirmBuyDetails(title: "Bitcoin"),
                     ));
               },
               text: "Buy",

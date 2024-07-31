@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:zeelpay/constants/png.dart';
-import 'package:zeelpay/screens/user/trade/buy/bitcoin.dart';
-import 'package:zeelpay/screens/user/trade/buy/ethereum.dart';
+import 'package:zeelpay/screens/user/trade/buy/bitcoin/bitcoin.dart';
+import 'package:zeelpay/screens/user/trade/buy/ethereum/ethereum.dart';
 import 'package:zeelpay/screens/user/trade/buy/tether/tether.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 
-class BuyCrypto extends StatelessWidget {
-  const BuyCrypto({super.key});
+class BuyCryptoOptions extends StatelessWidget {
+  const BuyCryptoOptions({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +15,7 @@ class BuyCrypto extends StatelessWidget {
       [ZeelPng.bitcoin, "Bitcoin", "BTC", const BuyBitcoin()],
       [ZeelPng.ethereum, "Ethereum", "ETH", const BuyEthereum()],
     ];
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Buy Crypto',

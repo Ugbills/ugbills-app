@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/screens/user/send/sent.dart';
+import 'package:zeelpay/screens/user/trade/sent.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
-class ConfirmTetherDetails extends StatelessWidget {
-  const ConfirmTetherDetails({super.key});
+class ConfirmBuyDetails extends StatelessWidget {
+  final String title;
+  const ConfirmBuyDetails({
+    super.key,
+    this.title = 'Tether',
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Buy Tether',
-            style: TextStyle(fontWeight: FontWeight.bold)),
+        title: Text('Buy $title',
+            style: const TextStyle(fontWeight: FontWeight.bold)),
         leading: const ZeelBackButton(
           color: Colors.white,
         ),
@@ -96,7 +100,7 @@ class ConfirmTetherDetails extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => const SentSuccessfully(
+                      builder: (_) => const CryptoSentSuccessfully(
                         title: "Done",
                         body:
                             "You have successfully purchased \$20 USDT. The coins have been sent to your wallet address 0XXXX.",

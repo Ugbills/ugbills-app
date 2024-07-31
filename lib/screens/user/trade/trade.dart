@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:zeelpay/constants/png.dart';
-import 'package:zeelpay/screens/user/trade/buy/buy.dart';
+import 'package:zeelpay/screens/user/trade/buy/options.dart';
+import 'package:zeelpay/screens/user/trade/sell/options.dart';
 import 'package:zeelpay/screens/user/widgets/zeel_tile.dart';
 
 class TradeScreen extends StatelessWidget {
@@ -27,7 +28,7 @@ class TradeScreen extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => const BuyCrypto(),
+                        builder: (_) => const BuyCryptoOptions(),
                       ));
                 },
                 leadingImage: ZeelPng.buyCrypto,
@@ -35,7 +36,13 @@ class TradeScreen extends StatelessWidget {
                 subtitle: 'Buy BTC, ETH, LTC and lot more for quick cash.',
               ),
               ZeelTile(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const SellCryptoOptions(),
+                      ));
+                },
                 leadingImage: ZeelPng.sellCrypto,
                 title: 'Sell Crypto',
                 subtitle: 'Sell BTC, ETH, LTC and lot more for quick cash.',
