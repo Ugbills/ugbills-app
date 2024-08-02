@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:zeelpay/constants/png.dart';
+import 'package:zeelpay/screens/user/pay/tv/tv_transaction_details.dart';
+import 'package:zeelpay/screens/user/trade/sent.dart';
 import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
@@ -45,7 +48,28 @@ class TVBills extends StatelessWidget {
                   alignment: Alignment.bottomCenter,
                   child: ZeelButton(
                     text: "Confirm",
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const SentSuccessfully(
+                            title: "Completed",
+                            body:
+                                "Your DSTV Premium payment of ₦12,000.00 has been processed successfully.",
+                            nextPage: TvTransactionDetails(
+                              tvLogo: ZeelPng.dstv,
+                              amount: "12,000",
+                              transactionID: "2D94ty823",
+                              dateAndTime: "Mar 10 2023, 2:33PM",
+                              smartcardNumber: "08000000000",
+                              serviceProvider: "DSTV",
+                              plan: "DSTV Premium",
+                              fee: "10.00",
+                            ),
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
               )
