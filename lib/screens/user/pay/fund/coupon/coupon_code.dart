@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/screens/user/fund/coupon/coupon_completed.dart';
+import 'package:zeelpay/screens/user/pay/fund/coupon/coupon_completed.dart';
 import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';

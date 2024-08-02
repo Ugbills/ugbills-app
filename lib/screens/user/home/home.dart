@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:zeelpay/constants/svg.dart';
-import 'package:zeelpay/screens/user/bills/airtime.dart';
-import 'package:zeelpay/screens/user/bills/betting.dart';
-import 'package:zeelpay/screens/user/bills/data.dart';
-import 'package:zeelpay/screens/user/bills/tv.dart';
-import 'package:zeelpay/screens/user/fund/fund_options.dart';
+import 'package:zeelpay/screens/user/pay/airtime/airtime.dart';
+import 'package:zeelpay/screens/user/pay/betting/betting.dart';
+import 'package:zeelpay/screens/user/pay/data/data.dart';
+import 'package:zeelpay/screens/user/pay/tv/tv.dart';
+import 'package:zeelpay/screens/user/pay/fund/fund_options.dart';
 import 'package:zeelpay/screens/user/more/account_level/tier-2/kyc.dart';
-import 'package:zeelpay/screens/user/notifications/notification.dart';
-import 'package:zeelpay/screens/user/send/amount_screen.dart';
-import 'package:zeelpay/screens/user/transaction/history.dart';
+import 'package:zeelpay/screens/user/home/notifications/notification.dart';
+import 'package:zeelpay/screens/user/pay/send/amount_screen.dart';
+import 'package:zeelpay/screens/user/home/transaction/history.dart';
 import 'package:zeelpay/screens/user/widgets/action_button.dart';
 
 class DashBoardScreen extends StatefulWidget {

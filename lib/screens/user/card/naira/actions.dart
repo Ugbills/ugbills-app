@@ -7,7 +7,6 @@ import 'package:zeelpay/screens/user/card/dollar/details.dart';
 import 'package:zeelpay/screens/user/card/dollar/fund.dart';
 import 'package:zeelpay/screens/user/card/history.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
-import 'package:zeelpay/themes/palette.dart';
 
 class NairaVirtualCardActions extends StatelessWidget {
   const NairaVirtualCardActions({super.key});

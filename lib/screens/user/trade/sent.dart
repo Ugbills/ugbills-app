@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zeelpay/constants/png.dart';
 import 'package:zeelpay/screens/onboarding/onboarding.dart';
-import 'package:zeelpay/screens/user/trade/crypto_transaction_details.dart';
 import 'package:zeelpay/screens/user/user.dart';
 import 'package:zeelpay/themes/palette.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zeelpay/screens/auth/reset/new_password_screen.dart';
-import 'package:zeelpay/screens/user/dashboard/dashboard.dart';
+import 'package:zeelpay/screens/user/home/home.dart';
 import 'package:zeelpay/screens/widgets/images_widget.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
