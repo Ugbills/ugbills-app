@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:zeelpay/constants/png.dart';
+import 'package:zeelpay/screens/user/pay/airtime/airtime_transaction_details.dart';
+import 'package:zeelpay/screens/user/trade/sent.dart';
 import 'package:zeelpay/screens/user/widgets/widgets.dart';
 import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
@@ -102,7 +104,28 @@ class AirtimeBills extends StatelessWidget {
                   alignment: Alignment.bottomCenter,
                   child: ZeelButton(
                     text: "Buy",
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const SentSuccessfully(
+                            title: "Completed",
+                            body:
+                                "Your airtime purchase of ₦200 for 08000000000 on the MTN network was successful.",
+                            nextPage: AirtimeTransactionDetails(
+                              networkLogo: ZeelPng.mtn_2,
+                              amount: '1,000',
+                              transactionID: '2D94ty823',
+                              dateAndTime: 'Mar 10 2023, 2:33PM',
+                              phoneNumber: '08000000000',
+                              serviceProvider: 'MTN',
+                              fee: '10.00',
+                              note: 'None',
+                            ),
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
               )
