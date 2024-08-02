@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:zeelpay/constants/png.dart';
+import 'package:zeelpay/screens/user/pay/betting/betting_transaction_details.dart';
+import 'package:zeelpay/screens/user/trade/sent.dart';
 import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
@@ -40,7 +43,27 @@ class BettingBills extends StatelessWidget {
                   alignment: Alignment.bottomCenter,
                   child: ZeelButton(
                     text: "Confirm",
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SentSuccessfully(
+                            title: "Completed",
+                            body:
+                                "Your Sportybet payment of ₦7,000.00 has been processed successfully.",
+                            nextPage: BettingTransactionDetails(
+                              bettingLogo: ZeelPng.sporty,
+                              amount: " ₦7,000",
+                              transactionID: "#2D94ty823",
+                              dateAndTime: "Mar 10 2023, 2:33PM",
+                              userID: "2304834",
+                              serviceProvider: "Sportybet",
+                              fee: "₦10.00",
+                            ),
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
               )
