@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:zeelpay/constants/png.dart';
+import 'package:zeelpay/screens/user/pay/data/data_transaction_details.dart';
+import 'package:zeelpay/screens/user/trade/sent.dart';
 import 'package:zeelpay/screens/user/widgets/widgets.dart';
 import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
@@ -86,7 +88,29 @@ class DataBills extends StatelessWidget {
                   alignment: Alignment.bottomCenter,
                   child: ZeelButton(
                     text: "Buy",
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const SentSuccessfully(
+                            title: "Completed",
+                            body:
+                                "Your data purchase of 1GB/₦1,000 for 08000000000 on the MTN network was successful.",
+                            nextPage: DataTransactionDetails(
+                              networkLogo: ZeelPng.mtn_2,
+                              amount: '1,000',
+                              transactionID: '2D94ty823',
+                              dateAndTime: 'Mar 10 2023, 2:33PM',
+                              phoneNumber: '08000000000',
+                              serviceProvider: 'MTN',
+                              dataPlan: '1 GB',
+                              fee: '10.00',
+                              note: 'None',
+                            ),
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
               )
