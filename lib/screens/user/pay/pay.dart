@@ -4,6 +4,7 @@ import 'package:zeelpay/screens/user/pay/airtime/airtime.dart';
 import 'package:zeelpay/screens/user/pay/betting/betting.dart';
 import 'package:zeelpay/screens/user/pay/data/data.dart';
 import 'package:zeelpay/screens/user/pay/electricity/electricity.dart';
+import 'package:zeelpay/screens/user/pay/swap/swap.dart';
 import 'package:zeelpay/screens/user/pay/tv/tv.dart';
 import 'package:zeelpay/screens/user/pay/fund/fund_options.dart';
 import 'package:zeelpay/screens/user/pay/giftcard/giftcard.dart';
@@ -126,7 +127,7 @@ List<Widget> _buildMenuItems(BuildContext context) {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const AmountScreen(),
+              builder: (context) => const AirtimeSwap(),
             ),
           );
         },
