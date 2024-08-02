@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:zeelpay/constants/png.dart';
+import 'package:zeelpay/screens/user/trade/crypto_transaction_details.dart';
 import 'package:zeelpay/screens/user/trade/sent.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
@@ -100,10 +102,21 @@ class ConfirmSellDetails extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => const CryptoSentSuccessfully(
+                      builder: (_) => const SentSuccessfully(
                         title: "Done",
                         body:
                             "You have successfully purchased \$20 USDT. The coins have been sent to your wallet address 0XXXX.",
+                        nextPage: CryptoTransactionDetails(
+                            cryptoCoinLogo: ZeelPng.tether,
+                            amount: "₦15,000.00",
+                            transactionID: "#2D94ty823",
+                            dateAndTime: "Mar 10 2023, 2:33PM",
+                            usdAmount: "\$10",
+                            tokenAmount: "10 USDT",
+                            token: "USDT",
+                            type: "Buy Crypto",
+                            usdtAddress: "0x93490355344433443",
+                            fee: "₦10.00"),
                       ),
                     ));
               },

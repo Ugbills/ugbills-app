@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:zeelpay/screens/user/trade/sell/confirm.dart';
-import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
+import 'package:zeelpay/screens/user/pay/giftcard/confirm_giftcard_details.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
-class SellTether extends StatefulWidget {
-  const SellTether({super.key});
+class BuyGiftcardDetails extends StatefulWidget {
+  final String title;
+  const BuyGiftcardDetails({super.key, this.title = 'Netflix'});
 
   @override
-  State<SellTether> createState() => _SellTetherState();
+  State<BuyGiftcardDetails> createState() => _BuyGiftcardDetailsState();
 }
 
-class _SellTetherState extends State<SellTether> {
+class _BuyGiftcardDetailsState extends State<BuyGiftcardDetails> {
   final TextEditingController _amountController = TextEditingController();
   String _amountInDollar = "";
+  String? _selectedAmount; // To store the selected shortcut amount
 
   @override
   void initState() {
@@ -35,6 +36,7 @@ class _SellTetherState extends State<SellTether> {
     setState(() {
       _amountInDollar = tappedAmount;
       _amountController.text = _amountInDollar;
+      _selectedAmount = tappedAmount; // Update the selected amount
     });
   }
 
@@ -42,6 +44,8 @@ class _SellTetherState extends State<SellTether> {
     final input = _amountController.text.replaceAll(RegExp(r'[^0-9.]'), '');
     setState(() {
       _amountInDollar = input.isNotEmpty ? input : "0.00";
+      _selectedAmount =
+          null; // Reset the selected amount when manually entering
     });
   }
 
@@ -53,13 +57,22 @@ class _SellTetherState extends State<SellTether> {
     return format.format(priceInNaira);
   }
 
+  String? selectedCountry;
+  final List<String> items = [
+    'Canada',
+    'USA',
+    'Australia',
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Sell Tether',
-          style: TextStyle(fontWeight: FontWeight.bold),
+        centerTitle: true,
+        leadingWidth: 100,
+        title: Text(
+          'Buy ${widget.title}',
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         leading: const ZeelBackButton(
           color: Colors.white,
@@ -72,7 +85,49 @@ class _SellTetherState extends State<SellTether> {
             Expanded(
               child: ListView(
                 children: [
+                  const ZeelTextFieldTitle(text: "Country"),
+                  Container(
+                    margin: const EdgeInsets.symmetric(vertical: 12),
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: Colors.grey,
+                        width: 0.5,
+                      ),
+                    ),
+                    child: DropdownButton<String>(
+                      isExpanded: true,
+                      hint: const Text('Select an option'),
+                      value: selectedCountry,
+                      underline: Container(color: Colors.transparent),
+                      items: items.map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          selectedCountry = newValue;
+                        });
+                      },
+                      icon: const Icon(Icons.arrow_drop_down),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _buildShortcutButton("5"),
+                      _buildShortcutButton("10"),
+                      _buildShortcutButton("15"),
+                      _buildShortcutButton("50"),
+                      _buildShortcutButton("100"),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
                   const ZeelTextFieldTitle(text: "Amount to buy"),
+                  const SizedBox(height: 12),
                   TextFormField(
                     enabled: true,
                     controller: _amountController,
@@ -88,19 +143,9 @@ class _SellTetherState extends State<SellTether> {
                   ),
                   const SizedBox(height: 16),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      _buildShortcutButton("20"),
-                      _buildShortcutButton("50"),
-                      _buildShortcutButton("100"),
-                      _buildShortcutButton("500"),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      const Text("You get: "),
+                      const Text("Price in Naira: "),
                       Text(
                         _formattedPriceInNaira,
                         style: const TextStyle(fontWeight: FontWeight.w700),
@@ -108,14 +153,6 @@ class _SellTetherState extends State<SellTether> {
                     ],
                   ),
                   const SizedBox(height: 12),
-                  const ZeelTextFieldTitle(text: "USDT Address"),
-                  ZeelTextField(
-                    enabled: false,
-                    copy: true,
-                    controller: TextEditingController(
-                      text: "0x000000000000000000000000000000000000dEaD",
-                    ),
-                  ),
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.all(12),
@@ -135,7 +172,7 @@ class _SellTetherState extends State<SellTether> {
                           ),
                         ),
                         Text(
-                          "Please send only USDT (TRC-20) to the above generated Wallet address.",
+                          "The gift card will be delivered instantly via email.",
                           style: TextStyle(color: Colors.grey, fontSize: 10),
                         )
                       ],
@@ -149,7 +186,14 @@ class _SellTetherState extends State<SellTether> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => const ConfirmSellDetails(),
+                      builder: (_) => ConfirmGiftcardDetails(
+                        transactionID: '32324defkfdc',
+                        usdAmount: '\$50',
+                        nairaAmount: '₦55,000',
+                        dateAndTime: 'Mar 09 2024, 5:04PM',
+                        fee: '₦150',
+                        title: widget.title,
+                      ),
                     ));
               },
               text: "Buy",
@@ -161,20 +205,22 @@ class _SellTetherState extends State<SellTether> {
   }
 
   Widget _buildShortcutButton(String amount) {
-    return FilledButton(
-      onPressed: () => _updateAmount(amount),
-      style: FilledButton.styleFrom(
-        backgroundColor: Colors.transparent,
-        side: const BorderSide(
-          color: ZealPalette.darkerGrey,
-        ),
-        shape: RoundedRectangleBorder(
+    return GestureDetector(
+      onTap: () => _updateAmount(amount),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: _selectedAmount == amount
+                ? ZealPalette.primaryPurple
+                : ZealPalette.darkerGrey,
+          ),
           borderRadius: BorderRadius.circular(8),
         ),
-      ),
-      child: Text(
-        "\$$amount",
-        style: TextStyle(color: Colors.grey.shade700),
+        child: Text(
+          "\$$amount",
+          style: TextStyle(color: Colors.grey.shade700),
+        ),
       ),
     );
   }

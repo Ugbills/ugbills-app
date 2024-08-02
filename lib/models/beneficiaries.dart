@@ -1,9 +1,9 @@
 class BeneficiariesModel {
   String? name, bank, accountNumber;
 
-  BeneficiariesModel(
+  BeneficiariesModel({
     this.name,
     this.bank,
     this.accountNumber,
-  );
+  });
 }

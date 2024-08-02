@@ -8,19 +8,19 @@ class SavedBeneficiaries extends StatefulWidget {
 
   static List<BeneficiariesModel> listOfBeneficiaries = [
     BeneficiariesModel(
-      "Yinka Adeola",
-      "First bank",
-      "568498592552",
+      name: "Yinka Adeola",
+      bank: "First bank",
+      accountNumber: "568498592552",
     ),
     BeneficiariesModel(
-      "Tamuno Adeola",
-      "GTB bank",
-      "568498592552",
+      name: "Tamuno Adeola",
+      bank: "GTB bank",
+      accountNumber: "568498592552",
     ),
     BeneficiariesModel(
-      "Ola Adeola",
-      "Zenith bank",
-      "568498592552",
+      name: "Ola Adeola",
+      bank: "Zenith bank",
+      accountNumber: "568498592552",
     ),
   ];
 

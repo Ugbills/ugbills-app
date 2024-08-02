@@ -5,6 +5,7 @@ import 'package:zeelpay/screens/user/bills/betting.dart';
 import 'package:zeelpay/screens/user/bills/data.dart';
 import 'package:zeelpay/screens/user/bills/tv.dart';
 import 'package:zeelpay/screens/user/fund/fund_options.dart';
+import 'package:zeelpay/screens/user/pay/giftcard/giftcard.dart';
 import 'package:zeelpay/screens/user/send/amount_screen.dart';
 import 'package:zeelpay/screens/user/widgets/action_button.dart';
 
@@ -108,12 +109,12 @@ List<Widget> _buildMenuItems(BuildContext context) {
     ),
     ZeelActionButton(
         onTap: () {
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (context) => const (),
-          //   ),
-          // );
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const GiftcardScreen(),
+            ),
+          );
         },
         text: "Gift Card",
         icon: ZeelSvg.betting,

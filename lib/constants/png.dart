@@ -31,4 +31,11 @@ class ZeelPng {
   static const String ethereum = 'assets/images/ethereum.png';
   static const String firstbank = 'assets/images/firstbank-img.png';
   static const String tetherImage = 'assets/images/big-tether.png';
+  static const String netflix = 'assets/images/netflix.png';
+  static const String amazongiftcard = 'assets/images/amazon-giftcard.png';
+  static const String bestbuy = 'assets/images/best-buy.png';
+  static const String itunes = 'assets/images/itunes.png';
+  static const String walmart = 'assets/images/walmart.png';
+  static const String xbox = 'assets/images/xbox.png';
+  static const String netflix_2 = 'assets/images/netflix-2.png';
 }

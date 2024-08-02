@@ -1,22 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:zeelpay/constants/png.dart';
-import 'package:zeelpay/screens/user/trade/crypto_transaction_details.dart';
+import 'package:zeelpay/screens/user/pay/giftcard/giftcard_transaction_details.dart';
 import 'package:zeelpay/screens/user/trade/sent.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
-class ConfirmBuyDetails extends StatelessWidget {
-  final String title;
-  const ConfirmBuyDetails({
+class ConfirmGiftcardDetails extends StatelessWidget {
+  final String title, transactionID, usdAmount, nairaAmount, dateAndTime, fee;
+  const ConfirmGiftcardDetails({
     super.key,
-    this.title = 'Tether',
+    this.title = 'Netflix',
+    required this.transactionID,
+    required this.usdAmount,
+    required this.nairaAmount,
+    required this.dateAndTime,
+    required this.fee,
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Buy $title',
+        centerTitle: true,
+        leadingWidth: 100,
+        title: Text('Sell $title',
             style: const TextStyle(fontWeight: FontWeight.bold)),
         leading: const ZeelBackButton(
           color: Colors.white,
@@ -38,8 +45,8 @@ class ConfirmBuyDetails extends StatelessWidget {
                     child: Column(
                       children: [
                         _detail("Transaction ID", "d230982wj23"),
-                        _detail("USD Amount", "₦15,000"),
-                        _detail("Token Amount", "10 USDT"),
+                        _detail("USD Amount", "\$15"),
+                        _detail("Naira Amount", "₦55,000"),
                         _detail("Date & Time", "Mar 09 2024, 5:04PM"),
                         _detail("Fees", "₦150"),
                         Row(
@@ -72,24 +79,27 @@ class ConfirmBuyDetails extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   Container(
-                    padding: const EdgeInsets.all(16),
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
+                      color: ZealPalette.rustColor.withAlpha(20),
+                      border: Border.all(color: ZealPalette.rustColor),
                     ),
                     child: const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "USDT Address",
-                          style: TextStyle(color: Colors.grey, fontSize: 12),
+                          "Note",
+                          style: TextStyle(
+                            color: ZealPalette.rustColor,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                         Text(
-                          "0x000000000000000000000000000000000000dEaD",
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w700, fontSize: 12),
-                        ),
+                          "The gift card will be delivered instantly via email.",
+                          style: TextStyle(color: Colors.grey, fontSize: 10),
+                        )
                       ],
                     ),
                   ),
@@ -103,20 +113,19 @@ class ConfirmBuyDetails extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (_) => const SentSuccessfully(
-                        title: "Done",
+                        title: "Gift Card is Coming!",
                         body:
-                            "You have successfully purchased \$20 USDT. The coins have been sent to your wallet address 0XXXX.",
-                        nextPage: CryptoTransactionDetails(
-                            cryptoCoinLogo: ZeelPng.tether,
-                            amount: "₦15,000.00",
-                            transactionID: "#2D94ty823",
-                            dateAndTime: "Mar 10 2023, 2:33PM",
-                            usdAmount: "\$10",
-                            tokenAmount: "10 USDT",
-                            token: "USDT",
-                            type: "Buy Crypto",
-                            usdtAddress: "0x93490355344433443",
-                            fee: "₦10.00"),
+                            "Your purchase of the \$20 Netflix gift card was successful. You'll receive an email with the gift card details shortly.",
+                        nextPage: GiftcardTransactionDetails(
+                          giftcardLogo: ZeelPng.tether,
+                          amount: "₦20,000.00",
+                          transactionID: "#2D94ty823",
+                          dateAndTime: "Mar 10 2023, 2:33PM",
+                          usdAmount: "\$10",
+                          card: "Netflix",
+                          fee: "₦10.00",
+                          note: 'None',
+                        ),
                       ),
                     ));
               },

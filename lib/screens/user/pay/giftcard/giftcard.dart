@@ -1,0 +1,57 @@
+import 'package:flutter/material.dart';
+import 'package:zeelpay/constants/png.dart';
+import 'package:zeelpay/screens/user/pay/giftcard/buy/buy_giftcard.dart';
+import 'package:zeelpay/screens/user/pay/giftcard/sell/sell_giftcard.dart';
+import 'package:zeelpay/screens/user/widgets/zeel_tile.dart';
+import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
+
+class GiftcardScreen extends StatelessWidget {
+  const GiftcardScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        leadingWidth: 100,
+        centerTitle: true,
+        title: const Text(
+          'Gift Card',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        leading: const ZeelBackButton(
+          color: Colors.white,
+        ),
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(24),
+        children: [
+          ZeelTile(
+            title: "Buy Gift Card",
+            subtitle: "Buy brands and stores gift card for loved ones",
+            leadingImage: ZeelPng.giftCard,
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const BuyGiftcard(),
+                  ));
+            },
+          ),
+          const SizedBox(height: 6),
+          ZeelTile(
+            title: "Sell Gift Card",
+            subtitle: "Sell Brands and stores gift card for instant cash",
+            leadingImage: ZeelPng.card,
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const SellGiftcard(),
+                  ));
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
