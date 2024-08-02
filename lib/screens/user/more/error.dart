@@ -24,7 +24,7 @@ class Error extends StatelessWidget {
               Image.asset("assets/images/failed.png"),
               Text(
                 title,
-                style: TextStyle(
+                style: const TextStyle(
                   color: ZealPalette.errorRed,
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
@@ -33,7 +33,7 @@ class Error extends StatelessWidget {
               Text(
                 body,
                 textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.grey),
+                style: const TextStyle(color: Colors.grey),
               ),
               const Spacer(),
               ZeelButton(
