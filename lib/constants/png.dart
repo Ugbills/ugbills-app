@@ -39,4 +39,6 @@ class ZeelPng {
   static const String xbox = 'assets/images/xbox.png';
   static const String netflix_2 = 'assets/images/netflix-2.png';
   static const String sporty = 'assets/images/sporty.png';
+  static const String kadunaElectricity =
+      'assets/images/kaduna-electricity.png';
 }

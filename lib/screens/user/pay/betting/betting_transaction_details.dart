@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/constants/png.dart';
 import 'package:zeelpay/screens/onboarding/onboarding.dart';
 import 'package:zeelpay/themes/palette.dart';
 
@@ -57,7 +56,7 @@ class BettingTransactionDetails extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 12.0),
                       child: Text(
-                        amount,
+                        "₦$amount",
                         style: const TextStyle(
                           color: Colors.white,
                         ),
@@ -99,11 +98,11 @@ class BettingTransactionDetails extends StatelessWidget {
                   children: [
                     const Text("Transaction details"),
                     const SizedBox(height: 12),
-                    showDetails("Transaction ID", transactionID),
+                    showDetails("Transaction ID", "#$transactionID"),
                     showDetails("Date & time", dateAndTime),
                     showDetails("User ID", userID),
                     showDetails("Service Provider", serviceProvider),
-                    showDetails("Fee", fee),
+                    showDetails("Fee", "₦$fee"),
                     const Spacer(),
                     ZeelButton(
                       text: "Share Transaction",
