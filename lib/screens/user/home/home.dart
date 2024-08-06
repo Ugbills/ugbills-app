@@ -10,6 +10,7 @@ import 'package:zeelpay/screens/user/home/notifications/notification.dart';
 import 'package:zeelpay/screens/user/pay/send/amount_screen.dart';
 import 'package:zeelpay/screens/user/home/transaction/history.dart';
 import 'package:zeelpay/screens/user/widgets/action_button.dart';
+import 'package:zeelpay/themes/palette.dart';
 
 class DashBoardScreen extends StatefulWidget {
   const DashBoardScreen({super.key});
@@ -22,6 +23,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   bool stealthMode = false;
   @override
   Widget build(BuildContext context) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       body: CustomScrollView(
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
@@ -213,79 +215,91 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 30.0),
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height / 3.5,
+                    decoration: BoxDecoration(
+                      color: isDark ? ZealPalette.lighterBlack : Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                     child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height / 3.5,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: isDark ? ZealPalette.lighterBlack : Colors.white,
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        padding: const EdgeInsets.all(20),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                const Text(
-                                  'Activity',
-                                  style: TextStyle(
-                                    color: Color(0xff20013A),
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 17,
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                'Activity',
+                                style: TextStyle(
+                                  color: isDark
+                                      ? Colors.white
+                                      : const Color(0xff20013A),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 17,
+                                ),
+                              ),
+                              const Spacer(),
+                              GestureDetector(
+                                onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const TransactionHistory(),
                                   ),
                                 ),
-                                const Spacer(),
-                                GestureDetector(
-                                  onTap: () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const TransactionHistory(),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      'View all',
+                                      style: TextStyle(
+                                        color: isDark
+                                            ? Colors.white
+                                            : const Color(0xff20013A),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 17,
+                                      ),
                                     ),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      const Text(
-                                        'View all',
-                                        style: TextStyle(
-                                          color: Color(0xff20013A),
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 17,
-                                        ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Container(
+                                      height: 20,
+                                      width: 20,
+                                      padding: const EdgeInsets.all(1),
+                                      decoration: BoxDecoration(
+                                        color: isDark
+                                            ? ZealPalette.lightestPurple
+                                            : const Color(0xff20013A),
+                                        borderRadius: BorderRadius.circular(20),
                                       ),
-                                      const SizedBox(
-                                        width: 5,
+                                      child: Icon(
+                                        Icons.arrow_forward_ios,
+                                        color: isDark
+                                            ? ZealPalette.lightPurple
+                                            : Colors.white,
+                                        size: 10,
                                       ),
-                                      Container(
-                                        height: 20,
-                                        width: 20,
-                                        padding: const EdgeInsets.all(1),
-                                        decoration: BoxDecoration(
-                                          color: const Color(0xff20013A),
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        ),
-                                        child: const Icon(
-                                            Icons.arrow_forward_ios,
-                                            color: Colors.white,
-                                            size: 10),
-                                      )
-                                    ],
-                                  ),
+                                    )
+                                  ],
                                 ),
-                              ],
-                            ),
-                            const Expanded(
-                              child: Center(child: Text("No activity Yet!")),
-                            ),
-                          ],
-                        ),
+                              ),
+                            ],
+                          ),
+                          Expanded(
+                            child: Center(
+                                child: Text(
+                              "No activity Yet!",
+                              style: TextStyle(
+                                color: isDark ? Colors.grey : Colors.white,
+                              ),
+                            )),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -298,6 +312,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   }
 
   _buildKYC(BuildContext context) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -316,26 +332,38 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
           ),
           borderRadius: BorderRadius.circular(14),
         ),
-        child: const Row(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
               child: Wrap(
                 children: [
-                  Text(
+                  const Text(
                     "Complete KYC",
                     style: TextStyle(
+                      fontWeight: FontWeight.w700,
                       color: Color.fromRGBO(156, 38, 49, 1),
                     ),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
-                      softWrap: true,
-                      "Submitting your KYC will help you enjoy more access to Zeelpay’s")
+                    softWrap: true,
+                    "Submitting your KYC will help you enjoy more access to Zeelpay’s",
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: isDark
+                          ? const Color.fromRGBO(156, 38, 49, 1)
+                          : Colors.grey,
+                    ),
+                  )
                 ],
               ),
             ),
-            Icon(Icons.arrow_forward_ios_outlined),
+            Icon(
+              Icons.arrow_forward_ios_outlined,
+              color:
+                  isDark ? const Color.fromRGBO(156, 38, 49, 1) : Colors.grey,
+            ),
           ],
         ),
       ),
