@@ -14,6 +14,8 @@ class CheckQuality extends StatefulWidget {
 class _CheckQualityState extends State<CheckQuality> {
   @override
   Widget build(BuildContext context) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -46,14 +48,18 @@ class _CheckQualityState extends State<CheckQuality> {
                 style: FilledButton.styleFrom(
                   backgroundColor: Colors.transparent,
                   padding: const EdgeInsets.symmetric(vertical: 14),
-                  side: const BorderSide(color: ZealPalette.primaryPurple),
+                  side: BorderSide(
+                      color: isDark
+                          ? ZealPalette.lightPurple
+                          : ZealPalette.primaryPurple),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(14),
                   ),
                 ),
-                child: const Text(
+                child: Text(
                   "Take a new photo",
-                  style: TextStyle(color: ZealPalette.primaryPurple),
+                  style: TextStyle(
+                      color: isDark ? Colors.white : ZealPalette.primaryPurple),
                 ),
               ),
             ),

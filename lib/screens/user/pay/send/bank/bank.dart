@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
+import 'package:zeelpay/screens/user/more/beneficiaries/beneficiaries.dart';
 import 'package:zeelpay/screens/user/pay/send/sent.dart';
 import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
@@ -36,12 +37,21 @@ class BankTransfer extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     ShadButton.link(
-                        text: Text(
-                      "Choose Beneficiary",
-                      style: theme.textTheme.small.copyWith(
-                          color: theme.colorScheme.primary,
-                          fontWeight: FontWeight.bold),
-                    ))
+                      text: Text(
+                        "Choose Beneficiary",
+                        style: theme.textTheme.small.copyWith(
+                            color: theme.colorScheme.primary,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          _createRoute(
+                            const SavedBeneficiaries(),
+                          ),
+                        );
+                      },
+                    )
                   ],
                 ),
                 const ZeelTextFieldTitle(text: "Select a Bank"),
@@ -70,10 +80,13 @@ class BankTransfer extends ConsumerWidget {
                             value;
                       },
                     ),
-                    Text("Save Beneficiary",
-                        style: theme.textTheme.small.copyWith(
-                            color: theme.colorScheme.primary,
-                            fontWeight: FontWeight.bold))
+                    Text(
+                      "Save Beneficiary",
+                      style: theme.textTheme.small.copyWith(
+                        color: theme.colorScheme.primary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
                   ],
                 ),
                 const SizedBox(height: 20),
@@ -163,3 +176,24 @@ Widget showDetails(String lead, String trail) {
 final saveBeneficiaryProvider = StateProvider<bool>((ref) {
   return false;
 });
+
+Route _createRoute(Widget child) {
+  return PageRouteBuilder(
+    transitionDuration: const Duration(milliseconds: 300),
+    reverseTransitionDuration: const Duration(milliseconds: 300),
+    pageBuilder: (context, animation, secondaryAnimation) => child,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(0.0, 1.0);
+      const end = Offset.zero;
+      const curve = Curves.ease;
+      final tween =
+          Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+      final offsetAnimation = animation.drive(tween);
+
+      return SlideTransition(
+        position: offsetAnimation,
+        child: child,
+      );
+    },
+  );
+}

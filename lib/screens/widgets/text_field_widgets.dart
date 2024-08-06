@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:zeelpay/constants/svg.dart';
+import 'package:zeelpay/themes/palette.dart';
 
 class ZeelTextField extends StatelessWidget {
   final String? hint;
@@ -18,6 +19,8 @@ class ZeelTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
+
     return SizedBox(
         height: 70,
         child: GestureDetector(
@@ -32,7 +35,11 @@ class ZeelTextField extends StatelessWidget {
               controller: controller,
               enabled: enabled,
               decoration: InputDecoration(
-                fillColor: enabled ? Colors.white : Colors.grey[250],
+                fillColor: isDark && enabled
+                    ? ZealPalette.lighterBlack
+                    : enabled
+                        ? Colors.white
+                        : Colors.grey[250],
                 filled: true,
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(15),

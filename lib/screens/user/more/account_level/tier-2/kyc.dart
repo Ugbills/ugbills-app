@@ -32,6 +32,7 @@ class _KYCVerificationState extends State<KYCVerification> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -42,8 +43,12 @@ class _KYCVerificationState extends State<KYCVerification> {
                 child: ListView(
                   children: [
                     const ZeelTitleText(text: "KYC Verification"),
-                    const Text(
-                        "Please fill in the correct information below. KYC is an important step to help reduce fraud."),
+                    Text(
+                      "Please fill in the correct information below. KYC is an important step to help reduce fraud.",
+                      style: TextStyle(
+                        color: isDark ? Colors.grey : Colors.white,
+                      ),
+                    ),
                     const SizedBox(height: 24),
                     const ZeelTextFieldTitle(text: "Date of Birth"),
                     InkWell(

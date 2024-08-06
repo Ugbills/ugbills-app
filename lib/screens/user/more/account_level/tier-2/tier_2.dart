@@ -17,9 +17,9 @@ class AccountTier2 extends StatelessWidget {
               child: ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 children: [
-                  selectedTier(false, "Tier 1", "₦100,000", "1"),
-                  selectedTier(true, "Tier 2", "₦150,000", "2"),
-                  selectedTier(false, "Tier 3", "₦1,000,000", "3"),
+                  selectedTier(false, "Tier 1", "₦100,000", "1", context),
+                  selectedTier(true, "Tier 2", "₦150,000", "2", context),
+                  selectedTier(false, "Tier 3", "₦1,000,000", "3", context),
                 ],
               ),
             ),
@@ -43,14 +43,26 @@ class AccountTier2 extends StatelessWidget {
   }
 }
 
-Widget selectedTier(bool selected, String tier, String limit, String fig) {
+Widget selectedTier(bool selected, String tier, String limit, String fig,
+    BuildContext context) {
+  bool isDark = Theme.of(context).brightness == Brightness.dark;
   return Container(
     margin: const EdgeInsets.only(top: 16),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(20),
-      color: selected ? ZealPalette.lightPurple : Colors.white,
+      color: isDark
+          ? ZealPalette.lighterBlack
+          : selected
+              ? ZealPalette.lightestPurple
+              : Colors.white,
       border: Border.all(
-        color: selected ? ZealPalette.primaryPurple : Colors.white,
+        color: isDark && !selected
+            ? ZealPalette.lighterBlack
+            : isDark && selected
+                ? ZealPalette.lightPurple
+                : selected
+                    ? ZealPalette.primaryPurple
+                    : Colors.white,
       ),
     ),
     child: Column(
@@ -61,7 +73,13 @@ Widget selectedTier(bool selected, String tier, String limit, String fig) {
               topLeft: Radius.circular(20),
               topRight: Radius.circular(20),
             ),
-            color: selected ? ZealPalette.primaryPurple : Colors.white,
+            color: isDark && !selected
+                ? ZealPalette.lighterBlack
+                : isDark && selected
+                    ? ZealPalette.lightPurple
+                    : selected
+                        ? ZealPalette.primaryPurple
+                        : Colors.white,
           ),
           padding: const EdgeInsets.all(24),
           child: Row(
@@ -70,7 +88,12 @@ Widget selectedTier(bool selected, String tier, String limit, String fig) {
               const SizedBox(width: 6),
               Text(
                 tier,
-                style: TextStyle(color: selected ? Colors.white : Colors.black),
+                style: TextStyle(
+                    color: isDark
+                        ? Colors.white
+                        : selected
+                            ? Colors.white
+                            : Colors.black),
               ),
             ],
           ),

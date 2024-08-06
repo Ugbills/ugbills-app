@@ -77,6 +77,7 @@ class _SavedBeneficiariesState extends State<SavedBeneficiaries> {
                     displayList[index].name!,
                     displayList[index].bank!,
                     displayList[index].accountNumber!,
+                    context,
                   );
                 })
           ],
@@ -86,12 +87,15 @@ class _SavedBeneficiariesState extends State<SavedBeneficiaries> {
   }
 }
 
-Widget beneficiary(String name, String bank, String accountNumber) {
+Widget beneficiary(
+    String name, String bank, String accountNumber, BuildContext context) {
+  bool isDark = Theme.of(context).brightness == Brightness.dark;
+
   return Container(
     margin: const EdgeInsets.symmetric(vertical: 6),
     padding: const EdgeInsets.all(14),
     decoration: BoxDecoration(
-      color: Colors.white,
+      color: isDark ? ZealPalette.lighterBlack : Colors.white,
       borderRadius: BorderRadius.circular(14),
     ),
     child: Row(

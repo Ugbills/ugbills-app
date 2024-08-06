@@ -22,25 +22,31 @@ class _ResetTransactionPinState extends State<ResetTransactionPin> {
   }
 
   Widget numButton(int number) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
+
     return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.only(top: 16),
-        child: TextButton(
-          onPressed: () {
-            setState(() {
-              if (enteredPin.length < 4) {
-                enteredPin += number.toString();
-                if (enteredPin.length == 4) {
-                  onPinComplete();
-                }
+      child: GestureDetector(
+        onTap: () {
+          setState(() {
+            if (enteredPin.length < 4) {
+              enteredPin += number.toString();
+              if (enteredPin.length == 4) {
+                onPinComplete();
               }
-            });
-          },
+            }
+          });
+        },
+        child: Container(
+          margin: const EdgeInsets.only(top: 16),
+          padding: const EdgeInsets.all(28),
+          decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: isDark ? ZealPalette.lighterBlack : Colors.white),
           child: Text(
             number.toString(),
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 19,
-              color: Colors.black,
+              color: isDark ? Colors.grey : Colors.black,
               fontWeight: FontWeight.w700,
             ),
           ),
@@ -51,6 +57,7 @@ class _ResetTransactionPinState extends State<ResetTransactionPin> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(18.0),
@@ -73,7 +80,9 @@ class _ResetTransactionPinState extends State<ResetTransactionPin> {
                       width: 45,
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: Colors.grey.shade300,
+                        color: isDark
+                            ? ZealPalette.lighterBlack
+                            : Colors.grey.shade300,
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(
                           color: index < enteredPin.length
@@ -123,8 +132,8 @@ class _ResetTransactionPinState extends State<ResetTransactionPin> {
                     child: SizedBox(),
                   ),
                   numButton(0),
-                  TextButton(
-                    onPressed: () {
+                  GestureDetector(
+                    onTap: () {
                       setState(() {
                         if (enteredPin.isNotEmpty) {
                           enteredPin =
@@ -132,9 +141,17 @@ class _ResetTransactionPinState extends State<ResetTransactionPin> {
                         }
                       });
                     },
-                    child: const Icon(
-                      Icons.keyboard_backspace_rounded,
-                      color: Colors.black,
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 32),
+                      padding: const EdgeInsets.all(22),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: isDark ? ZealPalette.lighterBlack : Colors.white,
+                      ),
+                      child: Icon(
+                        Icons.keyboard_backspace_rounded,
+                        color: isDark ? Colors.grey : Colors.black,
+                      ),
                     ),
                   ),
                 ],

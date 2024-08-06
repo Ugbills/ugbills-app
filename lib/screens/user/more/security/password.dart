@@ -24,14 +24,17 @@ class ChangePassword extends StatelessWidget {
                     const ZeelTextFieldTitle(text: "Current Password"),
                     inputField(
                       currentPasswordController,
+                      context,
                     ),
                     const ZeelTextFieldTitle(text: "New Password"),
                     inputField(
                       newPasswordController,
+                      context,
                     ),
                     const ZeelTextFieldTitle(text: "Confirm Password"),
                     inputField(
                       confirmPasswordController,
+                      context,
                     ),
                   ],
                 ),
@@ -57,7 +60,10 @@ class ChangePassword extends StatelessWidget {
   }
 }
 
-Widget inputField(TextEditingController controller, {bool obscure = true}) {
+Widget inputField(TextEditingController controller, BuildContext context,
+    {bool obscure = true}) {
+  bool isDark = Theme.of(context).brightness == Brightness.dark;
+
   return Column(
     children: [
       TextField(
@@ -67,10 +73,12 @@ Widget inputField(TextEditingController controller, {bool obscure = true}) {
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
           ),
+          filled: true,
+          fillColor: isDark ? ZealPalette.lighterBlack : Colors.white,
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
-            borderSide: const BorderSide(
-              color: ZealPalette.darkerGrey,
+            borderSide: BorderSide(
+              color: isDark ? Colors.grey : ZealPalette.darkerGrey,
             ),
           ),
           suffixIcon: const Icon(Icons.remove_red_eye_outlined),
@@ -80,38 +88,3 @@ Widget inputField(TextEditingController controller, {bool obscure = true}) {
     ],
   );
 }
-
-// class UpdatedSuccessfully extends StatelessWidget {
-//   const UpdatedSuccessfully({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Container(
-//         alignment: Alignment.center,
-//         padding: const EdgeInsets.all(24.0),
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.end,
-//           children: [
-//             const Spacer(),
-//             Image.asset("assets/images/sent.png"),
-//             const ZeelTitleText(text: "Updated"),
-//             const Text(
-//               "Your password has been updated successfully and should be used on next login.",
-//               textAlign: TextAlign.center,
-//               style: TextStyle(color: Colors.grey),
-//             ),
-//             const Spacer(),
-//             ZeelButton(
-//               text: "Back",
-//               onPressed: () {
-//                 Navigator.pushReplacement(context,
-//                     MaterialPageRoute(builder: (_) => const UserScreen()));
-//               },
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

@@ -19,6 +19,8 @@ class ReferAndEarn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(24),
@@ -28,10 +30,10 @@ class ReferAndEarn extends StatelessWidget {
               child: ListView(
                 children: [
                   Image.asset("assets/images/refer-and-earn.png"),
-                  const Text(
+                  Text(
                     "Earn extra cash with each referral",
                     style: TextStyle(
-                      color: ZealPalette.primaryPurple,
+                      color: isDark ? Colors.white : ZealPalette.primaryPurple,
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
                     ),
@@ -65,18 +67,21 @@ class ReferAndEarn extends StatelessWidget {
                 style: FilledButton.styleFrom(
                   backgroundColor: Colors.transparent,
                   padding: const EdgeInsets.symmetric(vertical: 14),
-                  side: const BorderSide(color: ZealPalette.primaryPurple),
+                  side: BorderSide(
+                      color: isDark
+                          ? ZealPalette.lightPurple
+                          : ZealPalette.primaryPurple),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(14),
                   ),
                 ),
-                child: const Text(
+                child: Text(
                   "View Referral Earnings",
-                  style: TextStyle(color: ZealPalette.primaryPurple),
+                  style: TextStyle(
+                      color: isDark ? Colors.white : ZealPalette.primaryPurple),
                 ),
               ),
             ),
-            // const SizedBox(height: 24),
           ],
         ),
       ),
@@ -85,6 +90,8 @@ class ReferAndEarn extends StatelessWidget {
 }
 
 Widget referral(BuildContext context) {
+  bool isDark = Theme.of(context).brightness == Brightness.dark;
+
   String? referralCode = "johndoe";
   return InkWell(
     splashFactory: NoSplash.splashFactory,
@@ -118,9 +125,9 @@ Widget referral(BuildContext context) {
               ),
               Text(
                 referralCode,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 16,
-                  color: ZealPalette.primaryPurple,
+                  color: isDark ? Colors.white : ZealPalette.primaryPurple,
                   fontWeight: FontWeight.w700,
                 ),
               ),

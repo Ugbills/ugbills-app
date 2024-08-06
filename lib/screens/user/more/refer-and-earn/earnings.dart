@@ -87,6 +87,7 @@ class _ReferralEarningsState extends State<ReferralEarnings> {
                   return referralStatus(
                     referrals[index][3],
                     referrals[index][0],
+                    context,
                   );
                 },
               )
@@ -137,12 +138,14 @@ Widget showBalance(String balance, Function()? onPressed) {
   );
 }
 
-Widget referralStatus(bool isPending, String name) {
+Widget referralStatus(bool isPending, String name, BuildContext context) {
+  bool isDark = Theme.of(context).brightness == Brightness.dark;
+
   return Container(
     margin: const EdgeInsets.symmetric(vertical: 6),
     padding: const EdgeInsets.all(16),
     decoration: BoxDecoration(
-      color: Colors.white,
+      color: isDark ? ZealPalette.lighterBlack : Colors.white,
       borderRadius: BorderRadius.circular(16),
     ),
     child: Row(

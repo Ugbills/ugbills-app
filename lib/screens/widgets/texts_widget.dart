@@ -10,11 +10,16 @@ class ZeelTitleText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(text,
-        style: const TextStyle(
-            fontSize: 30.0,
-            fontWeight: FontWeight.w900,
-            color: Color(0xff20013A)));
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Text(
+      text,
+      style: TextStyle(
+        fontSize: 30.0,
+        fontWeight: FontWeight.w900,
+        color: isDark ? Colors.white : const Color(0xff20013A),
+      ),
+    );
   }
 }
 

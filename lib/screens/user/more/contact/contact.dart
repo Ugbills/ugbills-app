@@ -3,6 +3,7 @@ import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:zeelpay/constants/svg.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
+import 'package:zeelpay/themes/palette.dart';
 
 class ContactUs extends StatelessWidget {
   const ContactUs({super.key});
@@ -29,36 +30,42 @@ class ContactUs extends StatelessWidget {
             "Call Us",
             "Business hours everyday",
             () {},
+            context,
           ),
           contactTiles(
             ZeelSvg.email,
             "Email Us",
             "Reach out to us via email",
             () {},
+            context,
           ),
           contactTiles(
             ZeelSvg.chat,
             "Chat with Us",
             "Start a live conversation",
             () {},
+            context,
           ),
           contactTiles(
             ZeelSvg.instagram,
             "Instagram",
             "Connect with us via Instagram",
             () {},
+            context,
           ),
           contactTiles(
             ZeelSvg.x,
             "X",
             "Connect with us via X",
             () {},
+            context,
           ),
           contactTiles(
             ZeelSvg.facebook,
             "Facebook",
             "Connect with us via Facebook",
             () {},
+            context,
           ),
         ],
       ),
@@ -66,8 +73,10 @@ class ContactUs extends StatelessWidget {
   }
 }
 
-Widget contactTiles(
-    String imagePath, String title, String subtitle, Function()? onTap) {
+Widget contactTiles(String imagePath, String title, String subtitle,
+    Function()? onTap, BuildContext context) {
+  bool isDark = Theme.of(context).brightness == Brightness.dark;
+
   return GestureDetector(
     onTap: onTap,
     child: Container(
@@ -75,7 +84,7 @@ Widget contactTiles(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(14),
-        color: Colors.white,
+        color: isDark ? ZealPalette.lighterBlack : Colors.white,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

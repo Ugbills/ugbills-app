@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zeelpay/screens/user/more/security/password.dart';
 import 'package:zeelpay/screens/user/more/security/otp.dart';
+import 'package:zeelpay/themes/palette.dart';
 
 class SecuritySettings extends StatelessWidget {
   const SecuritySettings({super.key});
@@ -23,6 +24,8 @@ class SecuritySettings extends StatelessWidget {
 }
 
 Widget settings(BuildContext context, String title, Widget page) {
+  bool isDark = Theme.of(context).brightness == Brightness.dark;
+
   return GestureDetector(
     onTap: () {
       Navigator.push(context, MaterialPageRoute(builder: (_) => page));
@@ -31,7 +34,7 @@ Widget settings(BuildContext context, String title, Widget page) {
       margin: const EdgeInsets.symmetric(vertical: 6),
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: isDark ? ZealPalette.lighterBlack : Colors.white,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(

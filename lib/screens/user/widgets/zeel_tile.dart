@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:zeelpay/constants/svg.dart';
+import 'package:zeelpay/themes/palette.dart';
 
 class ZeelTile extends StatelessWidget {
   final String title;
@@ -71,10 +72,12 @@ class ZeelListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
+
     return GestureDetector(
       onTap: onTap,
       child: Card(
-        color: Colors.white,
+        color: isDark ? ZealPalette.lighterBlack : Colors.white,
         shadowColor: const Color.fromRGBO(0, 0, 0, 0),
         child: ListTile(
           title: Text(title,

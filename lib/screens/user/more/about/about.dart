@@ -3,6 +3,7 @@ import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:zeelpay/constants/svg.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
+import 'package:zeelpay/themes/palette.dart';
 
 class AboutUs extends StatelessWidget {
   const AboutUs({super.key});
@@ -22,16 +23,19 @@ class AboutUs extends StatelessWidget {
             ZeelSvg.faq,
             "Frequently asked Questions",
             () {},
+            context,
           ),
           aboutTile(
             ZeelSvg.terms,
             "Terms and Conditions",
             () {},
+            context,
           ),
           aboutTile(
             ZeelSvg.policy,
             "Privacy Policy",
             () {},
+            context,
           ),
         ],
       ),
@@ -39,13 +43,16 @@ class AboutUs extends StatelessWidget {
   }
 }
 
-Widget aboutTile(String imagePath, String title, Function()? onTap) {
+Widget aboutTile(
+    String imagePath, String title, Function()? onTap, BuildContext context) {
+  bool isDark = Theme.of(context).brightness == Brightness.dark;
+
   return Container(
     margin: const EdgeInsets.symmetric(vertical: 6),
     padding: const EdgeInsets.all(16),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(16),
-      color: Colors.white,
+      color: isDark ? ZealPalette.lighterBlack : Colors.white,
     ),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

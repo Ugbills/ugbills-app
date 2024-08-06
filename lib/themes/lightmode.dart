@@ -24,7 +24,7 @@ var lightTheme = FlexThemeData.light(
     headlineMedium: const TextStyle(color: Colors.black),
     headlineSmall: const TextStyle(color: Colors.black),
     titleLarge: const TextStyle(color: Colors.black),
-  ),
+  ), 
   subThemesData: const FlexSubThemesData(
     inputDecoratorFillColor: Color(0xfffdfdfd),
     blendOnLevel: 20,
