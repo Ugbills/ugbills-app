@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:zeelpay/screens/user/user.dart';
+import 'package:zeelpay/screens/onboarding/onboarding.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
           textTheme: ShadTextTheme.fromGoogleFont(
             GoogleFonts.cabin,
           )),
-      home: const UserScreen(),
+      home: const Onboarding(),
     );
   }
 }

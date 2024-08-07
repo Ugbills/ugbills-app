@@ -369,6 +369,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
 }
 
 List<Widget> _buildMenuItems(BuildContext context) {
+  bool isDark = Theme.of(context).brightness == Brightness.dark;
   return [
     GestureDetector(
       onTap: () {
@@ -379,10 +380,10 @@ List<Widget> _buildMenuItems(BuildContext context) {
           ),
         );
       },
-      child: const ZeelActionButton(
+      child: ZeelActionButton(
         text: "Fund",
         icon: ZeelSvg.fund,
-        color: Color(0xffFFC9CE),
+        color: isDark ? ZealPalette.darkModeFund : const Color(0xffFFC9CE),
       ),
     ),
     GestureDetector(
@@ -394,10 +395,10 @@ List<Widget> _buildMenuItems(BuildContext context) {
           ),
         );
       },
-      child: const ZeelActionButton(
+      child: ZeelActionButton(
         text: "Send",
         icon: ZeelSvg.send,
-        color: Color(0xffFFD3B3),
+        color: isDark ? ZealPalette.darkModeSend : const Color(0xffFFD3B3),
       ),
     ),
     GestureDetector(
@@ -407,10 +408,10 @@ List<Widget> _buildMenuItems(BuildContext context) {
           builder: (context) => const TVBills(),
         ),
       ),
-      child: const ZeelActionButton(
+      child: ZeelActionButton(
         text: "TV",
         icon: ZeelSvg.tv,
-        color: Color(0xffCFC6FF),
+        color: isDark ? ZealPalette.darkModeTV : const Color(0xffCFC6FF),
       ),
     ),
     GestureDetector(
@@ -422,10 +423,10 @@ List<Widget> _buildMenuItems(BuildContext context) {
           ),
         );
       },
-      child: const ZeelActionButton(
+      child: ZeelActionButton(
         text: "Buy Data",
         icon: ZeelSvg.data,
-        color: Color(0xffFED4FF),
+        color: isDark ? ZealPalette.darkModeData : const Color(0xffFED4FF),
       ),
     ),
     GestureDetector(
@@ -437,10 +438,10 @@ List<Widget> _buildMenuItems(BuildContext context) {
           ),
         );
       },
-      child: const ZeelActionButton(
+      child: ZeelActionButton(
         text: "Buy Airtime",
         icon: ZeelSvg.airtime,
-        color: Color(0xffB6E1FF),
+        color: isDark ? ZealPalette.darkModeAirtime : const Color(0xffB6E1FF),
       ),
     ),
     GestureDetector(
@@ -452,8 +453,11 @@ List<Widget> _buildMenuItems(BuildContext context) {
           ),
         );
       },
-      child: const ZeelActionButton(
-          text: "Betting", icon: ZeelSvg.betting, color: Color(0xffAEFFCF)),
+      child: ZeelActionButton(
+        text: "Betting",
+        icon: ZeelSvg.betting,
+        color: isDark ? ZealPalette.darkModeBetting : const Color(0xffAEFFCF),
+      ),
     ),
   ];
 }

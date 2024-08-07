@@ -10,6 +10,7 @@ import 'package:zeelpay/screens/user/pay/fund/fund_options.dart';
 import 'package:zeelpay/screens/user/pay/giftcard/giftcard.dart';
 import 'package:zeelpay/screens/user/pay/send/amount_screen.dart';
 import 'package:zeelpay/screens/user/widgets/action_button.dart';
+import 'package:zeelpay/themes/palette.dart';
 
 class Pay extends StatelessWidget {
   const Pay({super.key});
@@ -44,11 +45,12 @@ class Pay extends StatelessWidget {
 }
 
 List<Widget> _buildMenuItems(BuildContext context) {
+  bool isDark = Theme.of(context).brightness == Brightness.dark;
   return [
     ZeelActionButton(
       text: "Fund",
       icon: ZeelSvg.fund,
-      color: const Color(0xffFFC9CE),
+      color: isDark ? ZealPalette.darkModeFund : const Color(0xffFFC9CE),
       onTap: () {
         Navigator.push(
           context,
@@ -69,7 +71,7 @@ List<Widget> _buildMenuItems(BuildContext context) {
       },
       text: "Send",
       icon: ZeelSvg.send,
-      color: const Color(0xffFFD3B3),
+      color: isDark ? ZealPalette.darkModeSend : const Color(0xffFFD3B3),
     ),
     ZeelActionButton(
       onTap: () {
@@ -82,7 +84,7 @@ List<Widget> _buildMenuItems(BuildContext context) {
       },
       text: "TV",
       icon: ZeelSvg.tv,
-      color: const Color(0xffCFC6FF),
+      color: isDark ? ZealPalette.darkModeTV : const Color(0xffCFC6FF),
     ),
     ZeelActionButton(
       onTap: () {
@@ -95,7 +97,7 @@ List<Widget> _buildMenuItems(BuildContext context) {
       },
       text: "Buy Data",
       icon: ZeelSvg.data,
-      color: const Color(0xffFED4FF),
+      color: isDark ? ZealPalette.darkModeData : const Color(0xffFED4FF),
     ),
     ZeelActionButton(
       onTap: () {
@@ -108,7 +110,7 @@ List<Widget> _buildMenuItems(BuildContext context) {
       },
       text: "Buy Airtime",
       icon: ZeelSvg.airtime,
-      color: const Color(0xffB6E1FF),
+      color: isDark ? ZealPalette.darkModeAirtime : const Color(0xffB6E1FF),
     ),
     ZeelActionButton(
         onTap: () {
@@ -121,7 +123,7 @@ List<Widget> _buildMenuItems(BuildContext context) {
         },
         text: "Gift Card",
         icon: ZeelSvg.betting,
-        color: const Color(0xffE0FFAE)),
+        color: isDark ? ZealPalette.darkModeSend : const Color(0xffE0FFAE)),
     ZeelActionButton(
         onTap: () {
           Navigator.push(
@@ -133,7 +135,7 @@ List<Widget> _buildMenuItems(BuildContext context) {
         },
         text: "Airtime Swap",
         icon: ZeelSvg.betting,
-        color: const Color(0xffAEFFCF)),
+        color: isDark ? ZealPalette.darkModeAirtime : const Color(0xffAEFFCF)),
     ZeelActionButton(
         onTap: () {
           Navigator.push(
@@ -145,7 +147,7 @@ List<Widget> _buildMenuItems(BuildContext context) {
         },
         text: "Electricity",
         icon: ZeelSvg.betting,
-        color: const Color(0xffFFC7AE)),
+        color: isDark ? ZealPalette.darkModeFund : const Color(0xffFFC7AE)),
     ZeelActionButton(
         onTap: () {
           Navigator.push(
@@ -157,6 +159,6 @@ List<Widget> _buildMenuItems(BuildContext context) {
         },
         text: "Betting",
         icon: ZeelSvg.betting,
-        color: const Color(0xffAECAFF)),
+        color: isDark ? ZealPalette.darkModeTV : const Color(0xffAECAFF)),
   ];
 }

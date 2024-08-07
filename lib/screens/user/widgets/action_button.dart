@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
+import 'package:zeelpay/themes/palette.dart';
 
 class ZeelActionButton extends StatelessWidget {
   final String text;
@@ -16,6 +17,7 @@ class ZeelActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(20),
@@ -31,10 +33,11 @@ class ZeelActionButton extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 20,
-              backgroundColor: Colors.grey[200],
+              backgroundColor:
+                  isDark ? ZealPalette.lighterPurple : Colors.grey[200],
               child: ShadImage.square(
                 icon,
-                color: Colors.black,
+                color: isDark ? ZealPalette.primaryPurple : Colors.black,
                 size: 20,
               ),
             ),
@@ -43,8 +46,8 @@ class ZeelActionButton extends StatelessWidget {
             ),
             Text(
               text,
-              style: const TextStyle(
-                color: Colors.black,
+              style: TextStyle(
+                color: isDark ? Colors.grey.shade300 : Colors.black,
                 fontWeight: FontWeight.bold,
               ),
             ),

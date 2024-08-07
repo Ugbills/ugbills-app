@@ -19,7 +19,6 @@ class _OnboardingState extends State<Onboarding> {
 
   @override
   Widget build(BuildContext context) {
-    var textTheme = ShadTheme.of(context).textTheme;
     return SafeArea(
       child: Scaffold(
         backgroundColor: pages[currentIndex].color,
@@ -34,7 +33,9 @@ class _OnboardingState extends State<Onboarding> {
                     children: [
                       ShadButton.link(
                         text: const Text('Skip',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
+                            style: TextStyle(
+                                color: ZealPalette.primaryPurple,
+                                fontWeight: FontWeight.bold)),
                         onPressed: () {
                           controller.animateToPage(
                             pages.length - 1,
@@ -67,13 +68,22 @@ class _OnboardingState extends State<Onboarding> {
                       Text(
                         pages[index].title,
                         textAlign: TextAlign.center,
-                        style: textTheme.h3,
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 22,
+                        ),
                       ),
                       const SizedBox(height: 10),
-                      Text(
-                        textAlign: TextAlign.center,
-                        pages[index].description,
-                        style: textTheme.muted,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                        child: Text(
+                          textAlign: TextAlign.center,
+                          pages[index].description,
+                          style: const TextStyle(
+                            color: Color.fromRGBO(69, 69, 69, 1),
+                          ),
+                        ),
                       ),
                     ],
                   );
@@ -83,8 +93,8 @@ class _OnboardingState extends State<Onboarding> {
             SmoothPageIndicator(
                 controller: controller, // PageController
                 count: pages.length,
-                effect: WormEffect(
-                    activeDotColor: ShadTheme.of(context).colorScheme.primary,
+                effect: const WormEffect(
+                    activeDotColor: ZealPalette.primaryPurple,
                     dotHeight: 10,
                     dotWidth: 10), // your preferred effect
                 onDotClicked: (index) {
@@ -124,7 +134,7 @@ class _OnboardingState extends State<Onboarding> {
   }
 }
 
-class Shadtheme {}
+// class Shadtheme {}
 
 List<OnboardingPage> pages = [
   OnboardingPage(
