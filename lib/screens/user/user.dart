@@ -8,13 +8,17 @@ import 'package:zeelpay/screens/user/home/home.dart';
 import 'package:zeelpay/screens/user/more/more.dart';
 import 'package:zeelpay/screens/user/pay/pay.dart';
 import 'package:zeelpay/screens/user/trade/trade.dart';
+import 'package:zeelpay/themes/palette.dart';
 
 class UserScreen extends ConsumerWidget {
   const UserScreen({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentIndex = ref.watch(currentScreenProvider);
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
+      backgroundColor: isDark ? ZealPalette.scaffoldBlack : null,
       bottomNavigationBar: BottomNavigationBar(
           onTap: (value) =>
               ref.read(currentScreenProvider.notifier).state = value,

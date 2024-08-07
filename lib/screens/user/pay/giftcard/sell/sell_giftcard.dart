@@ -57,6 +57,7 @@ class SellGiftcardState extends State<SellGiftcard> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       appBar: AppBar(
         leadingWidth: 100,

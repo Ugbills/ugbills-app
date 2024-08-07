@@ -15,6 +15,8 @@ class SentSuccessfully extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       body: Container(
         alignment: Alignment.center,
@@ -26,9 +28,10 @@ class SentSuccessfully extends StatelessWidget {
             Image.asset(ZeelPng.done),
             Text(
               title,
-              style: const TextStyle(
-                  fontWeight: FontWeight.w700,
-                  color: ZealPalette.primaryPurple),
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                color: isDark ? Colors.white : ZealPalette.primaryPurple,
+              ),
             ),
             Text(
               body,

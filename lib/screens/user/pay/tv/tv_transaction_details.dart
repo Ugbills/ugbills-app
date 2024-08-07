@@ -25,6 +25,7 @@ class TvTransactionDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       body: Stack(
         alignment: Alignment.topCenter,
@@ -87,9 +88,9 @@ class TvTransactionDetails extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(16),
               height: MediaQuery.of(context).size.height / 1.89,
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
+              decoration: BoxDecoration(
+                color: isDark ? ZealPalette.lighterBlack : Colors.white,
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(24),
                   topRight: Radius.circular(24),
                 ),
@@ -99,12 +100,12 @@ class TvTransactionDetails extends StatelessWidget {
                 children: [
                   const Text("Transaction details"),
                   const SizedBox(height: 12),
-                  showDetails("Transaction ID", "#$transactionID"),
-                  showDetails("Date & time", dateAndTime),
-                  showDetails("Smartcard Number", smartcardNumber),
-                  showDetails("Service Provider", serviceProvider),
-                  showDetails("Plan", plan),
-                  showDetails("Fee", "₦$fee"),
+                  showDetails("Transaction ID", "#$transactionID", context),
+                  showDetails("Date & time", dateAndTime, context),
+                  showDetails("Smartcard Number", smartcardNumber, context),
+                  showDetails("Service Provider", serviceProvider, context),
+                  showDetails("Plan", plan, context),
+                  showDetails("Fee", "₦$fee", context),
                   const Spacer(),
                   ZeelButton(
                     text: "Share Transaction",
@@ -143,7 +144,8 @@ class TvTransactionDetails extends StatelessWidget {
   }
 }
 
-Widget showDetails(String lead, String trail) {
+Widget showDetails(String lead, String trail, BuildContext context) {
+  bool isDark = Theme.of(context).brightness == Brightness.dark;
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 6.0),
     child: Row(
@@ -156,7 +158,7 @@ Widget showDetails(String lead, String trail) {
         Text(
           trail,
           style: TextStyle(
-            color: Colors.grey.shade900,
+            color: isDark ? Colors.grey.shade200 : Colors.grey.shade900,
             fontWeight: FontWeight.w500,
           ),
         ),

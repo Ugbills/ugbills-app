@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
+import 'package:zeelpay/constants/png.dart';
 import 'package:zeelpay/screens/user/more/beneficiaries/beneficiaries.dart';
-import 'package:zeelpay/screens/user/pay/send/sent.dart';
+import 'package:zeelpay/screens/user/pay/send/bank_transaction_details.dart';
+import 'package:zeelpay/screens/user/trade/sent.dart';
+// import 'package:zeelpay/screens/user/pay/send/sent.dart';
 import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
@@ -118,11 +121,11 @@ class BankTransfer extends ConsumerWidget {
                                     icon: Image.asset("assets/images/x.png")),
                               ],
                             ),
-                            showDetails("Amount", "₦10,000.00"),
-                            showDetails("Bank Name", "Access Bank"),
-                            showDetails("Account Name", "Mary Doe"),
-                            showDetails("Account Name", "1038344233"),
-                            showDetails("Fee", "₦10.00"),
+                            showDetails("Amount", "₦10,000.00", context),
+                            showDetails("Bank Name", "Access Bank", context),
+                            showDetails("Account Name", "Mary Doe", context),
+                            showDetails("Account Name", "1038344233", context),
+                            showDetails("Fee", "₦10.00", context),
                             const SizedBox(height: 24),
                             ZeelButton(
                               text: "Confirm",
@@ -135,6 +138,17 @@ class BankTransfer extends ConsumerWidget {
                                         title: "Sent",
                                         body:
                                             "You have successfully sent ₦10,000 to Mary Doe.",
+                                        nextPage: BankTransactionDetails(
+                                          bankLogo: ZeelPng.firstbank,
+                                          amount: "₦10,000",
+                                          transactionID: "#2D94ty823",
+                                          dateAndTime: "Mar 10 2023, 2:33PM",
+                                          bankName: "First Bank of Nigeria",
+                                          accountName: "243802003835",
+                                          accountNumber: "243802003835",
+                                          fee: "₦10.00",
+                                          note: "None",
+                                        ),
                                       ),
                                     ));
                               },
@@ -154,7 +168,9 @@ class BankTransfer extends ConsumerWidget {
   }
 }
 
-Widget showDetails(String lead, String trail) {
+Widget showDetails(String lead, String trail, BuildContext context) {
+  bool isDark = Theme.of(context).brightness == Brightness.dark;
+
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 8.0),
     child: Row(
@@ -166,7 +182,9 @@ Widget showDetails(String lead, String trail) {
         ),
         Text(
           trail,
-          style: TextStyle(color: Colors.grey.shade900),
+          style: TextStyle(
+            color: isDark ? Colors.grey.shade300 : Colors.grey.shade900,
+          ),
         ),
       ],
     ),

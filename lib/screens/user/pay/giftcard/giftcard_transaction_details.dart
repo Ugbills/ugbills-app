@@ -26,6 +26,7 @@ class GiftcardTransactionDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -89,9 +90,9 @@ class GiftcardTransactionDetails extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.all(16),
                 height: MediaQuery.of(context).size.height / 1.89,
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
+                decoration: BoxDecoration(
+                  color: isDark ? ZealPalette.lighterBlack : Colors.white,
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(24),
                     topRight: Radius.circular(24),
                   ),
@@ -101,12 +102,12 @@ class GiftcardTransactionDetails extends StatelessWidget {
                   children: [
                     const Text("Transaction details"),
                     const SizedBox(height: 12),
-                    showDetails("Transaction ID", transactionID),
-                    showDetails("Date & time", dateAndTime),
-                    showDetails("USD Amount", usdAmount),
-                    showDetails("Card", card),
-                    showDetails("Fee", fee),
-                    showDetails("Note", note),
+                    showDetails("Transaction ID", transactionID, context),
+                    showDetails("Date & time", dateAndTime, context),
+                    showDetails("USD Amount", usdAmount, context),
+                    showDetails("Card", card, context),
+                    showDetails("Fee", fee, context),
+                    showDetails("Note", note, context),
                     const Spacer(),
                     ZeelButton(
                       text: "Share Transaction",
@@ -146,7 +147,8 @@ class GiftcardTransactionDetails extends StatelessWidget {
   }
 }
 
-Widget showDetails(String lead, String trail) {
+Widget showDetails(String lead, String trail, BuildContext context) {
+  bool isDark = Theme.of(context).brightness == Brightness.dark;
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 6.0),
     child: Row(
@@ -159,7 +161,7 @@ Widget showDetails(String lead, String trail) {
         Text(
           trail,
           style: TextStyle(
-            color: Colors.grey.shade900,
+            color: isDark ? Colors.grey.shade200 : Colors.grey.shade900,
             fontWeight: FontWeight.w500,
           ),
         ),

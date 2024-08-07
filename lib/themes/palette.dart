@@ -14,4 +14,5 @@ mixin ZealPalette {
   static const greyColor = Color.fromRGBO(233, 230, 235, 1);
   static const darkerGrey = Color.fromRGBO(204, 204, 204, 1);
   static const peach = Color.fromRGBO(252, 240, 231, 1);
+  static const orange = Color.fromRGBO(247, 209, 181, 1);
 }

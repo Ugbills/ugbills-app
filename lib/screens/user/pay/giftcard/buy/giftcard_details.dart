@@ -66,6 +66,7 @@ class _BuyGiftcardDetailsState extends State<BuyGiftcardDetails> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -158,13 +159,15 @@ class _BuyGiftcardDetailsState extends State<BuyGiftcardDetails> {
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
-                      color: ZealPalette.rustColor.withAlpha(20),
+                      color: isDark
+                          ? ZealPalette.orange
+                          : ZealPalette.rustColor.withAlpha(20),
                       border: Border.all(color: ZealPalette.rustColor),
                     ),
-                    child: const Column(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           "Note",
                           style: TextStyle(
                             color: ZealPalette.rustColor,
@@ -173,7 +176,10 @@ class _BuyGiftcardDetailsState extends State<BuyGiftcardDetails> {
                         ),
                         Text(
                           "The gift card will be delivered instantly via email.",
-                          style: TextStyle(color: Colors.grey, fontSize: 10),
+                          style: TextStyle(
+                            color: isDark ? ZealPalette.rustColor : Colors.grey,
+                            fontSize: 10,
+                          ),
                         )
                       ],
                     ),

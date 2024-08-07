@@ -57,6 +57,7 @@ class BuyGiftcardState extends State<BuyGiftcard> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       appBar: AppBar(
         leadingWidth: 100,
@@ -114,6 +115,7 @@ class BuyGiftcardState extends State<BuyGiftcard> {
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
+                    color: isDark ? ZealPalette.lighterBlack : Colors.white,
                     border: Border.all(color: ZealPalette.darkerGrey),
                   ),
                   child: Column(

@@ -37,9 +37,11 @@ class ZeelTextField extends StatelessWidget {
               decoration: InputDecoration(
                 fillColor: isDark && enabled
                     ? ZealPalette.lighterBlack
-                    : enabled
-                        ? Colors.white
-                        : Colors.grey[250],
+                    : isDark && !enabled
+                        ? ZealPalette.lighterBlack
+                        : enabled
+                            ? Colors.white
+                            : Colors.grey[250],
                 filled: true,
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(15),
@@ -81,6 +83,7 @@ class ZeelSelectTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
     return GestureDetector(
       onTap: onTap,
       child: SizedBox(
@@ -89,7 +92,7 @@ class ZeelSelectTextField extends StatelessWidget {
             controller: controller,
             enabled: false,
             decoration: InputDecoration(
-              fillColor: Colors.white,
+              fillColor: isDark ? ZealPalette.lighterBlack : Colors.white,
               filled: true,
               disabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(15),

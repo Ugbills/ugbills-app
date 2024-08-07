@@ -25,6 +25,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   Widget build(BuildContext context) {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
+      backgroundColor: isDark ? ZealPalette.scaffoldBlack : null,
       body: CustomScrollView(
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           slivers: [
@@ -290,12 +291,12 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                               ),
                             ],
                           ),
-                          Expanded(
+                          const Expanded(
                             child: Center(
                                 child: Text(
                               "No activity Yet!",
                               style: TextStyle(
-                                color: isDark ? Colors.grey : Colors.white,
+                                color: Colors.grey,
                               ),
                             )),
                           ),

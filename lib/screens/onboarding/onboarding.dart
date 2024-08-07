@@ -3,6 +3,7 @@ import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:zeelpay/constants/png.dart';
 import 'package:zeelpay/screens/account_screen.dart';
+import 'package:zeelpay/themes/palette.dart';
 
 class Onboarding extends StatefulWidget {
   const Onboarding({super.key});
@@ -178,24 +179,33 @@ class ZeelButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
     return SizedBox(
-        width: double.infinity,
-        height: 57.0,
-        child: FilledButton(
-            style: FilledButton.styleFrom(
-                side: const BorderSide(
-                  color: Color(0xff20013A),
-                ),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0)),
-                backgroundColor: color),
-            onPressed: onPressed,
-            child: Text(
-              text!,
-              style: TextStyle(
-                  fontWeight: FontWeight.w900,
-                  fontSize: 16,
-                  color: borderColor ? const Color(0xff20013A) : Colors.white),
-            )));
+      width: double.infinity,
+      height: 57.0,
+      child: FilledButton(
+        style: FilledButton.styleFrom(
+            side: BorderSide(
+              color: isDark && borderColor
+                  ? ZealPalette.lightPurple
+                  : const Color(0xff20013A),
+            ),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0)),
+            backgroundColor: color),
+        onPressed: onPressed,
+        child: Text(
+          text!,
+          style: TextStyle(
+              fontWeight: FontWeight.w900,
+              fontSize: 16,
+              color: isDark
+                  ? Colors.grey.shade200
+                  : borderColor
+                      ? const Color(0xff20013A)
+                      : Colors.white),
+        ),
+      ),
+    );
   }
 }

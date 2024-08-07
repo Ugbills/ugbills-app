@@ -19,10 +19,11 @@ class ZeelTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
     return GestureDetector(
       onTap: onTap,
       child: Card(
-        color: Colors.white,
+        color: isDark ? ZealPalette.lighterBlack : Colors.white,
         shadowColor: Colors.transparent,
         child: ListTile(
           title: Text(title, style: ShadTheme.of(context).textTheme.h4),
