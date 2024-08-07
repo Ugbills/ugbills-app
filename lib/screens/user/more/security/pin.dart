@@ -27,25 +27,31 @@ class _ResetTransactionPinState extends State<ResetTransactionPin> {
     return SafeArea(
       child: GestureDetector(
         onTap: () {
-          setState(() {
-            if (enteredPin.length < 4) {
-              enteredPin += number.toString();
-              if (enteredPin.length == 4) {
-                onPinComplete();
+          setState(
+            () {
+              if (enteredPin.length < 4) {
+                enteredPin += number.toString();
+                if (enteredPin.length == 4) {
+                  onPinComplete();
+                }
               }
-            }
-          });
+            },
+          );
         },
         child: Container(
+          alignment: Alignment.center,
           margin: const EdgeInsets.only(top: 16),
-          padding: const EdgeInsets.all(28),
+          constraints: const BoxConstraints(
+            maxHeight: 92,
+            maxWidth: 92,
+          ),
           decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: isDark ? ZealPalette.lighterBlack : Colors.white),
           child: Text(
             number.toString(),
             style: TextStyle(
-              fontSize: 19,
+              fontSize: 24,
               color: isDark ? Colors.grey : Colors.black,
               fontWeight: FontWeight.w700,
             ),
@@ -76,8 +82,10 @@ class _ResetTransactionPinState extends State<ResetTransactionPin> {
                   (index) {
                     return Container(
                       margin: const EdgeInsets.all(6.0),
-                      height: 45,
-                      width: 45,
+                      constraints: const BoxConstraints(
+                        maxHeight: 75,
+                        maxWidth: 75,
+                      ),
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         color: isDark
@@ -99,6 +107,7 @@ class _ResetTransactionPinState extends State<ResetTransactionPin> {
                                     ? enteredPin[index]
                                     : '●',
                                 style: const TextStyle(
+                                  fontSize: 24,
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
@@ -142,8 +151,12 @@ class _ResetTransactionPinState extends State<ResetTransactionPin> {
                       });
                     },
                     child: Container(
+                      alignment: Alignment.center,
                       margin: const EdgeInsets.only(top: 32),
-                      padding: const EdgeInsets.all(22),
+                      constraints: const BoxConstraints(
+                        maxHeight: 85,
+                        maxWidth: 85,
+                      ),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: isDark ? ZealPalette.lighterBlack : Colors.white,

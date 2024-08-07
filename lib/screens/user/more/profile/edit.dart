@@ -65,10 +65,10 @@ class _EditProfileState extends State<EditProfile> {
                           color: Colors.white),
                     ],
                   ),
-                  inputeField("Username"),
-                  inputeField("Full Name", readOnly: true),
-                  inputeField("Email Address", readOnly: true),
-                  inputeField("Phone Number"),
+                  inputeField("Username", context),
+                  inputeField("Full Name", readOnly: true, context),
+                  inputeField("Email Address", readOnly: true, context),
+                  inputeField("Phone Number", context),
                 ],
               ),
             ),
@@ -87,14 +87,18 @@ class _EditProfileState extends State<EditProfile> {
                 child: FilledButton(
                   onPressed: () {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => const Success(
-                                title: "Updated",
-                                body:
-                                    "You have successfully updated your email address.")));
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const Success(
+                            title: "Updated",
+                            body:
+                                "You have successfully updated your email address."),
+                      ),
+                    );
                   },
                   style: FilledButton.styleFrom(
+                    backgroundColor: ZealPalette.primaryPurple,
+                    foregroundColor: Colors.grey.shade200,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14),
                     ),
@@ -111,7 +115,9 @@ class _EditProfileState extends State<EditProfile> {
   }
 }
 
-Widget inputeField(String title, {bool readOnly = false}) {
+Widget inputeField(String title, BuildContext context,
+    {bool readOnly = false}) {
+  bool isDark = Theme.of(context).brightness == Brightness.dark;
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -120,7 +126,7 @@ Widget inputeField(String title, {bool readOnly = false}) {
         readOnly: readOnly,
         decoration: InputDecoration(
           filled: readOnly,
-          fillColor: ZealPalette.greyColor,
+          fillColor: isDark ? ZealPalette.lighterBlack : ZealPalette.greyColor,
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
             borderSide: BorderSide(color: Colors.grey.shade300),

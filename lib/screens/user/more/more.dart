@@ -11,12 +11,14 @@ import 'package:zeelpay/screens/user/more/refer-and-earn/refer_and_earn.dart';
 import 'package:zeelpay/screens/user/more/security/security.dart';
 import 'package:zeelpay/screens/user/more/statement/statement.dart';
 import 'package:zeelpay/screens/user/widgets/zeel_tile.dart';
+import 'package:zeelpay/themes/palette.dart';
 
 class More extends StatelessWidget {
   const More({super.key});
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -42,40 +44,45 @@ class More extends StatelessWidget {
                           Container(
                             width: 70,
                             decoration: BoxDecoration(
-                                color: const Color(0xffE9E6EB),
+                                color: isDark
+                                    ? ZealPalette.lightPurple
+                                    : const Color(0xffE9E6EB),
                                 borderRadius: BorderRadius.circular(20)),
                             child: const Padding(
                               padding: EdgeInsets.all(8.0),
-                              child: Center(child: Text("Tier 1")),
+                              child: Center(
+                                child: Text("Tier 1"),
+                              ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ],
                   ),
                   SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.3,
-                      height: 40,
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0)),
-                              backgroundColor: const Color(0xff20013A)),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => const EditProfile()));
-                          },
-                          child: Text(
-                            "Edit Profile",
-                            style: ShadTheme.of(context)
-                                .textTheme
-                                .small
-                                .copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                          )))
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    height: 40,
+                    child: FilledButton(
+                      style: FilledButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          backgroundColor: const Color(0xff20013A)),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const EditProfile(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        "Edit Profile",
+                        style: ShadTheme.of(context).textTheme.small.copyWith(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  )
                 ],
               ),
               Expanded(
