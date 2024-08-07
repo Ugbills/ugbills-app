@@ -36,10 +36,12 @@ class BuyCryptoOptions extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        leadingWidth: 100,
+        centerTitle: true,
         title: const Text('Buy Crypto',
             style: TextStyle(fontWeight: FontWeight.bold)),
-        leading: const ZeelBackButton(
-          color: Colors.white,
+        leading: ZeelBackButton(
+          color: isDark ? ZealPalette.lighterBlack : Colors.white,
         ),
       ),
       body: ListView.builder(

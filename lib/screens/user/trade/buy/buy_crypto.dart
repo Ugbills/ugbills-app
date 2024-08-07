@@ -56,14 +56,17 @@ class _BuyCryptoState extends State<BuyCrypto> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
+        leadingWidth: 100,
         title: Text(
           'Buy ${widget.cryptoCoin}',
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
-        leading: const ZeelBackButton(
-          color: Colors.white,
+        leading: ZeelBackButton(
+          color: isDark ? ZealPalette.lighterBlack : Colors.white,
         ),
       ),
       body: Padding(
@@ -117,13 +120,15 @@ class _BuyCryptoState extends State<BuyCrypto> {
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
-                      color: ZealPalette.rustColor.withAlpha(20),
+                      color: isDark
+                          ? ZealPalette.orange
+                          : ZealPalette.rustColor.withAlpha(20),
                       border: Border.all(color: ZealPalette.rustColor),
                     ),
-                    child: const Column(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           "Note",
                           style: TextStyle(
                             color: ZealPalette.rustColor,
@@ -132,7 +137,10 @@ class _BuyCryptoState extends State<BuyCrypto> {
                         ),
                         Text(
                           "Please paste only USDT (TRC-20) Wallet address, putting a different wallet address might lead to crypto loss.",
-                          style: TextStyle(color: Colors.grey, fontSize: 10),
+                          style: TextStyle(
+                              color:
+                                  isDark ? ZealPalette.rustColor : Colors.grey,
+                              fontSize: 10),
                         )
                       ],
                     ),

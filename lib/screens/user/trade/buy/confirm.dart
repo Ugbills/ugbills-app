@@ -18,10 +18,12 @@ class ConfirmBuyDetails extends StatelessWidget {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       appBar: AppBar(
+        leadingWidth: 100,
+        centerTitle: true,
         title: Text('Buy $title',
             style: const TextStyle(fontWeight: FontWeight.bold)),
-        leading: const ZeelBackButton(
-          color: Colors.white,
+        leading: ZeelBackButton(
+          color: isDark ? ZealPalette.lighterBlack : Colors.white,
         ),
       ),
       body: Padding(
