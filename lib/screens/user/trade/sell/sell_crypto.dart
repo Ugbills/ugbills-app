@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:zeelpay/screens/user/trade/buy/confirm.dart';
+import 'package:zeelpay/screens/user/trade/sell/confirm.dart';
 import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
-class BuyBitcoin extends StatefulWidget {
-  const BuyBitcoin({super.key});
+class SellCrypto extends StatefulWidget {
+  final String cryptoCoin, network;
+  const SellCrypto(
+      {super.key, required this.cryptoCoin, required this.network});
 
   @override
-  State<BuyBitcoin> createState() => _BuyBitcoinState();
+  State<SellCrypto> createState() => _SellCryptoState();
 }
 
-class _BuyBitcoinState extends State<BuyBitcoin> {
+class _SellCryptoState extends State<SellCrypto> {
   final TextEditingController _amountController = TextEditingController();
   String _amountInDollar = "";
 
@@ -55,14 +57,17 @@ class _BuyBitcoinState extends State<BuyBitcoin> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Buy Bitcoin',
-          style: TextStyle(fontWeight: FontWeight.bold),
+        leadingWidth: 100,
+        centerTitle: true,
+        title: Text(
+          'Sell ${widget.cryptoCoin}',
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
-        leading: const ZeelBackButton(
-          color: Colors.white,
+        leading: ZeelBackButton(
+          color: isDark ? ZealPalette.lighterBlack : Colors.white,
         ),
       ),
       body: Padding(
@@ -100,7 +105,7 @@ class _BuyBitcoinState extends State<BuyBitcoin> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      const Text("Price in Naira: "),
+                      const Text("You get: "),
                       Text(
                         _formattedPriceInNaira,
                         style: const TextStyle(fontWeight: FontWeight.w700),
@@ -108,21 +113,28 @@ class _BuyBitcoinState extends State<BuyBitcoin> {
                     ],
                   ),
                   const SizedBox(height: 12),
-                  const ZeelTextFieldTitle(text: "USDT Address"),
-                  const ZeelTextField(
-                      enabled: true, hint: "Paste wallet address"),
+                  ZeelTextFieldTitle(text: "${widget.network} Address"),
+                  ZeelTextField(
+                    enabled: false,
+                    copy: true,
+                    controller: TextEditingController(
+                      text: "0x000000000000000000000000000000000000dEaD",
+                    ),
+                  ),
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
-                      color: ZealPalette.rustColor.withAlpha(20),
+                      color: isDark
+                          ? ZealPalette.orange
+                          : ZealPalette.rustColor.withAlpha(20),
                       border: Border.all(color: ZealPalette.rustColor),
                     ),
-                    child: const Column(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           "Note",
                           style: TextStyle(
                             color: ZealPalette.rustColor,
@@ -130,8 +142,11 @@ class _BuyBitcoinState extends State<BuyBitcoin> {
                           ),
                         ),
                         Text(
-                          "Please paste only USDT (TRC-20) Wallet address, putting a different wallet address might lead to crypto loss.",
-                          style: TextStyle(color: Colors.grey, fontSize: 10),
+                          "Please send only USDT (TRC-20) to the above generated Wallet address.",
+                          style: TextStyle(
+                              color:
+                                  isDark ? ZealPalette.rustColor : Colors.grey,
+                              fontSize: 10),
                         )
                       ],
                     ),
@@ -144,7 +159,10 @@ class _BuyBitcoinState extends State<BuyBitcoin> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => const ConfirmBuyDetails(title: "Bitcoin"),
+                      builder: (_) => ConfirmSellDetails(
+                        title: widget.cryptoCoin,
+                        network: widget.network,
+                      ),
                     ));
               },
               text: "Buy",

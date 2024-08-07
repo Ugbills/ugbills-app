@@ -6,14 +6,15 @@ import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
-class BuyEthereum extends StatefulWidget {
-  const BuyEthereum({super.key});
+class BuyCrypto extends StatefulWidget {
+  final String cryptoCoin, network;
+  const BuyCrypto({super.key, required this.network, required this.cryptoCoin});
 
   @override
-  State<BuyEthereum> createState() => _BuyEthereumState();
+  State<BuyCrypto> createState() => _BuyCryptoState();
 }
 
-class _BuyEthereumState extends State<BuyEthereum> {
+class _BuyCryptoState extends State<BuyCrypto> {
   final TextEditingController _amountController = TextEditingController();
   String _amountInDollar = "";
 
@@ -55,14 +56,17 @@ class _BuyEthereumState extends State<BuyEthereum> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Buy Ethereum',
-          style: TextStyle(fontWeight: FontWeight.bold),
+        centerTitle: true,
+        leadingWidth: 100,
+        title: Text(
+          'Buy ${widget.cryptoCoin}',
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
-        leading: const ZeelBackButton(
-          color: Colors.white,
+        leading: ZeelBackButton(
+          color: isDark ? ZealPalette.lighterBlack : Colors.white,
         ),
       ),
       body: Padding(
@@ -108,7 +112,7 @@ class _BuyEthereumState extends State<BuyEthereum> {
                     ],
                   ),
                   const SizedBox(height: 12),
-                  const ZeelTextFieldTitle(text: "USDT Address"),
+                  ZeelTextFieldTitle(text: "${widget.network} Address"),
                   const ZeelTextField(
                       enabled: true, hint: "Paste wallet address"),
                   Container(
@@ -116,13 +120,15 @@ class _BuyEthereumState extends State<BuyEthereum> {
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
-                      color: ZealPalette.rustColor.withAlpha(20),
+                      color: isDark
+                          ? ZealPalette.orange
+                          : ZealPalette.rustColor.withAlpha(20),
                       border: Border.all(color: ZealPalette.rustColor),
                     ),
-                    child: const Column(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           "Note",
                           style: TextStyle(
                             color: ZealPalette.rustColor,
@@ -131,7 +137,10 @@ class _BuyEthereumState extends State<BuyEthereum> {
                         ),
                         Text(
                           "Please paste only USDT (TRC-20) Wallet address, putting a different wallet address might lead to crypto loss.",
-                          style: TextStyle(color: Colors.grey, fontSize: 10),
+                          style: TextStyle(
+                              color:
+                                  isDark ? ZealPalette.rustColor : Colors.grey,
+                              fontSize: 10),
                         )
                       ],
                     ),
@@ -144,8 +153,10 @@ class _BuyEthereumState extends State<BuyEthereum> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) =>
-                          const ConfirmBuyDetails(title: "Ethereum"),
+                      builder: (_) => ConfirmBuyDetails(
+                        network: widget.network,
+                        title: widget.cryptoCoin,
+                      ),
                     ));
               },
               text: "Buy",

@@ -1,27 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/constants/assets/png.dart';
-import 'package:zeelpay/screens/user/trade/buy/bitcoin/bitcoin.dart';
-import 'package:zeelpay/screens/user/trade/buy/ethereum/ethereum.dart';
-import 'package:zeelpay/screens/user/trade/buy/tether/tether.dart';
+import 'package:zeelpay/constants/png.dart';
+import 'package:zeelpay/screens/user/trade/buy/buy_crypto.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
+import 'package:zeelpay/themes/palette.dart';
 
 class BuyCryptoOptions extends StatelessWidget {
   const BuyCryptoOptions({super.key});
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
     final List buyOptions = [
-      [ZeelPng.tether, "Tether", "USDT", const BuyTether()],
-      [ZeelPng.bitcoin, "Bitcoin", "BTC", const BuyBitcoin()],
-      [ZeelPng.ethereum, "Ethereum", "ETH", const BuyEthereum()],
+      [
+        ZeelPng.tether,
+        "Tether",
+        "USDT",
+        const BuyCrypto(
+          network: 'USDT',
+          cryptoCoin: 'Tether',
+        )
+      ],
+      [
+        ZeelPng.bitcoin,
+        "Bitcoin",
+        "BTC",
+        const BuyCrypto(network: "BTC", cryptoCoin: "Bitcoin")
+      ],
+      [
+        ZeelPng.ethereum,
+        "Ethereum",
+        "ETH",
+        const BuyCrypto(network: "ETH", cryptoCoin: "Ethereum")
+      ],
     ];
 
     return Scaffold(
       appBar: AppBar(
+        leadingWidth: 100,
+        centerTitle: true,
         title: const Text('Buy Crypto',
             style: TextStyle(fontWeight: FontWeight.bold)),
-        leading: const ZeelBackButton(
-          color: Colors.white,
+        leading: ZeelBackButton(
+          color: isDark ? ZealPalette.lighterBlack : Colors.white,
         ),
       ),
       body: ListView.builder(
@@ -32,7 +52,7 @@ class BuyCryptoOptions extends StatelessWidget {
               margin: const EdgeInsets.symmetric(vertical: 6),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
-                color: Colors.white,
+                color: isDark ? ZealPalette.lighterBlack : Colors.white,
               ),
               child: ListTile(
                 onTap: () {

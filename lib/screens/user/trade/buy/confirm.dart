@@ -6,20 +6,26 @@ import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
 class ConfirmBuyDetails extends StatelessWidget {
-  final String title;
+  final String title, network;
   const ConfirmBuyDetails({
     super.key,
-    this.title = 'Tether',
+    required this.title,
+    required this.network,
   });
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Buy $title',
-            style: const TextStyle(fontWeight: FontWeight.bold)),
-        leading: const ZeelBackButton(
-          color: Colors.white,
+        leadingWidth: 100,
+        centerTitle: true,
+        title: Text(
+          'Buy $title',
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        leading: ZeelBackButton(
+          color: isDark ? ZealPalette.lighterBlack : Colors.white,
         ),
       ),
       body: Padding(
@@ -32,7 +38,7 @@ class ConfirmBuyDetails extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: isDark ? ZealPalette.lighterBlack : Colors.white,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Column(
@@ -74,17 +80,18 @@ class ConfirmBuyDetails extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: isDark ? ZealPalette.lighterBlack : Colors.white,
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: const Column(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "USDT Address",
-                          style: TextStyle(color: Colors.grey, fontSize: 12),
+                          "$network Address",
+                          style:
+                              const TextStyle(color: Colors.grey, fontSize: 12),
                         ),
-                        Text(
+                        const Text(
                           "0x000000000000000000000000000000000000dEaD",
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -102,7 +109,7 @@ class ConfirmBuyDetails extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => const SentSuccessfully(
+                      builder: (_) => SentSuccessfully(
                         title: "Done",
                         body:
                             "You have successfully purchased \$20 USDT. The coins have been sent to your wallet address 0XXXX.",
@@ -113,7 +120,7 @@ class ConfirmBuyDetails extends StatelessWidget {
                             dateAndTime: "Mar 10 2023, 2:33PM",
                             usdAmount: "\$10",
                             tokenAmount: "10 USDT",
-                            token: "USDT",
+                            token: network,
                             type: "Buy Crypto",
                             usdtAddress: "0x93490355344433443",
                             fee: "₦10.00"),

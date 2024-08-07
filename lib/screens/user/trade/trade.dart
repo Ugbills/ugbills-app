@@ -12,6 +12,7 @@ class TradeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
           'Trade Crypto',
           style: ShadTheme.of(context).textTheme.h3,

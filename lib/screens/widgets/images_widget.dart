@@ -7,6 +7,12 @@ class ZeeLlogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset("assets/images/logo.png", height: 20.0, width: 84.0);
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
+    return Image.asset(
+        isDark
+            ? "assets/images/zeelpay-top-white.png"
+            : "assets/images/logo.png",
+        height: 20.0,
+        width: 84.0);
   }
 }

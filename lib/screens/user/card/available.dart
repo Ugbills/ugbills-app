@@ -10,6 +10,7 @@ class AvailableCards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       body: SafeArea(
         child: ListView(
@@ -25,12 +26,15 @@ class AvailableCards extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   backgroundColor: Colors.transparent,
-                  side: const BorderSide(
-                    color: ZealPalette.primaryPurple,
+                  side: BorderSide(
+                    color: isDark
+                        ? ZealPalette.lightPurple
+                        : ZealPalette.primaryPurple,
                   )),
-              child: const Text(
+              child: Text(
                 "Create",
-                style: TextStyle(color: ZealPalette.primaryPurple),
+                style: TextStyle(
+                    color: isDark ? Colors.white : ZealPalette.primaryPurple),
               ),
             ),
             const SizedBox(height: 24),

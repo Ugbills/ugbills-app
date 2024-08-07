@@ -6,6 +6,7 @@ mixin ZealPalette {
   static const primaryPurple = Color.fromRGBO(32, 1, 58, 1);
   static const backgroundWhite = Color.fromRGBO(250, 250, 250, 1);
   static const lightPurple = Color.fromRGBO(106, 85, 123, 1);
+  static const lighterPurple = Color.fromRGBO(186, 176, 194, 1);
   static const lightestPurple = Color.fromRGBO(233, 230, 235, 1);
   static const successGreen = Color.fromRGBO(14, 116, 55, 1);
   static const lightGreen = Color.fromRGBO(232, 246, 237, 1);
@@ -15,4 +16,10 @@ mixin ZealPalette {
   static const darkerGrey = Color.fromRGBO(204, 204, 204, 1);
   static const peach = Color.fromRGBO(252, 240, 231, 1);
   static const orange = Color.fromRGBO(247, 209, 181, 1);
+  static const darkModeFund = Color.fromRGBO(255, 201, 206, 0.1);
+  static const darkModeSend = Color.fromRGBO(255, 211, 179, 0.1);
+  static const darkModeTV = Color.fromRGBO(207, 198, 255, 0.1);
+  static const darkModeData = Color.fromRGBO(254, 212, 255, 0.1);
+  static const darkModeAirtime = Color.fromRGBO(182, 225, 255, 0.1);
+  static const darkModeBetting = Color.fromRGBO(174, 255, 207, 0.1);
 }

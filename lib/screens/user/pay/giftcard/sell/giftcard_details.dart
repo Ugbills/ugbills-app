@@ -160,7 +160,7 @@ class _SellGiftcardDetailsState extends State<SellGiftcardDetails> {
             ),
           ),
           const SizedBox(height: 12),
-          _uploadImage(),
+          _uploadImage(context),
           const SizedBox(height: 12),
           const ZeelTextFieldTitle(text: "Extra Comment (Optional)"),
           const ZeelTextField(
@@ -212,12 +212,13 @@ class _SellGiftcardDetailsState extends State<SellGiftcardDetails> {
   }
 }
 
-Widget _uploadImage() {
+Widget _uploadImage(BuildContext context) {
+  bool isDark = Theme.of(context).brightness == Brightness.dark;
   return Container(
     padding: const EdgeInsets.symmetric(vertical: 50),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(24),
-      color: Colors.white,
+      color: isDark ? ZealPalette.lighterBlack : Colors.white,
       border: Border.all(
         color: ZealPalette.darkerGrey,
       ),

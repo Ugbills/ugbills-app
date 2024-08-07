@@ -117,6 +117,7 @@ class DollarVirtualCardActions extends StatelessWidget {
 
 Widget buildOptions(
     String leading, String title, Widget route, BuildContext context) {
+  bool isDark = Theme.of(context).brightness == Brightness.dark;
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 6.0),
     child: GestureDetector(
@@ -127,7 +128,7 @@ Widget buildOptions(
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          color: Colors.white,
+          color: isDark ? ZealPalette.lighterBlack : Colors.white,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
