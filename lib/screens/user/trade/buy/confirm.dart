@@ -20,8 +20,10 @@ class ConfirmBuyDetails extends StatelessWidget {
       appBar: AppBar(
         leadingWidth: 100,
         centerTitle: true,
-        title: Text('Buy $title',
-            style: const TextStyle(fontWeight: FontWeight.bold)),
+        title: Text(
+          'Buy $title',
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
         leading: ZeelBackButton(
           color: isDark ? ZealPalette.lighterBlack : Colors.white,
         ),

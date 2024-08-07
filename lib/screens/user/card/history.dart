@@ -9,6 +9,7 @@ class CardTransactionHistory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
     final List history = [
       [ZeelPng.playstore, "Play Store", "06:59 PM • 07 Mar", "\$30", true],
       [ZeelPng.amazon, "Amazon Shopping", "06:59 PM • 07 Mar", "\$202", false],
@@ -25,7 +26,7 @@ class CardTransactionHistory extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 24).copyWith(top: 24),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          color: Colors.white,
+          color: isDark ? ZealPalette.lighterBlack : Colors.white,
         ),
         child: ListView.builder(
             shrinkWrap: true,

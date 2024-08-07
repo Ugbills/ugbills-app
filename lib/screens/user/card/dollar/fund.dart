@@ -5,21 +5,30 @@ import 'package:zeelpay/constants/svg.dart';
 import 'package:zeelpay/screens/user/pay/send/bank/bank.dart';
 import 'package:zeelpay/screens/widgets/number_pad.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
+import 'package:zeelpay/themes/palette.dart';
 
 class FundCard extends ConsumerWidget {
   const FundCard({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
     var theme = ShadTheme.of(context);
     var amount = ref.watch(amountProvider);
     return Scaffold(
-      backgroundColor: theme.colorScheme.primary,
+      backgroundColor:
+          isDark ? ZealPalette.scaffoldBlack : theme.colorScheme.primary,
       appBar: AppBar(
-        title: const Text('Send Money',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-        leading: const ZeelBackButton(
-          color: Colors.white,
+        centerTitle: true,
+        title: const Text(
+          'Send Money',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        leading: ZeelBackButton(
+          color: isDark ? ZealPalette.lighterBlack : Colors.white,
         ),
         actions: const [
           Padding(
@@ -27,7 +36,8 @@ class FundCard extends ConsumerWidget {
             child: ShadImage(ZeelSvg.tag),
           )
         ],
-        backgroundColor: theme.colorScheme.primary,
+        backgroundColor:
+            isDark ? ZealPalette.scaffoldBlack : theme.colorScheme.primary,
         leadingWidth: 100,
       ),
       body: SafeArea(

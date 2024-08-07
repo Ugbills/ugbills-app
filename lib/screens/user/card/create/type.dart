@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zeelpay/screens/onboarding/onboarding.dart';
 import 'package:zeelpay/screens/user/card/available.dart';
+import 'package:zeelpay/themes/palette.dart';
 
 class CardType extends StatefulWidget {
   const CardType({super.key});
@@ -75,23 +76,24 @@ class _CardTypeState extends State<CardType> {
       ),
     );
   }
-}
 
-Widget _feeContainer() {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      const Text("Card Creation Fee"),
-      Container(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-        width: double.infinity,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.grey.shade400),
-          color: Colors.grey.shade300,
+  Widget _feeContainer() {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text("Card Creation Fee"),
+        Container(
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+          width: double.infinity,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Colors.grey.shade400),
+            color: isDark ? ZealPalette.lighterBlack : Colors.grey.shade300,
+          ),
+          child: const Text("₦1,000.00"),
         ),
-        child: const Text("₦1,000.00"),
-      ),
-    ],
-  );
+      ],
+    );
+  }
 }

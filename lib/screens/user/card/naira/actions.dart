@@ -7,6 +7,7 @@ import 'package:zeelpay/screens/user/card/dollar/details.dart';
 import 'package:zeelpay/screens/user/card/dollar/fund.dart';
 import 'package:zeelpay/screens/user/card/history.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
+import 'package:zeelpay/themes/palette.dart';
 
 class NairaVirtualCardActions extends StatelessWidget {
   const NairaVirtualCardActions({super.key});
@@ -116,6 +117,7 @@ class NairaVirtualCardActions extends StatelessWidget {
 
 Widget buildOptions(
     String leading, String title, Widget route, BuildContext context) {
+  bool isDark = Theme.of(context).brightness == Brightness.dark;
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 6.0),
     child: GestureDetector(
@@ -126,7 +128,7 @@ Widget buildOptions(
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          color: Colors.white,
+          color: isDark ? ZealPalette.lighterBlack : Colors.white,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
