@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zeelpay/constants/png.dart';
-import 'package:zeelpay/screens/user/trade/sell/bitcoin/bitcoin.dart';
-import 'package:zeelpay/screens/user/trade/sell/ethereum/ethereum.dart';
-import 'package:zeelpay/screens/user/trade/sell/tether/tether.dart';
+import 'package:zeelpay/screens/user/trade/sell/sell_crypto.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
@@ -13,9 +11,27 @@ class SellCryptoOptions extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
     final List buyOptions = [
-      [ZeelPng.tether, "Tether", "USDT", const SellTether()],
-      [ZeelPng.bitcoin, "Bitcoin", "BTC", const SellBitcoin()],
-      [ZeelPng.ethereum, "Ethereum", "ETH", const SellEthereum()],
+      [
+        ZeelPng.tether,
+        "Tether",
+        "USDT",
+        const SellCrypto(
+          cryptoCoin: 'Tether',
+          network: 'USDT',
+        )
+      ],
+      [
+        ZeelPng.bitcoin,
+        "Bitcoin",
+        "BTC",
+        const SellCrypto(cryptoCoin: "Bitcoin", network: "BTC")
+      ],
+      [
+        ZeelPng.ethereum,
+        "Ethereum",
+        "ETH",
+        const SellCrypto(cryptoCoin: "Ethereum", network: "ETH")
+      ],
     ];
 
     return Scaffold(

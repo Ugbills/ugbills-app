@@ -6,14 +6,16 @@ import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
-class SellBitcoin extends StatefulWidget {
-  const SellBitcoin({super.key});
+class SellCrypto extends StatefulWidget {
+  final String cryptoCoin, network;
+  const SellCrypto(
+      {super.key, required this.cryptoCoin, required this.network});
 
   @override
-  State<SellBitcoin> createState() => _SellBitcoinState();
+  State<SellCrypto> createState() => _SellCryptoState();
 }
 
-class _SellBitcoinState extends State<SellBitcoin> {
+class _SellCryptoState extends State<SellCrypto> {
   final TextEditingController _amountController = TextEditingController();
   String _amountInDollar = "";
 
@@ -57,9 +59,9 @@ class _SellBitcoinState extends State<SellBitcoin> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Sell Bitcoin',
-          style: TextStyle(fontWeight: FontWeight.bold),
+        title: Text(
+          'Sell ${widget.cryptoCoin}',
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         leading: const ZeelBackButton(
           color: Colors.white,
@@ -100,7 +102,7 @@ class _SellBitcoinState extends State<SellBitcoin> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      const Text("Price in Naira: "),
+                      const Text("You get: "),
                       Text(
                         _formattedPriceInNaira,
                         style: const TextStyle(fontWeight: FontWeight.w700),
@@ -108,7 +110,7 @@ class _SellBitcoinState extends State<SellBitcoin> {
                     ],
                   ),
                   const SizedBox(height: 12),
-                  const ZeelTextFieldTitle(text: "USDT Address"),
+                  ZeelTextFieldTitle(text: "${widget.network} Address"),
                   ZeelTextField(
                     enabled: false,
                     copy: true,
@@ -149,8 +151,9 @@ class _SellBitcoinState extends State<SellBitcoin> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => const ConfirmSellDetails(
-                        title: "Bitcoin",
+                      builder: (_) => ConfirmSellDetails(
+                        title: widget.cryptoCoin,
+                        network: widget.network,
                       ),
                     ));
               },
