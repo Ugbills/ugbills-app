@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/constants/svg.dart';
+import 'package:zeelpay/constants/assets/svg.dart';
 import 'package:zeelpay/screens/user/pay/airtime/airtime.dart';
 import 'package:zeelpay/screens/user/pay/betting/betting.dart';
 import 'package:zeelpay/screens/user/pay/data/data.dart';

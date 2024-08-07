@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:zeelpay/screens/user/user.dart';
+import 'package:short_navigation/short_navigation.dart';
+import 'package:zeelpay/screens/account_screen.dart';
+import 'package:zeelpay/screens/onboarding/onboarding.dart';
 
-void main() {
+import 'helpers/storage/onboarding.dart';
+
+void main() async {
+  await GetStorage.init();
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -14,6 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ShadApp(
+      navigatorKey: Go.navigatorKey,
       title: 'ZeelPay',
       debugShowCheckedModeBanner: false,
       theme: ShadThemeData(
@@ -31,7 +38,9 @@ class MyApp extends StatelessWidget {
           textTheme: ShadTextTheme.fromGoogleFont(
             GoogleFonts.cabin,
           )),
-      home: const UserScreen(),
+      home: OnboardingStorage().get()
+          ? const AccountScreen()
+          : const Onboarding(),
     );
   }
 }

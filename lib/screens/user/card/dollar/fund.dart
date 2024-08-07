@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:zeelpay/constants/svg.dart';
+import 'package:zeelpay/constants/assets/svg.dart';
 import 'package:zeelpay/screens/user/pay/send/bank/bank.dart';
 import 'package:zeelpay/screens/widgets/number_pad.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';

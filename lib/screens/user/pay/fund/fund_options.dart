@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:zeelpay/constants/png.dart';
+import 'package:zeelpay/constants/assets/png.dart';
 import 'package:zeelpay/screens/user/pay/fund/bank/bank_transfer.dart';
 import 'package:zeelpay/screens/user/pay/fund/coupon/coupon_code.dart';
 import 'package:zeelpay/screens/user/widgets/zeel_tile.dart';

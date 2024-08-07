@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:zeelpay/constants/png.dart';
+import 'package:zeelpay/constants/assets/png.dart';
+import 'package:zeelpay/helpers/storage/onboarding.dart';
 import 'package:zeelpay/screens/account_screen.dart';
 import 'package:zeelpay/themes/palette.dart';
 
@@ -20,111 +21,107 @@ class _OnboardingState extends State<Onboarding> {
   @override
   Widget build(BuildContext context) {
     var textTheme = ShadTheme.of(context).textTheme;
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: pages[currentIndex].color,
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            (currentIndex == pages.length - 1)
-                ? const SizedBox()
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      ShadButton.link(
-                        text: const Text('Skip',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                        onPressed: () {
-                          controller.animateToPage(
-                            pages.length - 1,
-                            duration: const Duration(milliseconds: 400),
-                            curve: Curves.easeInOut,
-                          );
-                        },
-                      )
-                    ],
-                  ),
-            Expanded(
-              child: PageView.builder(
-                controller: controller,
-                itemCount: pages.length,
-                onPageChanged: (index) {
-                  setState(() {
-                    currentIndex = index;
-                  });
-                },
-                itemBuilder: (_, index) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        pages[index].image,
-                        fit: BoxFit.contain,
-                      ),
-                      const SizedBox(height: 20),
-                      Text(
-                        pages[index].title,
-                        textAlign: TextAlign.center,
-                        style: textTheme.h3,
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        textAlign: TextAlign.center,
-                        pages[index].description,
-                        style: textTheme.muted,
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ),
-            SmoothPageIndicator(
-                controller: controller, // PageController
-                count: pages.length,
-                effect: WormEffect(
-                    activeDotColor: ShadTheme.of(context).colorScheme.primary,
-                    dotHeight: 10,
-                    dotWidth: 10), // your preferred effect
-                onDotClicked: (index) {
-                  controller.animateToPage(index,
-                      duration: const Duration(milliseconds: 400),
-                      curve: Curves.easeInOut);
-                }),
-            const SizedBox(height: 30),
-            Container(
-              alignment: Alignment.bottomCenter,
-              padding: const EdgeInsets.all(20.0),
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: ZeelButton(
-                  text: (currentIndex == pages.length - 1)
-                      ? "Get Started"
-                      : "Next",
-                  onPressed: () {
-                    if (currentIndex == pages.length - 1) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const AccountScreen()));
-                    } else {
-                      controller.nextPage(
+    return Scaffold(
+      backgroundColor: pages[currentIndex].color,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          (currentIndex == pages.length - 1)
+              ? const SizedBox()
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ShadButton.link(
+                      text: const Text('Skip',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      onPressed: () {
+                        controller.animateToPage(
+                          pages.length - 1,
                           duration: const Duration(milliseconds: 400),
-                          curve: Curves.easeInOut);
-                    }
-                  },
+                          curve: Curves.easeInOut,
+                        );
+                      },
+                    )
+                  ],
                 ),
+          Expanded(
+            child: PageView.builder(
+              controller: controller,
+              itemCount: pages.length,
+              onPageChanged: (index) {
+                setState(() {
+                  currentIndex = index;
+                });
+              },
+              itemBuilder: (_, index) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      pages[index].image,
+                      fit: BoxFit.contain,
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
+                      pages[index].title,
+                      textAlign: TextAlign.center,
+                      style: textTheme.h3,
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      textAlign: TextAlign.center,
+                      pages[index].description,
+                      style: textTheme.muted,
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
+          SmoothPageIndicator(
+              controller: controller, // PageController
+              count: pages.length,
+              effect: WormEffect(
+                  activeDotColor: ShadTheme.of(context).colorScheme.primary,
+                  dotHeight: 10,
+                  dotWidth: 10), // your preferred effect
+              onDotClicked: (index) {
+                controller.animateToPage(index,
+                    duration: const Duration(milliseconds: 400),
+                    curve: Curves.easeInOut);
+              }),
+          const SizedBox(height: 30),
+          Container(
+            alignment: Alignment.bottomCenter,
+            padding: const EdgeInsets.all(20.0),
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: ZeelButton(
+                text:
+                    (currentIndex == pages.length - 1) ? "Get Started" : "Next",
+                onPressed: () {
+                  if (currentIndex == pages.length - 1) {
+                    OnboardingStorage().update(true);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const AccountScreen()));
+                  } else {
+                    controller.nextPage(
+                        duration: const Duration(milliseconds: 400),
+                        curve: Curves.easeInOut);
+                  }
+                },
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 }
-
-class Shadtheme {}
 
 List<OnboardingPage> pages = [
   OnboardingPage(

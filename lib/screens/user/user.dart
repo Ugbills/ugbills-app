@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:zeelpay/constants/png.dart';
-import 'package:zeelpay/constants/svg.dart';
+import 'package:zeelpay/constants/assets/png.dart';
+import 'package:zeelpay/constants/assets/svg.dart';
 import 'package:zeelpay/screens/user/card/card.dart';
 import 'package:zeelpay/screens/user/home/home.dart';
 import 'package:zeelpay/screens/user/more/more.dart';

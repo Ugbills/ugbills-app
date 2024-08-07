@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:zeelpay/constants/png.dart';
-import 'package:zeelpay/constants/svg.dart';
+import 'package:zeelpay/constants/assets/png.dart';
+import 'package:zeelpay/constants/assets/svg.dart';
 import 'package:zeelpay/screens/user/card/available.dart';
 import 'package:zeelpay/screens/user/card/dollar/details.dart';
 import 'package:zeelpay/screens/user/card/dollar/fund.dart';

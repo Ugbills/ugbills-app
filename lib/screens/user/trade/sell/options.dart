@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/constants/png.dart';
+import 'package:zeelpay/constants/assets/png.dart';
 import 'package:zeelpay/screens/user/trade/sell/bitcoin/bitcoin.dart';
 import 'package:zeelpay/screens/user/trade/sell/ethereum/ethereum.dart';
 import 'package:zeelpay/screens/user/trade/sell/tether/tether.dart';

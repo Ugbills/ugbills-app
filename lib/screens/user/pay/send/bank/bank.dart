@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:zeelpay/constants/png.dart';
+import 'package:zeelpay/constants/assets/png.dart';
 import 'package:zeelpay/screens/user/more/beneficiaries/beneficiaries.dart';
 import 'package:zeelpay/screens/user/pay/send/bank_transaction_details.dart';
 import 'package:zeelpay/screens/user/trade/sent.dart';

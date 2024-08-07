@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/constants/png.dart';
+import 'package:zeelpay/constants/assets/png.dart';
 import 'package:zeelpay/screens/user/card/dollar/actions.dart';
 import 'package:zeelpay/screens/user/card/modal.dart';
 import 'package:zeelpay/screens/user/card/naira/actions.dart';
