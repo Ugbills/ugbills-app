@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zeelpay/constants/png.dart';
 import 'package:zeelpay/constants/svg.dart';
+import 'package:zeelpay/screens/user/home/transaction/transaction_history_widget.dart';
 import 'package:zeelpay/screens/user/pay/airtime/airtime.dart';
 import 'package:zeelpay/screens/user/pay/betting/betting.dart';
 import 'package:zeelpay/screens/user/pay/data/data.dart';
@@ -22,13 +23,7 @@ class DashBoardScreen extends StatefulWidget {
 
 class _DashBoardScreenState extends State<DashBoardScreen> {
   bool stealthMode = false;
-  List activity = [
-    ["MTN Airtime", "06:59 PM • 07 Mar", "₦3,000", false],
-    ["Bitcoin Trade", "06:59 PM • 07 Mar", "₦15,000", true],
-    ["EKEDC 23024343", "06:59 PM • 07 Mar", "₦8,000", true],
-    ["GLO Data", "06:59 PM • 07 Mar", "₦5,000", false],
-    ["DSTV", "06:59 PM • 07 Mar", "₦13,000", false],
-  ];
+
   @override
   Widget build(BuildContext context) {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
@@ -299,13 +294,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                               ),
                             ],
                           ),
-                          Expanded(
-                            child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: activity.length,
-                                itemBuilder: (context, index) {
-                                  return activityView(index);
-                                }),
+                          const Expanded(
+                            child: TransactionHistoryWidget(),
                           ),
                         ],
                       ),
@@ -316,55 +306,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
               ),
             )
           ]),
-    );
-  }
-
-  Column activityView(int index) {
-    return Column(
-      children: [
-        InkWell(
-          onTap: () {},
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Image.asset(ZeelPng.mtn_2, height: 46),
-                  const SizedBox(width: 8),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        activity[index][0],
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      Text(
-                        activity[index][1],
-                        style: const TextStyle(
-                          fontSize: 10,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              Text(
-                activity[index][2],
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  color: activity[index][3]
-                      ? ZealPalette.successGreen
-                      : ZealPalette.errorRed,
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 12),
-      ],
     );
   }
 
