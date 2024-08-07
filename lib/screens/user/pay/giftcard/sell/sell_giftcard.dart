@@ -114,6 +114,7 @@ class SellGiftcardState extends State<SellGiftcard> {
                 },
                 child: Container(
                   decoration: BoxDecoration(
+                    color: isDark ? ZealPalette.lighterBlack : Colors.white,
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(color: ZealPalette.darkerGrey),
                   ),

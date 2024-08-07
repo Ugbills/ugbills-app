@@ -102,7 +102,7 @@ class ConfirmGiftcardDetails extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "The gift card will be delivered instantly via email.",
+                          "Once you hit “Confirm” we will verify and process the gift card before funding your account.",
                           style: TextStyle(
                             color: isDark ? ZealPalette.rustColor : Colors.grey,
                             fontSize: 10,

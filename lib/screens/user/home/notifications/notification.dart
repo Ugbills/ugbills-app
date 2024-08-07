@@ -36,22 +36,22 @@ class Notifications extends StatelessWidget {
                         child: ListTile(
                           title: Text('Deposited',
                               style: ShadTheme.of(context).textTheme.h4),
-                          subtitle: Column(
+                          subtitle: const Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 'You have successfully deposited ₦10,000 in your account',
                                 overflow: TextOverflow.clip,
                                 style: TextStyle(
-                                  color: isDark ? Colors.grey : Colors.white,
+                                  color: Colors.grey,
                                 ),
                               ),
-                              const SizedBox(height: 6),
+                              SizedBox(height: 6),
                               Text(
                                 "10 min",
                                 style: TextStyle(
                                   fontSize: 10,
-                                  color: isDark ? Colors.grey : Colors.white,
+                                  color: Colors.grey,
                                 ),
                               )
                             ],
