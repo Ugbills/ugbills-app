@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zeelpay/constants/png.dart';
 import 'package:zeelpay/constants/svg.dart';
 import 'package:zeelpay/screens/user/pay/airtime/airtime.dart';
 import 'package:zeelpay/screens/user/pay/betting/betting.dart';
@@ -21,6 +22,13 @@ class DashBoardScreen extends StatefulWidget {
 
 class _DashBoardScreenState extends State<DashBoardScreen> {
   bool stealthMode = false;
+  List activity = [
+    ["MTN Airtime", "06:59 PM • 07 Mar", "₦3,000", false],
+    ["Bitcoin Trade", "06:59 PM • 07 Mar", "₦15,000", true],
+    ["EKEDC 23024343", "06:59 PM • 07 Mar", "₦8,000", true],
+    ["GLO Data", "06:59 PM • 07 Mar", "₦5,000", false],
+    ["DSTV", "06:59 PM • 07 Mar", "₦13,000", false],
+  ];
   @override
   Widget build(BuildContext context) {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
@@ -195,7 +203,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       ),
                     ),
                   ),
-                  _buildKYC(context),
+                  _buildKYC(),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30.0)
                         .copyWith(top: 24),
@@ -291,14 +299,13 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                               ),
                             ],
                           ),
-                          const Expanded(
-                            child: Center(
-                                child: Text(
-                              "No activity Yet!",
-                              style: TextStyle(
-                                color: Colors.grey,
-                              ),
-                            )),
+                          Expanded(
+                            child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: activity.length,
+                                itemBuilder: (context, index) {
+                                  return activityView(index);
+                                }),
                           ),
                         ],
                       ),
@@ -312,7 +319,56 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
     );
   }
 
-  _buildKYC(BuildContext context) {
+  Column activityView(int index) {
+    return Column(
+      children: [
+        InkWell(
+          onTap: () {},
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Image.asset(ZeelPng.mtn_2, height: 46),
+                  const SizedBox(width: 8),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        activity[index][0],
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Text(
+                        activity[index][1],
+                        style: const TextStyle(
+                          fontSize: 10,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              Text(
+                activity[index][2],
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  color: activity[index][3]
+                      ? ZealPalette.successGreen
+                      : ZealPalette.errorRed,
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 12),
+      ],
+    );
+  }
+
+  _buildKYC() {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
 
     return GestureDetector(
