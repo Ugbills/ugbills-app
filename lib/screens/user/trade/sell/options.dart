@@ -4,12 +4,14 @@ import 'package:zeelpay/screens/user/trade/sell/bitcoin/bitcoin.dart';
 import 'package:zeelpay/screens/user/trade/sell/ethereum/ethereum.dart';
 import 'package:zeelpay/screens/user/trade/sell/tether/tether.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
+import 'package:zeelpay/themes/palette.dart';
 
 class SellCryptoOptions extends StatelessWidget {
   const SellCryptoOptions({super.key});
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
     final List buyOptions = [
       [ZeelPng.tether, "Tether", "USDT", const SellTether()],
       [ZeelPng.bitcoin, "Bitcoin", "BTC", const SellBitcoin()],
@@ -32,7 +34,7 @@ class SellCryptoOptions extends StatelessWidget {
               margin: const EdgeInsets.symmetric(vertical: 6),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
-                color: Colors.white,
+                color: isDark ? ZealPalette.lighterBlack : Colors.white,
               ),
               child: ListTile(
                 onTap: () {

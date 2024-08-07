@@ -6,14 +6,15 @@ import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
-class BuyBitcoin extends StatefulWidget {
-  const BuyBitcoin({super.key});
+class BuyCrypto extends StatefulWidget {
+  final String cryptoCoin, network;
+  const BuyCrypto({super.key, required this.network, required this.cryptoCoin});
 
   @override
-  State<BuyBitcoin> createState() => _BuyBitcoinState();
+  State<BuyCrypto> createState() => _BuyCryptoState();
 }
 
-class _BuyBitcoinState extends State<BuyBitcoin> {
+class _BuyCryptoState extends State<BuyCrypto> {
   final TextEditingController _amountController = TextEditingController();
   String _amountInDollar = "";
 
@@ -57,9 +58,9 @@ class _BuyBitcoinState extends State<BuyBitcoin> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Buy Bitcoin',
-          style: TextStyle(fontWeight: FontWeight.bold),
+        title: Text(
+          'Buy ${widget.cryptoCoin}',
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         leading: const ZeelBackButton(
           color: Colors.white,
@@ -108,7 +109,7 @@ class _BuyBitcoinState extends State<BuyBitcoin> {
                     ],
                   ),
                   const SizedBox(height: 12),
-                  const ZeelTextFieldTitle(text: "USDT Address"),
+                  ZeelTextFieldTitle(text: "${widget.network} Address"),
                   const ZeelTextField(
                       enabled: true, hint: "Paste wallet address"),
                   Container(
@@ -144,7 +145,10 @@ class _BuyBitcoinState extends State<BuyBitcoin> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => const ConfirmBuyDetails(title: "Bitcoin"),
+                      builder: (_) => ConfirmBuyDetails(
+                        network: widget.network,
+                        title: widget.cryptoCoin,
+                      ),
                     ));
               },
               text: "Buy",

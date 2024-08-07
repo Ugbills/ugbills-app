@@ -35,7 +35,7 @@ class TransactionHistory extends StatelessWidget {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 24),
                     Container(
                       padding: const EdgeInsets.symmetric(
                           vertical: 6, horizontal: 14),
