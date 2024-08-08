@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:zeelpay/themes/palette.dart';
 
 class ZeelButton extends StatelessWidget {
@@ -23,18 +24,16 @@ class ZeelButton extends StatelessWidget {
             style: FilledButton.styleFrom(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0)),
-                backgroundColor:
-                    isDark ? const Color(0xff20013A) : Colors.white),
+                backgroundColor: const Color(0xff20013A)),
             onPressed: onPressed,
             child: isLoading!
                 ? const Center(child: CircularProgressIndicator())
                 : Text(
                     text!,
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontWeight: FontWeight.w900,
                         fontSize: 16,
-                        color:
-                            isDark ? Colors.white : ZealPalette.primaryPurple),
+                        color: Colors.white),
                   )));
   }
 }
@@ -60,13 +59,11 @@ class ZeelAltButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15.0),
           ),
-          // side: const BorderSide(
-          // width: 1.0,
-          // color: isDark ? ZealPalette.lightPurple : const Color(0xff20013A),
-          // ),
-          backgroundColor: isDark
-              ? ZealPalette.primaryPurple
-              : const Color.fromARGB(255, 255, 255, 255),
+          side: BorderSide(
+            width: 1.0,
+            color: isDark ? ZealPalette.lightPurple : const Color(0xff20013A),
+          ),
+          backgroundColor: ShadTheme.of(context).colorScheme.background,
         ),
         onPressed: onPressed,
         child: Text(
