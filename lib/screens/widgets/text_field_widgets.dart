@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:zeelpay/constants/svg.dart';
+import 'package:zeelpay/constants/assets/svg.dart';
 import 'package:zeelpay/themes/palette.dart';
 
 class ZeelTextField extends StatelessWidget {

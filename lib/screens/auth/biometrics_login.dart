@@ -60,7 +60,7 @@ class BiometricsLoginScreen extends StatelessWidget {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                const ForgotPasswordScreen()));
+                                                ForgotPasswordScreen()));
                                   },
                                   child: Text("Forgot Password? Change it!",
                                       style: TextStyle(

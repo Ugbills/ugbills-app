@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/screens/auth/reset/link_sent_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:zeelpay/controllers/auth/auth_controller.dart';
+import 'package:zeelpay/helpers/forms/validators.dart';
+import 'package:zeelpay/providers/state/loading_state_provider.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 
-class ForgotPasswordScreen extends StatelessWidget {
-  const ForgotPasswordScreen({super.key});
+class ForgotPasswordScreen extends ConsumerWidget {
+  ForgotPasswordScreen({super.key});
+
+  final TextEditingController emailController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final formKey = GlobalKey<FormState>();
+    var isloading = ref.watch(isLoadingProvider);
     return Scaffold(
       appBar: AppBar(
         leadingWidth: 100,
@@ -37,11 +44,16 @@ class ForgotPasswordScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 50.0),
                       const ZeelTextFieldTitle(text: "Email"),
-                      TextField(
-                        decoration: InputDecoration(
-                            hintText: "Enter your email address",
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0))),
+                      Form(
+                        key: formKey,
+                        child: TextFormField(
+                          controller: emailController,
+                          validator: emailValidator,
+                          decoration: InputDecoration(
+                              hintText: "Enter your email address",
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0))),
+                        ),
                       ),
 
                       const SizedBox(height: 20.0), // Add this line to the code
@@ -52,15 +64,13 @@ class ForgotPasswordScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               ZeelButton(
+                                isLoading: isloading,
                                 text: "Send Rest Link",
                                 onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const LinkSentScreen(),
-                                    ),
-                                  );
+                                  AuthController().forgotPassword(
+                                      email: emailController.text,
+                                      ref: ref,
+                                      formkey: formKey);
                                 },
                               ),
                             ],

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/constants/png.dart';
+import 'package:zeelpay/constants/assets/png.dart';
 import 'package:zeelpay/screens/user/pay/giftcard/buy/buy_giftcard.dart';
 import 'package:zeelpay/screens/user/pay/giftcard/sell/sell_giftcard.dart';
 import 'package:zeelpay/screens/user/widgets/zeel_tile.dart';

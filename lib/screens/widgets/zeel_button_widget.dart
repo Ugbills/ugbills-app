@@ -4,11 +4,13 @@ import 'package:zeelpay/themes/palette.dart';
 class ZeelButton extends StatelessWidget {
   final Function()? onPressed;
   final String? text;
+  final bool? isLoading;
 
   const ZeelButton({
     super.key,
     this.onPressed,
     this.text = "Log in",
+    this.isLoading = false,
   });
 
   @override
@@ -24,13 +26,16 @@ class ZeelButton extends StatelessWidget {
                 backgroundColor:
                     isDark ? const Color(0xff20013A) : Colors.white),
             onPressed: onPressed,
-            child: Text(
-              text!,
-              style: TextStyle(
-                  fontWeight: FontWeight.w900,
-                  fontSize: 16,
-                  color: isDark ? Colors.white : ZealPalette.primaryPurple),
-            )));
+            child: isLoading!
+                ? const Center(child: CircularProgressIndicator())
+                : Text(
+                    text!,
+                    style: TextStyle(
+                        fontWeight: FontWeight.w900,
+                        fontSize: 16,
+                        color:
+                            isDark ? Colors.white : ZealPalette.primaryPurple),
+                  )));
   }
 }
 
