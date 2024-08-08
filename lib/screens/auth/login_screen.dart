@@ -5,6 +5,7 @@ import 'package:zeelpay/controllers/auth/auth_controller.dart';
 import 'package:zeelpay/helpers/forms/validators.dart';
 import 'package:zeelpay/providers/state/loading_state_provider.dart';
 import 'package:zeelpay/screens/auth/reset/forgot_password_screen.dart';
+import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 
@@ -52,26 +53,15 @@ class LoginScreen extends ConsumerWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            TextFormField(
+                            ZeelTextField(
+                              enabled: true,
                               validator: emailValidator,
                               controller: emailController,
-                              decoration: InputDecoration(
-                                  hintText: "Enter your username or email",
-                                  border: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(10.0))),
+                              hint: "Enter your username or email",
                             ),
                             const SizedBox(height: 20.0),
                             const ZeelTextFieldTitle(text: "Password"),
-                            TextFormField(
-                              validator: passwordValidator,
-                              controller: passwordController,
-                              decoration: InputDecoration(
-                                  hintText: "Enter your password",
-                                  border: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(10.0))),
-                            ),
+                            PassWordFormField(controller: passwordController),
                           ],
                         ),
                       ),
@@ -86,6 +76,7 @@ class LoginScreen extends ConsumerWidget {
                                 isLoading: isloading,
                                 onPressed: () {
                                   AuthController().login(
+                                      context: context,
                                       email: emailController.text,
                                       password: passwordController.text,
                                       ref: ref,

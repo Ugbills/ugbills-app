@@ -70,7 +70,8 @@ class ForgotPasswordScreen extends ConsumerWidget {
                                   AuthController().forgotPassword(
                                       email: emailController.text,
                                       ref: ref,
-                                      formkey: formKey);
+                                      formkey: formKey,
+                                      context: context);
                                 },
                               ),
                             ],

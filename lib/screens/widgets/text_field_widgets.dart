@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:zeelpay/constants/assets/svg.dart';
+import 'package:zeelpay/helpers/forms/validators.dart';
 import 'package:zeelpay/themes/palette.dart';
 
 class ZeelTextField extends StatelessWidget {
   final String? hint;
   final bool enabled;
+  final String? Function(String?)? validator;
   final bool copy;
   final TextEditingController? controller;
   const ZeelTextField({
@@ -15,11 +17,12 @@ class ZeelTextField extends StatelessWidget {
     required this.enabled,
     this.controller,
     this.copy = false,
+    this.validator,
   });
 
   @override
   Widget build(BuildContext context) {
-    bool isDark = Theme.of(context).brightness == Brightness.dark;
+    bool isDark = ShadTheme.of(context).brightness == Brightness.dark;
 
     return SizedBox(
         height: 70,
@@ -31,8 +34,9 @@ class ZeelTextField extends StatelessWidget {
                     const SnackBar(content: Text("copied to clipboard")));
               });
             },
-            child: TextField(
+            child: TextFormField(
               controller: controller,
+              validator: validator,
               enabled: enabled,
               decoration: InputDecoration(
                 fillColor: isDark && enabled
@@ -113,6 +117,61 @@ class ZeelSelectTextField extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15),
               ),
             ),
+          )),
+    );
+  }
+}
+
+class PassWordFormField extends StatefulWidget {
+  final TextEditingController controller;
+  final String? hint;
+  final String? Function(String?)? validator;
+  const PassWordFormField({
+    super.key,
+    required this.controller,
+    this.validator = passwordValidator,
+    this.hint = "Enter your password",
+  });
+
+  @override
+  State<PassWordFormField> createState() => _PassWordFormFieldState();
+}
+
+var show = false;
+
+class _PassWordFormFieldState extends State<PassWordFormField> {
+  @override
+  Widget build(BuildContext context) {
+    bool isDark = ShadTheme.of(context).brightness == Brightness.dark;
+    return TextFormField(
+      validator: widget.validator,
+      controller: widget.controller,
+      obscureText: show,
+      decoration: InputDecoration(
+          hintText: widget.hint,
+          fillColor: isDark ? ZealPalette.lighterBlack : Colors.white,
+          filled: true,
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide: const BorderSide(color: Colors.grey, width: 0.5),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide: BorderSide(
+                color: ShadTheme.of(context).colorScheme.primary, width: 0.5),
+          ),
+          suffixIcon: IconButton(
+            icon: Icon(show ? Icons.visibility : Icons.visibility_off),
+            onPressed: () {
+              setState(() {
+                show = !show;
+              });
+            },
+          ),
+          hintStyle: ShadTheme.of(context).textTheme.muted,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide: const BorderSide(color: Colors.grey),
           )),
     );
   }

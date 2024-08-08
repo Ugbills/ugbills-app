@@ -16,7 +16,7 @@ class ZeelButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isDark = Theme.of(context).brightness == Brightness.dark;
+    bool isDark = ShadTheme.of(context).brightness == Brightness.dark;
     return SizedBox(
         width: double.infinity,
         height: 57.0,
@@ -27,7 +27,12 @@ class ZeelButton extends StatelessWidget {
                 backgroundColor: const Color(0xff20013A)),
             onPressed: onPressed,
             child: isLoading!
-                ? const Center(child: CircularProgressIndicator())
+                ? Center(
+                    child: CircularProgressIndicator(
+                    color: isDark
+                        ? ShadTheme.of(context).colorScheme.primary
+                        : Colors.white,
+                  ))
                 : Text(
                     text!,
                     style: const TextStyle(
@@ -50,7 +55,7 @@ class ZeelAltButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isDark = Theme.of(context).brightness == Brightness.dark;
+    bool isDark = ShadTheme.of(context).brightness == Brightness.dark;
     return SizedBox(
       width: double.infinity,
       height: 57.0,
@@ -87,7 +92,7 @@ class ZeelBackButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isDark = Theme.of(context).brightness == Brightness.dark;
+    bool isDark = ShadTheme.of(context).brightness == Brightness.dark;
     return GestureDetector(
       onTap: () {
         Navigator.pop(context);

@@ -2,7 +2,7 @@ String? emailValidator(String? value) {
   // Basic email pattern
   final RegExp emailPattern = RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$');
   if (value == null || value.isEmpty) {
-    return 'Please enter an email address';
+    return 'Please enter your username or email';
   } else if (!emailPattern.hasMatch(value)) {
     return 'Please enter a valid email address';
   }
@@ -13,7 +13,7 @@ String? passwordValidator(String? value) {
   // Define minimum length
   const int minLength = 6;
   if (value == null || value.isEmpty) {
-    return 'Please enter a password';
+    return 'Please enter your password, it’s required';
   } else if (value.length < minLength) {
     return 'Password must be at least $minLength characters long';
   } else if (!RegExp(r'^(?=.*[a-zA-Z])(?=.*\d)').hasMatch(value)) {

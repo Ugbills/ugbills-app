@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:short_navigation/short_navigation.dart';
 import 'package:zeelpay/screens/auth/create/create_account_screen.dart';
 import 'package:zeelpay/screens/auth/login_screen.dart';
 import 'package:zeelpay/screens/widgets/images_widget.dart';
@@ -48,22 +49,13 @@ class AccountScreen extends StatelessWidget {
                               ZeelAltButton(
                                 text: "Create Account",
                                 onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const CreateAccountScreen()));
+                                  Go.to(CreateAccountScreen());
                                 },
                               ),
                               const SizedBox(height: 20.0),
                               ZeelButton(
                                 text: "Log in",
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => LoginScreen()));
-                                },
+                                onPressed: () => Go.to(LoginScreen()),
                               ),
                               const SizedBox(height: 20.0),
                               const ZeelText(

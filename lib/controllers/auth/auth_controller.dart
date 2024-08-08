@@ -9,18 +9,20 @@ class AuthController {
       {required String email,
       required String password,
       required WidgetRef ref,
+      required BuildContext context,
       required GlobalKey<FormState> formkey}) async {
     if (formkey.currentState!.validate()) {
-      await _authRepository.login(email, password, ref);
+      await _authRepository.login(email, password, ref, context);
     }
   }
 
   Future<void> forgotPassword(
       {required String email,
       required WidgetRef ref,
-      required GlobalKey<FormState> formkey}) async {
+      required GlobalKey<FormState> formkey,
+      required BuildContext context}) async {
     if (formkey.currentState!.validate()) {
-      await _authRepository.forgotPassword(email, ref);
+      await _authRepository.forgotPassword(email, ref, context);
     }
   }
 }

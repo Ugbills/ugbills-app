@@ -1,8 +1,10 @@
 import 'dart:developer';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:short_navigation/short_navigation.dart';
 import 'package:zeelpay/constants/api/enpoints.dart';
 import 'package:zeelpay/helpers/api/response_helper.dart';
+import 'package:zeelpay/helpers/snacks/snacks_helper.dart';
 import 'package:zeelpay/providers/state/loading_state_provider.dart';
 import 'package:zeelpay/screens/auth/reset/link_sent_screen.dart';
 import 'package:zeelpay/screens/user/more/security/password.dart';
@@ -10,8 +12,13 @@ import 'package:zeelpay/screens/user/more/security/password.dart';
 class AuthRepository {
   final ApiRepository api = ApiRepository();
 
-///This function handles login
-  Future<void> login(String email, String password, WidgetRef ref) async {
+  ///This function handles login
+  Future<void> login(
+    String email,
+    String password,
+    WidgetRef ref,
+    BuildContext context,
+  ) async {
     await api.handleRequest(
         endpoint: Endpoints.login,
         requestType: RequestType.post,
@@ -26,17 +33,20 @@ class AuthRepository {
         },
         loadingProvider: isLoadingProvider,
         ref: ref,
-        onSuccess: (data) {
+        onSuccess: (data) async {
           log(data);
+          await successSnack(context, data["message"]);
           Go.to(const LinkSentScreen());
         },
-        onError: (message) {
+        onError: (message) async {
+          await errorSnack(context, message);
           log(message);
         });
   }
 
-///This function handles forgot password
-  Future<void> forgotPassword(String email, WidgetRef ref) async {
+  ///This function handles forgot password
+  Future<void> forgotPassword(
+      String email, WidgetRef ref, BuildContext context) async {
     await api.handleRequest(
         requestType: RequestType.post,
         endpoint: Endpoints.recoverPassword,
@@ -45,11 +55,18 @@ class AuthRepository {
         },
         loadingProvider: isLoadingProvider,
         ref: ref,
-        onSuccess: (data) {
+        onSuccess: (data) async {
+          await successSnack(context, data["message"]);
           Go.to(const ChangePassword());
         },
-        onError: (message) {
+        onError: (message) async {
+          await errorSnack(context, message);
           log(message);
         });
   }
+
+
+
+
+  //
 }
