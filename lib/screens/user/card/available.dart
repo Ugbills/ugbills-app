@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:zeelpay/constants/assets/png.dart';
-import 'package:zeelpay/screens/user/card/dollar/actions.dart';
+import 'package:zeelpay/screens/user/card/dollar/dollar_card_actions.dart';
 import 'package:zeelpay/screens/user/card/modal.dart';
-import 'package:zeelpay/screens/user/card/naira/actions.dart';
+import 'package:zeelpay/screens/user/card/naira/naira_card_actions.dart';
 import 'package:zeelpay/themes/palette.dart';
 
 class AvailableCards extends StatelessWidget {

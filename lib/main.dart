@@ -6,7 +6,6 @@ import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:short_navigation/short_navigation.dart';
 import 'package:zeelpay/screens/account_screen.dart';
 import 'package:zeelpay/screens/onboarding/onboarding.dart';
-
 import 'helpers/storage/onboarding.dart';
 
 void main() async {

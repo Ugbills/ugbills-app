@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:zeelpay/constants/assets/png.dart';
 import 'package:zeelpay/constants/assets/svg.dart';
-import 'package:zeelpay/screens/user/card/available.dart';
-import 'package:zeelpay/screens/user/card/dollar/details.dart';
-import 'package:zeelpay/screens/user/card/dollar/fund.dart';
-import 'package:zeelpay/screens/user/card/history.dart';
+import 'package:zeelpay/screens/user/card/dollar/confirm_freeze_dollar.dart';
+import 'package:zeelpay/screens/user/card/dollar/dollar_card_details.dart';
+import 'package:zeelpay/screens/user/card/dollar/fund_dollar_card.dart';
+import 'package:zeelpay/screens/user/card/dollar/withdraw_dollar.dart';
+import 'package:zeelpay/screens/user/card/dollar/dollar_card_history.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
@@ -15,11 +16,15 @@ class DollarVirtualCardActions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List options = [
-      [ZeelSvg.fundCard, "Fund", const FundCard()],
-      [ZeelSvg.withdraw, "Withdraw", const AvailableCards()],
-      [ZeelSvg.details, "Card Details", const CardDetails()],
-      [ZeelSvg.transaction, "Transactions", const CardTransactionHistory()],
-      [ZeelSvg.freeze, "Freeze Card", const AvailableCards()],
+      [ZeelSvg.fundCard, "Fund", const FundDollarCard()],
+      [ZeelSvg.withdraw, "Withdraw", const WithdrawDollar()],
+      [ZeelSvg.details, "Card Details", const DollarCardDetails()],
+      [
+        ZeelSvg.transaction,
+        "Transactions",
+        const DollarCardTransactionHistory()
+      ],
+      [ZeelSvg.freeze, "Freeze Card", const ConfirmFreezeDollarCard()],
     ];
 
     return Scaffold(

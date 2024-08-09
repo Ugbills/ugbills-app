@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:zeelpay/constants/assets/svg.dart';
-import 'package:zeelpay/screens/user/pay/send/bank/bank.dart';
+import 'package:zeelpay/screens/user/card/success_message.dart';
 import 'package:zeelpay/screens/widgets/number_pad.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
-class FundCard extends ConsumerWidget {
-  const FundCard({super.key});
+class FundNairaCard extends ConsumerWidget {
+  const FundNairaCard({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -21,7 +21,7 @@ class FundCard extends ConsumerWidget {
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
-          'Send Money',
+          'Fund Card',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -49,30 +49,9 @@ class FundCard extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Text(
-                        "Amount",
-                        style:
-                            theme.textTheme.small.copyWith(color: Colors.white),
-                      ),
-                      const Spacer(),
-                      Row(
-                        children: [
-                          Text(
-                            "Balance: ",
-                            style: theme.textTheme.small
-                                .copyWith(color: Colors.white),
-                          ),
-                          Text(
-                            "₦12,073,000.00",
-                            style: theme.textTheme.small.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ],
+                  Text(
+                    "Amount",
+                    style: theme.textTheme.small.copyWith(color: Colors.white),
                   ),
                   const SizedBox(
                     height: 50,
@@ -109,12 +88,16 @@ class FundCard extends ConsumerWidget {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) {
-                                        return const BankTransfer();
+                                        return const SuccessMessage(
+                                          title: "Card Funded",
+                                          body:
+                                              "You have successfully added ₦20,000 to your dollar card.",
+                                        );
                                       },
                                       settings:
                                           RouteSettings(arguments: amount)));
                             },
-                      text: "Proceed",
+                      text: "Fund",
                     )),
               ),
             ),

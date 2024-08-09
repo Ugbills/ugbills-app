@@ -4,8 +4,8 @@ import 'package:zeelpay/constants/assets/png.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
-class CardTransactionHistory extends StatelessWidget {
-  const CardTransactionHistory({super.key});
+class DollarCardTransactionHistory extends StatelessWidget {
+  const DollarCardTransactionHistory({super.key});
 
   @override
   Widget build(BuildContext context) {
