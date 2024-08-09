@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/constants/png.dart';
+import 'package:zeelpay/constants/assets/png.dart';
 import 'package:zeelpay/themes/palette.dart';
 
 class TransactionHistoryWidget extends StatelessWidget {
