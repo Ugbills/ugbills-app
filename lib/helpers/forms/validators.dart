@@ -16,9 +16,10 @@ String? passwordValidator(String? value) {
     return 'Please enter your password, it’s required';
   } else if (value.length < minLength) {
     return 'Password must be at least $minLength characters long';
-  } else if (!RegExp(r'^(?=.*[a-zA-Z])(?=.*\d)').hasMatch(value)) {
-    return 'Password must contain both letters and numbers';
   }
+  // } else if (!RegExp(r'^(?=.*[a-zA-Z])(?=.*\d)').hasMatch(value)) {
+  //   return 'Password must contain both letters and numbers';
+  // }
   return null; // Indicates that the input is valid
 }
 

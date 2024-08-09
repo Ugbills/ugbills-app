@@ -96,6 +96,6 @@ List<Widget> _screens = const [
   More(),
 ];
 
-final currentScreenProvider = StateProvider<int>((ref) {
+final currentScreenProvider = StateProvider.autoDispose<int>((ref) {
   return 0;
 });

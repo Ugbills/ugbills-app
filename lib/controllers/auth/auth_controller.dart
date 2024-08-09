@@ -16,6 +16,10 @@ class AuthController {
     }
   }
 
+  Future<void> logout() async {
+    await _authRepository.logout();
+  }
+
   Future<void> forgotPassword(
       {required String email,
       required WidgetRef ref,

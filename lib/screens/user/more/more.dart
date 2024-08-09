@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
+import 'package:short_navigation/short_navigation.dart';
 import 'package:zeelpay/constants/assets/png.dart';
 import 'package:zeelpay/constants/assets/svg.dart';
 import 'package:zeelpay/screens/user/more/about/about.dart';
@@ -94,12 +95,7 @@ class More extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return ZeelListTile(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => tiles[index].route,
-                            ),
-                          );
+                          Go.to(tiles[index].route!);
                         },
                         title: tiles[index].title,
                         leadingIcon: tiles[index].leadingIcon);
@@ -155,11 +151,11 @@ List<Tiles> tiles = [
 class Tiles {
   final String title;
   final String leadingIcon;
-  final Widget route;
+  final Widget? route;
 
   Tiles({
     required this.title,
     required this.leadingIcon,
-    this.route = const AccountTier2(),
+    this.route,
   });
 }

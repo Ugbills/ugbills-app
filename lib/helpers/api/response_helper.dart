@@ -28,6 +28,7 @@ class ApiRepository {
         ref.read(loadingProvider.notifier).state = true;
       }
       //switch case to handle request type
+      headers ??= {'X-Forwarded-For': '1234', 'Y-decryption-key': '1234'};
       switch (requestType) {
         case RequestType.get:
           response = await httpService.getRequest(

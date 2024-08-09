@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:zeelpay/constants/assets/svg.dart';
+import 'package:zeelpay/controllers/auth/auth_controller.dart';
 import 'package:zeelpay/themes/palette.dart';
 
 class ZeelTile extends StatelessWidget {
@@ -76,7 +77,9 @@ class ZeelListTile extends StatelessWidget {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
 
     return GestureDetector(
-      onTap: onTap,
+      onTap: (title.toString().toLowerCase() == "logout")
+          ? AuthController().logout
+          : onTap,
       child: Card(
         color: isDark ? ZealPalette.lighterBlack : Colors.white,
         shadowColor: const Color.fromRGBO(0, 0, 0, 0),
