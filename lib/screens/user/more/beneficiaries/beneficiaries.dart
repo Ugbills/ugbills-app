@@ -48,7 +48,18 @@ class _SavedBeneficiariesState extends State<SavedBeneficiaries> {
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 24).copyWith(top: 24),
           children: [
-            const ZeelTextFieldTitle(text: "Saved Beneficiaries"),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const ZeelTextFieldTitle(text: "Saved Beneficiaries"),
+                //close button
+                IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(Icons.close))
+              ],
+            ),
             const SizedBox(height: 12),
             TextField(
               onChanged: (value) => updateList(value),

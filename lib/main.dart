@@ -8,7 +8,6 @@ import 'package:zeelpay/helpers/storage/token.dart';
 import 'package:zeelpay/screens/account_screen.dart';
 import 'package:zeelpay/screens/onboarding/onboarding.dart';
 import 'package:zeelpay/screens/user/user.dart';
-
 import 'helpers/storage/onboarding.dart';
 
 void main() async {

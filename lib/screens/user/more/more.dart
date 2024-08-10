@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:short_navigation/short_navigation.dart';
 import 'package:zeelpay/constants/assets/png.dart';
 import 'package:zeelpay/constants/assets/svg.dart';
+import 'package:zeelpay/providers/user_provider.dart';
 import 'package:zeelpay/screens/user/more/about/about.dart';
 import 'package:zeelpay/screens/user/more/account_level/tier-2/tier_2.dart';
 import 'package:zeelpay/screens/user/more/beneficiaries/beneficiaries.dart';
@@ -14,12 +16,13 @@ import 'package:zeelpay/screens/user/more/statement/statement.dart';
 import 'package:zeelpay/screens/user/widgets/zeel_tile.dart';
 import 'package:zeelpay/themes/palette.dart';
 
-class More extends StatelessWidget {
+class More extends ConsumerWidget {
   const More({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
+    var userinfo = ref.watch(fetchUserInformationProvider);
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -29,36 +32,41 @@ class More extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      const ShadImage(ZeelPng.avatar, height: 50),
-                      const SizedBox(width: 10),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("John Doe",
-                              style: ShadTheme.of(context).textTheme.h4),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Container(
-                            width: 70,
-                            decoration: BoxDecoration(
-                                color: isDark
-                                    ? ZealPalette.lightPurple
-                                    : const Color(0xffE9E6EB),
-                                borderRadius: BorderRadius.circular(20)),
-                            child: const Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Center(
-                                child: Text("Tier 1"),
+                  userinfo.when(
+                    data: (user) => Row(
+                      children: [
+                        const ShadImage(ZeelPng.avatar, height: 50),
+                        const SizedBox(width: 10),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                                "${user!.data!.firstName!} ${user.data!.lastName!}",
+                                style: ShadTheme.of(context).textTheme.h4),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Container(
+                              width: 70,
+                              decoration: BoxDecoration(
+                                  color: isDark
+                                      ? ZealPalette.lightPurple
+                                      : const Color(0xffE9E6EB),
+                                  borderRadius: BorderRadius.circular(20)),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Center(
+                                  child: Text("Tier ${user.data!.level!}"),
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
+                    loading: () => const SizedBox(),
+                    error: (error, stackTrace) => Text(error.toString()),
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.3,

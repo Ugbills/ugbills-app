@@ -1,8 +1,8 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:zeelpay/helpers/api/exceptions_helper.dart';
+import 'package:zeelpay/helpers/storage/token.dart';
 import 'package:zeelpay/services/http_service.dart';
 
 class ApiRepository {
@@ -12,6 +12,7 @@ class ApiRepository {
       Map<String, dynamic>? headers,
       Map<String, dynamic>? data,
       ResponseType? responseType,
+      bool? auth,
       File? file,
       String? key,
       AutoDisposeStateProvider<bool>? loadingProvider,
@@ -29,6 +30,13 @@ class ApiRepository {
       }
       //switch case to handle request type
       headers ??= {'X-Forwarded-For': '1234', 'Y-decryption-key': '1234'};
+
+      //add authorization header if auth is true
+
+      if (auth != null && auth) {
+        var token = await TokenStorage().getToken();
+        headers.addAll({'ZEEL-SECURE-KEY': token});
+      }
       switch (requestType) {
         case RequestType.get:
           response = await httpService.getRequest(

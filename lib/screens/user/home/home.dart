@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:zeelpay/constants/assets/svg.dart';
+import 'package:zeelpay/providers/user_provider.dart';
 import 'package:zeelpay/screens/user/home/transaction/transaction_history_widget.dart';
 import 'package:zeelpay/screens/user/pay/airtime/airtime.dart';
 import 'package:zeelpay/screens/user/pay/betting/betting.dart';
@@ -13,19 +15,21 @@ import 'package:zeelpay/screens/user/home/transaction/history.dart';
 import 'package:zeelpay/screens/user/widgets/action_button.dart';
 import 'package:zeelpay/themes/palette.dart';
 
-class DashBoardScreen extends StatefulWidget {
+class DashBoardScreen extends ConsumerStatefulWidget {
   const DashBoardScreen({super.key});
 
   @override
-  State<DashBoardScreen> createState() => _DashBoardScreenState();
+  ConsumerState<DashBoardScreen> createState() => _DashBoardScreenState();
 }
 
-class _DashBoardScreenState extends State<DashBoardScreen> {
+class _DashBoardScreenState extends ConsumerState<DashBoardScreen> {
   bool stealthMode = false;
 
   @override
   Widget build(BuildContext context) {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
+
+    var user = ref.watch(fetchUserInformationProvider);
     return Scaffold(
       backgroundColor: isDark ? ZealPalette.scaffoldBlack : null,
       body: CustomScrollView(
@@ -53,154 +57,172 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                     ),
                     child: SafeArea(
                       bottom: false,
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 12),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 30.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Row(
-                                  children: [
-                                    CircleAvatar(
-                                      radius: 30,
-                                      backgroundImage:
-                                          AssetImage('assets/images/image.png'),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                      child: user.when(
+                          data: (userinfo) => Column(
+                                children: [
+                                  const SizedBox(height: 12),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 30.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(
-                                          'Welcome back!',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 12,
-                                          ),
+                                        Row(
+                                          children: [
+                                            CircleAvatar(
+                                              radius: 30,
+                                              backgroundImage: userinfo!.data!
+                                                      .profilePicture!.isEmpty
+                                                  ? const AssetImage(
+                                                      'assets/images/image.png')
+                                                  : NetworkImage(userinfo
+                                                      .data!.profilePicture!),
+                                            ),
+                                            const SizedBox(
+                                              width: 20,
+                                            ),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                const Text(
+                                                  'Welcome back!',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "${userinfo.data!.firstName!} ${userinfo.data!.lastName!}",
+                                                  style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 17,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
-                                        Text(
-                                          'Omere Kelly',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 17,
+                                        InkWell(
+                                          onTap: () => Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const Notifications(),
+                                            ),
+                                          ),
+                                          child: const CircleAvatar(
+                                            radius: 30,
+                                            backgroundColor: Color(0xff4D3461),
+                                            child: Icon(
+                                              Icons.notifications_none_outlined,
+                                              color: Colors.white,
+                                            ),
                                           ),
                                         ),
                                       ],
                                     ),
-                                  ],
-                                ),
-                                InkWell(
-                                  onTap: () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const Notifications(),
+                                  ),
+                                  const SizedBox(
+                                    height: 50,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 30.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const Text(
+                                              'My Balance',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            Text(
+                                              stealthMode
+                                                  ? "**********"
+                                                  : '₦${userinfo.data!.walletBalance!.toString()}',
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 22,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        // icon to show the balance
+                                        IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              stealthMode = !stealthMode;
+                                            });
+                                          },
+                                          icon: Icon(
+                                            stealthMode
+                                                ? Icons.remove_red_eye
+                                                : Icons.visibility_off,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  child: const CircleAvatar(
-                                    radius: 30,
-                                    backgroundColor: Color(0xff4D3461),
-                                    child: Icon(
-                                      Icons.notifications_none_outlined,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 50,
-                          ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 30.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text(
-                                      'My Balance',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 12,
+                                  Expanded(
+                                    child: Align(
+                                      alignment: Alignment.bottomCenter,
+                                      child: Container(
+                                        height: 60,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        decoration: const BoxDecoration(
+                                          color: Colors.black,
+                                          borderRadius: BorderRadius.only(
+                                            bottomLeft: Radius.circular(30),
+                                            bottomRight: Radius.circular(30),
+                                          ),
+                                        ),
+                                        child: const Padding(
+                                          padding: EdgeInsets.all(20.0),
+                                          child: Center(
+                                              child: Text(
+                                            "USDT - \$1/₦1,000 BTC - \$42,000/₦42,000,000 ETH - \$3,500/₦3,500,000",
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          )),
+                                        ),
                                       ),
                                     ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                      stealthMode
-                                          ? "**********"
-                                          : '₦300,000.00',
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 22,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                // icon to show the balance
-                                IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      stealthMode = !stealthMode;
-                                    });
-                                  },
-                                  icon: Icon(
-                                    stealthMode
-                                        ? Icons.remove_red_eye
-                                        : Icons.visibility_off,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: Align(
-                              alignment: Alignment.bottomCenter,
-                              child: Container(
-                                height: 60,
-                                width: MediaQuery.of(context).size.width,
-                                decoration: const BoxDecoration(
-                                  color: Colors.black,
-                                  borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(30),
-                                    bottomRight: Radius.circular(30),
-                                  ),
-                                ),
-                                child: const Padding(
-                                  padding: EdgeInsets.all(20.0),
-                                  child: Center(
-                                      child: Text(
-                                    "USDT - \$1/₦1,000 BTC - \$42,000/₦42,000,000 ETH - \$3,500/₦3,500,000",
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                                  )),
-                                ),
+                                  )
+                                ],
                               ),
-                            ),
-                          )
-                        ],
-                      ),
+                          loading: () =>
+                              const Center(child: CircularProgressIndicator()),
+                          error: (error, stackTrace) => Text(error.toString())),
                     ),
                   ),
-                  _buildKYC(),
+                  user.when(
+                      data: (user) {
+                        return user!.data!.kycVerified!
+                            ? const SizedBox.shrink()
+                            : _buildKYC();
+                      },
+                      error: (error, stack) => const SizedBox.shrink(),
+                      loading: () => const SizedBox.shrink()),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30.0)
-                        .copyWith(top: 24),
+                    padding: const EdgeInsets.symmetric(horizontal: 30.0),
                     child: SizedBox(
                       height: MediaQuery.of(context).size.height / 3,
                       width: MediaQuery.of(context).size.width,
