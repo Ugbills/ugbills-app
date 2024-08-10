@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:zeelpay/screens/user/more/refer-and-earn/history.dart';
+import 'package:zeelpay/screens/user/more/refer-and-earn/referral_tile.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
+import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
 class ReferralEarnings extends StatefulWidget {
@@ -11,30 +13,25 @@ class ReferralEarnings extends StatefulWidget {
 }
 
 class _ReferralEarningsState extends State<ReferralEarnings> {
-  final List referrals = [
-    ["Henry Eze", "06:59 PM", "18 Mar", false],
-    ["Akin Layi", "06:59 PM", "18 Mar", false],
-    ["Ogonna Iho", "06:59 PM", "18 Mar", true],
-    ["Michael Ade", "06:59 PM", "18 Mar", false],
-    ["Zainab Zee", "06:59 PM", "18 Mar", true],
-    ["Abimbola Love", "06:59 PM", "18 Mar", true],
-    ["Oyin Lawal", "06:59 PM", "18 Mar", false],
-  ];
-
-  bool stealth = false;
-
+  bool _stealth = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leadingWidth: 100,
+        centerTitle: true,
+        title: const Text("Referral History"),
+        leading: const ZeelBackButton(),
+      ),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 24).copyWith(top: 24),
           children: [
             showBalance(
-              stealth ? "***********" : "₦73,000.00",
+              _stealth ? "***********" : "₦73,000.00",
               () {
                 setState(() {
-                  stealth = !stealth;
+                  _stealth = !_stealth;
                 });
               },
             ),
@@ -74,23 +71,7 @@ class _ReferralEarningsState extends State<ReferralEarnings> {
                 ],
               ),
             ),
-            if (referrals.isEmpty)
-              const Center(
-                child: Text("No Referral Yet!"),
-              )
-            else
-              ListView.builder(
-                itemCount: referrals.length,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return referralStatus(
-                    referrals[index][3],
-                    referrals[index][0],
-                    context,
-                  );
-                },
-              )
+            const ReferralTile(),
           ],
         ),
       ),
@@ -99,7 +80,6 @@ class _ReferralEarningsState extends State<ReferralEarnings> {
 }
 
 Widget showBalance(String balance, Function()? onPressed) {
-  // bool show = true;
   return Container(
     padding: const EdgeInsets.all(24),
     alignment: Alignment.center,
@@ -132,48 +112,6 @@ Widget showBalance(String balance, Function()? onPressed) {
               ),
             ),
           ],
-        ),
-      ],
-    ),
-  );
-}
-
-Widget referralStatus(bool isPending, String name, BuildContext context) {
-  bool isDark = Theme.of(context).brightness == Brightness.dark;
-
-  return Container(
-    margin: const EdgeInsets.symmetric(vertical: 6),
-    padding: const EdgeInsets.all(16),
-    decoration: BoxDecoration(
-      color: isDark ? ZealPalette.lighterBlack : Colors.white,
-      borderRadius: BorderRadius.circular(16),
-    ),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ZeelTextFieldTitle(text: name),
-            const Text(
-              "06:59 PM • 18 Mar",
-              style: TextStyle(color: Colors.grey),
-            ),
-          ],
-        ),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(50),
-            color: isPending ? ZealPalette.peach : ZealPalette.lightGreen,
-          ),
-          child: Text(
-            isPending ? "Pending" : "Completed",
-            style: TextStyle(
-              color:
-                  isPending ? ZealPalette.rustColor : ZealPalette.successGreen,
-            ),
-          ),
         ),
       ],
     ),

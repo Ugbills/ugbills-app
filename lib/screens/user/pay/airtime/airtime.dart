@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:zeelpay/constants/assets/png.dart';
 import 'package:zeelpay/screens/user/pay/airtime/airtime_transaction_details.dart';
-import 'package:zeelpay/screens/user/trade/sent.dart';
+import 'package:zeelpay/screens/widgets/sent.dart';
 import 'package:zeelpay/screens/user/widgets/widgets.dart';
 import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';

@@ -4,8 +4,8 @@ import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 
-class CardDetails extends StatelessWidget {
-  const CardDetails({super.key});
+class NairaCardDetails extends StatelessWidget {
+  const NairaCardDetails({super.key});
 
   @override
   Widget build(BuildContext context) {
