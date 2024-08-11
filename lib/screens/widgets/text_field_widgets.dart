@@ -8,6 +8,7 @@ import 'package:zeelpay/themes/palette.dart';
 class ZeelTextField extends StatelessWidget {
   final String? hint;
   final bool enabled;
+  final void Function(String)? onChanged;
   final String? Function(String?)? validator;
   final bool copy;
   final TextEditingController? controller;
@@ -18,6 +19,7 @@ class ZeelTextField extends StatelessWidget {
     this.controller,
     this.copy = false,
     this.validator,
+    this.onChanged,
   });
 
   @override
@@ -37,6 +39,7 @@ class ZeelTextField extends StatelessWidget {
             child: TextFormField(
               controller: controller,
               validator: validator,
+              onChanged: onChanged,
               enabled: enabled,
               decoration: InputDecoration(
                 fillColor: isDark && enabled

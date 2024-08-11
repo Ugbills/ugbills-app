@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
 
           //We are defining the theme for the app
           brightness: Brightness.light,
-          radius: BorderRadius.circular(20),
+          radius: BorderRadius.circular(10),
           colorScheme: const ShadZincColorScheme.light(
             primary: Color(0xf020013a),
             background: Color(0xfffafafa),

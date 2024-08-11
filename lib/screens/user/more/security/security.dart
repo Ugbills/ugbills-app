@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zeelpay/screens/user/more/security/password.dart';
 import 'package:zeelpay/screens/user/more/security/otp.dart';
+import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
 class SecuritySettings extends StatelessWidget {
@@ -9,6 +10,11 @@ class SecuritySettings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Security Settings"),
+        leading: const ZeelBackButton(),
+        leadingWidth: 100,
+      ),
       body: SafeArea(
           child: ListView(padding: const EdgeInsets.all(24), children: [
         settings(context, "Change Password", const ChangePassword()),

@@ -65,113 +65,115 @@ class _ResetTransactionPinState extends State<ResetTransactionPin> {
   Widget build(BuildContext context) {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(18.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            const ZeelTitleText(text: "Create New Pin"),
-            const Text("Enter new 4-digit transaction pin."),
-            const SizedBox(height: 15),
-            SizedBox(
-              width: double.infinity,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(
-                  4,
-                  (index) {
-                    return Container(
-                      margin: const EdgeInsets.all(6.0),
-                      constraints: const BoxConstraints(
-                        maxHeight: 75,
-                        maxWidth: 75,
-                      ),
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: isDark
-                            ? ZealPalette.lighterBlack
-                            : Colors.grey.shade300,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: index < enteredPin.length
-                              ? pinProgress
-                                  ? Colors.grey
-                                  : Colors.grey
-                              : ZealPalette.primaryPurple.withOpacity(0),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(18.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              const ZeelTitleText(text: "Create New Pin"),
+              const Text("Enter new 4-digit transaction pin."),
+              const SizedBox(height: 15),
+              SizedBox(
+                width: double.infinity,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(
+                    4,
+                    (index) {
+                      return Container(
+                        margin: const EdgeInsets.all(6.0),
+                        constraints: const BoxConstraints(
+                          maxHeight: 75,
+                          maxWidth: 75,
                         ),
-                      ),
-                      child: index < enteredPin.length
-                          ? Center(
-                              child: Text(
-                                index == enteredPin.length - 1
-                                    ? enteredPin[index]
-                                    : '●',
-                                style: const TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w700,
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: isDark
+                              ? ZealPalette.lighterBlack
+                              : Colors.grey.shade300,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: index < enteredPin.length
+                                ? pinProgress
+                                    ? Colors.grey
+                                    : Colors.grey
+                                : ZealPalette.primaryPurple.withOpacity(0),
+                          ),
+                        ),
+                        child: index < enteredPin.length
+                            ? Center(
+                                child: Text(
+                                  index == enteredPin.length - 1
+                                      ? enteredPin[index]
+                                      : '●',
+                                  style: const TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w700,
+                                  ),
                                 ),
-                              ),
-                            )
-                          : null,
-                    );
-                  },
+                              )
+                            : null,
+                      );
+                    },
+                  ),
                 ),
               ),
-            ),
-            const Spacer(flex: 4),
-            // digits
-            for (var i = 0; i < 3; i++)
+              const Spacer(flex: 4),
+              // digits
+              for (var i = 0; i < 3; i++)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 18),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: List.generate(
+                        3, (index) => numButton(1 + 3 * i + index)).toList(),
+                  ),
+                ),
+              // digits with backspace
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 18),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children:
-                      List.generate(3, (index) => numButton(1 + 3 * i + index))
-                          .toList(),
-                ),
-              ),
-            // digits with backspace
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const TextButton(
-                    onPressed: null,
-                    child: SizedBox(),
-                  ),
-                  numButton(0),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        if (enteredPin.isNotEmpty) {
-                          enteredPin =
-                              enteredPin.substring(0, enteredPin.length - 1);
-                        }
-                      });
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      margin: const EdgeInsets.only(top: 32),
-                      constraints: const BoxConstraints(
-                        maxHeight: 85,
-                        maxWidth: 85,
-                      ),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: isDark ? ZealPalette.lighterBlack : Colors.white,
-                      ),
-                      child: Icon(
-                        Icons.keyboard_backspace_rounded,
-                        color: isDark ? Colors.grey : Colors.black,
+                  children: [
+                    const TextButton(
+                      onPressed: null,
+                      child: SizedBox(),
+                    ),
+                    numButton(0),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          if (enteredPin.isNotEmpty) {
+                            enteredPin =
+                                enteredPin.substring(0, enteredPin.length - 1);
+                          }
+                        });
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        margin: const EdgeInsets.only(top: 32),
+                        constraints: const BoxConstraints(
+                          maxHeight: 85,
+                          maxWidth: 85,
+                        ),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color:
+                              isDark ? ZealPalette.lighterBlack : Colors.white,
+                        ),
+                        child: Icon(
+                          Icons.keyboard_backspace_rounded,
+                          color: isDark ? Colors.grey : Colors.black,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            const Spacer(),
-          ],
+              const Spacer(),
+            ],
+          ),
         ),
       ),
     );

@@ -99,15 +99,14 @@ class HttpService {
 
   /// This function handles file upload
   Future<Response> patchUploadRequest(String endpoint,
-      {Map<String, dynamic>? data,
-      Map<String, dynamic>? headers,
+      {Map<String, dynamic>? headers,
       required File file,
       required String key}) async {
     try {
       final formData = FormData.fromMap({
         key: await MultipartFile.fromFile(file.path),
       });
-      Response response = await _dio.patch(endpoint,
+      Response response = await _dio.post(endpoint,
           data: formData, options: Options(headers: headers));
       return response;
     } on DioException catch (e) {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/screens/onboarding/onboarding.dart';
 import 'package:zeelpay/screens/user/more/account_level/tier-3/tier_3.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
+import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 
 class Congrats extends StatelessWidget {
   const Congrats({super.key});

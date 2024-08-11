@@ -1,74 +1,125 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:zeelpay/screens/user/more/success.dart';
+import 'package:zeelpay/constants/assets/png.dart';
+import 'package:zeelpay/controllers/user/user_controller.dart';
+import 'package:zeelpay/providers/state/loading_state_provider.dart';
+import 'package:zeelpay/providers/user_provider.dart';
+import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
+import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 // import 'package:image_picker/image_picker.dart';
 
-class EditProfile extends StatefulWidget {
+class EditProfile extends ConsumerStatefulWidget {
   const EditProfile({super.key});
 
   @override
-  State<EditProfile> createState() => _EditProfileState();
+  ConsumerState<EditProfile> createState() => _EditProfileState();
 }
 
-class _EditProfileState extends State<EditProfile> {
-  // File? _image;
-  // final picker = ImagePicker();
+class _EditProfileState extends ConsumerState<EditProfile> {
+  File? _image;
+  final picker = ImagePicker();
 
-  Future getImage() async {
-    // final pickedImage = await picker.pickImage(source: ImageSource.gallery);
+  Future getImage(ref) async {
+    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
 
     setState(() {
-      // if (pickedImage != null) {
-      // _image = File(pickedImage.path);
-      // }
+      if (pickedImage != null) {
+        _image = File(pickedImage.path);
+
+        UserController()
+            .updateProfilePicture(image: _image!, ref: ref, context: context);
+      }
     });
   }
 
+  TextEditingController phoneNumberController = TextEditingController();
+  TextEditingController userNameController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    var user = ref.watch(fetchUserInformationProvider);
+    var isLoading = ref.watch(isLoadingProvider);
     return Scaffold(
       appBar: AppBar(
         leadingWidth: 100,
-        title: Text("Fund Your Account",
-            style: ShadTheme.of(context).textTheme.h3),
+        title: Text("Profile", style: ShadTheme.of(context).textTheme.h3),
         leading: const ZeelBackButton(),
       ),
       body: SafeArea(
-        child: Column(
+          child: user.when(
+        data: (user) => Column(
           children: [
             Expanded(
               child: ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 24)
                     .copyWith(top: 24),
                 children: [
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      // ClipRRect(
-                      //   borderRadius: BorderRadius.circular(100),
-                      //   child: Image.file(
-                      //     _image!,
-                      //     height: 130,
-                      //     width: 130,
-                      //     fit: BoxFit.cover,
-                      //   ),
-                      // ),
-                      SizedBox(
-                          height: 120,
-                          child: Image.asset(
-                            "assets/images/lady-img.png",
-                            fit: BoxFit.cover,
-                          )),
-                      const Icon(Icons.camera_alt_outlined,
-                          color: Colors.white),
-                    ],
+                  Consumer(
+                    builder: (context, ref, child) => GestureDetector(
+                      onTap: () async => getImage(ref),
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          _image != null
+                              ? ClipRRect(
+                                  borderRadius: BorderRadius.circular(100),
+                                  child: Image.file(
+                                    _image!,
+                                    height: 130,
+                                    width: 130,
+                                    fit: BoxFit.cover,
+                                  ),
+                                )
+                              : ShadAvatar(
+                                  size: const Size(100, 100),
+                                  user!.data!.profilePicture!.isNotEmpty
+                                      ? user.data!.profilePicture!
+                                      : ZeelPng.avatar,
+                                  fit: BoxFit.cover,
+                                ),
+                          const Icon(Icons.camera_alt_outlined,
+                              color: Colors.white),
+                        ],
+                      ),
+                    ),
                   ),
-                  inputeField("Username", context),
-                  inputeField("Full Name", readOnly: true, context),
-                  inputeField("Email Address", readOnly: true, context),
-                  inputeField("Phone Number", context),
+                  const SizedBox(height: 12),
+                  const ZeelTextFieldTitle(text: "Username"),
+                  ZeelTextField(
+                    enabled: true,
+                    hint: user!.data!.username,
+                    onChanged: (value) {
+                      setState(() {});
+                    },
+                    controller: userNameController,
+                  ),
+                  const ZeelTextFieldTitle(text: "Full Name"),
+                  ZeelTextField(
+                    enabled: false,
+                    hint: "${user.data!.firstName!} ${user.data!.lastName!}",
+                  ),
+                  const ZeelTextFieldTitle(text: "Email Address"),
+                  ZeelTextField(
+                    enabled: false,
+                    hint: user.data!.email!,
+                  ),
+                  const ZeelTextFieldTitle(text: "Phone Number"),
+                  ZeelTextField(
+                    onChanged: (value) {
+                      setState(() {});
+                    },
+                    enabled: true,
+                    hint: user.data!.phoneNumber!,
+                    controller: phoneNumberController,
+                  ),
                 ],
               ),
             ),
@@ -82,62 +133,29 @@ class _EditProfileState extends State<EditProfile> {
             ),
             Padding(
               padding: const EdgeInsets.all(24.0).copyWith(top: 12),
-              child: SizedBox(
-                width: double.infinity,
-                child: FilledButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const Success(
-                            title: "Updated",
-                            body:
-                                "You have successfully updated your email address."),
-                      ),
-                    );
-                  },
-                  style: FilledButton.styleFrom(
-                    backgroundColor: ZealPalette.primaryPurple,
-                    foregroundColor: Colors.grey.shade200,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                  ),
-                  child: const Text("Update"),
-                ),
+              child: ZeelButton(
+                text: "Update",
+                isLoading: isLoading,
+                onPressed: userNameController.text.isNotEmpty &&
+                        phoneNumberController.text.isNotEmpty &&
+                        phoneNumberController.text.length == 11 &&
+                        userNameController.text.length > 3
+                    ? () async {
+                        await UserController().updateProfile(
+                          phoneNumber: phoneNumberController.text,
+                          userName: userNameController.text,
+                          ref: ref,
+                          context: context,
+                        );
+                      }
+                    : null,
               ),
             ),
           ],
         ),
-      ),
+        loading: () => const SizedBox(),
+        error: (error, stackTrace) => Text(error.toString()),
+      )),
     );
   }
-}
-
-Widget inputeField(String title, BuildContext context,
-    {bool readOnly = false}) {
-  bool isDark = Theme.of(context).brightness == Brightness.dark;
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(title),
-      TextField(
-        readOnly: readOnly,
-        decoration: InputDecoration(
-          filled: readOnly,
-          fillColor: isDark ? ZealPalette.lighterBlack : ZealPalette.greyColor,
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
-            borderSide: BorderSide(color: Colors.grey.shade300),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
-            borderSide: BorderSide(color: Colors.grey.shade300),
-          ),
-        ),
-      ),
-      const SizedBox(height: 12),
-    ],
-  );
 }

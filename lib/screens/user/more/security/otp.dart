@@ -1,8 +1,8 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
-import 'package:zeelpay/screens/onboarding/onboarding.dart';
 import 'package:zeelpay/screens/user/more/security/pin.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
+import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
 class OPTScreen extends StatelessWidget {
@@ -12,6 +12,11 @@ class OPTScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextEditingController controller = TextEditingController();
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Security Settings"),
+        leading: const ZeelBackButton(),
+        leadingWidth: 100,
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24.0),

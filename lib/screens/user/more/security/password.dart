@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/screens/onboarding/onboarding.dart';
 import 'package:zeelpay/screens/user/more/success.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
+import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
 class ChangePassword extends StatelessWidget {
@@ -13,6 +13,11 @@ class ChangePassword extends StatelessWidget {
     TextEditingController newPasswordController = TextEditingController();
     TextEditingController confirmPasswordController = TextEditingController();
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Security Settings"),
+        leading: const ZeelBackButton(),
+        leadingWidth: 100,
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24),

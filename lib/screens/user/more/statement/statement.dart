@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:zeelpay/screens/onboarding/onboarding.dart';
-import 'package:zeelpay/screens/user/more/success.dart';
+import 'package:zeelpay/controllers/user/user_controller.dart';
+import 'package:zeelpay/providers/state/loading_state_provider.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
+import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
 // import '../../../widgets/zeel_button_widget.dart';
@@ -17,6 +19,7 @@ class AccountStatement extends StatefulWidget {
 class _AccountStatementState extends State<AccountStatement> {
   DateTime? _endDate;
   DateTime? _startDate;
+  String _selectedFormat = "pdf";
   // final String _selectedFormat = "PDF";
 
   void _showStartDate() {
@@ -49,14 +52,18 @@ class _AccountStatementState extends State<AccountStatement> {
     });
   }
 
+  final fileFormat = {
+    'pdf': 'PDF',
+    'xlsx': 'XLSX',
+  };
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: const Text('Account Statement'),
         leadingWidth: 100,
-        title: Text("Fund Your Account",
-            style: ShadTheme.of(context).textTheme.h3),
-        // leading: const ZeelBackButton(),
+        leading: const ZeelBackButton(),
       ),
       body: SafeArea(
         child: Padding(
@@ -66,22 +73,6 @@ class _AccountStatementState extends State<AccountStatement> {
               Expanded(
                 child: ListView(
                   children: [
-                    const ZeelTextFieldTitle(text: "Select Currency"),
-                    Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: ZealPalette.darkerGrey),
-                      ),
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("NGN"),
-                          Icon(Icons.keyboard_arrow_down_rounded),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 12),
                     const ZeelTextFieldTitle(text: "Start Date"),
                     InkWell(
                       borderRadius: BorderRadius.circular(12),
@@ -132,46 +123,60 @@ class _AccountStatementState extends State<AccountStatement> {
                       ),
                     ),
                     const SizedBox(height: 12),
-
                     const ZeelTextFieldTitle(text: "File Format"),
-                    Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: ZealPalette.darkerGrey),
-                      ),
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("PDF"),
-                          Icon(Icons.keyboard_arrow_down_rounded),
+                    SizedBox(
+                      height: 55,
+                      width: double.infinity,
+                      child: ShadSelect<String>(
+                        onChanged: (value) => setState(() {
+                          _selectedFormat = value;
+                        }),
+                        placeholder: const Text(
+                          'PDF',
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                        decoration: ShadDecoration(
+                            merge: false,
+                            border: ShadBorder(
+                                radius: BorderRadius.circular(15),
+                                width: 0.5,
+                                color: ZealPalette.darkerGrey),
+                            focusedBorder: ShadBorder(
+                                radius: BorderRadius.circular(15),
+                                color: ZealPalette.darkerGrey,
+                                width: 0.5),
+                            secondaryBorder: ShadBorder(
+                                radius: BorderRadius.circular(15),
+                                color: ZealPalette.darkerGrey,
+                                width: 0.5)),
+                        options: [
+                          ...fileFormat.entries.map((e) =>
+                              ShadOption(value: e.key, child: Text(e.value))),
                         ],
+                        selectedOptionBuilder: (context, value) => Text(
+                          fileFormat[value]!,
+                          style: const TextStyle(color: Colors.grey),
+                        ),
                       ),
                     ),
-                    // DropdownButton(
-                    //     items: [],
-                    //     onChanged: ((newValue) {
-                    //       setState(() {
-                    //         _selectedFormat = newValue;
-                    //       });
-                    //     }))
                   ],
                 ),
               ),
-              ZeelButton(
-                text: "Generate Statement",
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const Success(
-                          title: "Done",
-                          body:
-                              "Your account statement has been successfully generated and sent to your email. Check your inbox for the details.",
-                          button: "Back",
-                        ),
-                      ));
-                },
+              Consumer(
+                builder: (context, ref, child) => ZeelButton(
+                  text: "Generate Statement",
+                  isLoading: ref.watch(isLoadingProvider),
+                  onPressed: _startDate != null && _endDate != null
+                      ? () async {
+                          UserController().generateStatement(
+                              startDate: _startDate.toString(),
+                              endDate: _endDate.toString(),
+                              format: _selectedFormat.toString(),
+                              ref: ref,
+                              context: context);
+                        }
+                      : null,
+                ),
               ),
             ],
           ),

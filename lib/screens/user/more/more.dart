@@ -35,14 +35,19 @@ class More extends ConsumerWidget {
                   userinfo.when(
                     data: (user) => Row(
                       children: [
-                        const ShadImage(ZeelPng.avatar, height: 50),
+                        CircleAvatar(
+                          radius: 30,
+                          backgroundImage: user!.data!.profilePicture!.isEmpty
+                              ? const AssetImage(ZeelPng.avatar)
+                              : NetworkImage(user.data!.profilePicture!),
+                        ),
                         const SizedBox(width: 10),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                                "${user!.data!.firstName!} ${user.data!.lastName!}",
+                                "${user.data!.firstName!} ${user.data!.lastName!}",
                                 style: ShadTheme.of(context).textTheme.h4),
                             const SizedBox(
                               height: 5,

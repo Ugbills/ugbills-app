@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zeelpay/constants/assets/png.dart';
 import 'package:zeelpay/screens/onboarding/onboarding.dart';
+import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
 class GiftcardTransactionDetails extends StatelessWidget {

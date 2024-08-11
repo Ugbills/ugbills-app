@@ -67,7 +67,6 @@ class ApiRepository {
         case RequestType.upload:
           response = await httpService.patchUploadRequest(
             endpoint,
-            data: data,
             file: file!,
             key: key!,
             headers: headers,

@@ -4,7 +4,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:zeelpay/constants/assets/png.dart';
 import 'package:zeelpay/helpers/storage/onboarding.dart';
 import 'package:zeelpay/screens/account_screen.dart';
-import 'package:zeelpay/themes/palette.dart';
+import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 
 class Onboarding extends StatefulWidget {
   const Onboarding({super.key});
@@ -160,49 +160,49 @@ class OnboardingPage {
   OnboardingPage(this.title, this.description, this.image, this.color);
 }
 
-class ZeelButton extends StatelessWidget {
-  final Function()? onPressed;
-  final String? text;
-  final Color color;
-  final bool borderColor;
+// class ZeelButton extends StatelessWidget {
+//   final Function()? onPressed;
+//   final String? text;
+//   final Color color;
+//   final bool borderColor;
 
-  const ZeelButton({
-    super.key,
-    this.onPressed,
-    this.text = "Log in",
-    this.color = const Color(0xff20013A),
-    this.borderColor = false,
-  });
+//   const ZeelButton({
+//     super.key,
+//     this.onPressed,
+//     this.text = "Log in",
+//     this.color = const Color(0xff20013A),
+//     this.borderColor = false,
+//   });
 
-  @override
-  Widget build(BuildContext context) {
-    bool isDark = Theme.of(context).brightness == Brightness.dark;
-    return SizedBox(
-      width: double.infinity,
-      height: 57.0,
-      child: FilledButton(
-        style: FilledButton.styleFrom(
-            side: BorderSide(
-              color: isDark && borderColor
-                  ? ZealPalette.lightPurple
-                  : const Color(0xff20013A),
-            ),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0)),
-            backgroundColor: color),
-        onPressed: onPressed,
-        child: Text(
-          text!,
-          style: TextStyle(
-              fontWeight: FontWeight.w900,
-              fontSize: 16,
-              color: isDark
-                  ? Colors.grey.shade200
-                  : borderColor
-                      ? const Color(0xff20013A)
-                      : Colors.white),
-        ),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     bool isDark = Theme.of(context).brightness == Brightness.dark;
+//     return SizedBox(
+//       width: double.infinity,
+//       height: 57.0,
+//       child: FilledButton(
+//         style: FilledButton.styleFrom(
+//             side: BorderSide(
+//               color: isDark && borderColor
+//                   ? ZealPalette.lightPurple
+//                   : const Color(0xff20013A),
+//             ),
+//             shape: RoundedRectangleBorder(
+//                 borderRadius: BorderRadius.circular(15.0)),
+//             backgroundColor: color),
+//         onPressed: onPressed,
+//         child: Text(
+//           text!,
+//           style: TextStyle(
+//               fontWeight: FontWeight.w900,
+//               fontSize: 16,
+//               color: isDark
+//                   ? Colors.grey.shade200
+//                   : borderColor
+//                       ? const Color(0xff20013A)
+//                       : Colors.white),
+//         ),
+//       ),
+//     );
+//   }
+// }

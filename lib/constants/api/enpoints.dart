@@ -16,7 +16,8 @@ class Endpoints {
 
   // User
   static const user = '${baseUrl}user';
-  static const avatar = '$user/avatar';
+  static const profileImage = '$user/profile-image';
+  static const accountStatement = '$user/statement';
 
   static const userNotifications = '$user/notifications/';
 }
