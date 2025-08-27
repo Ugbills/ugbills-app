@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/screens/user/more/account_level/tier-3/tier_3.dart';
+import 'package:short_navigation/short_navigation.dart';
+import 'package:zeelpay/screens/account_screen.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 
@@ -29,8 +30,7 @@ class Congrats extends StatelessWidget {
               ZeelButton(
                 text: "Back",
                 onPressed: () {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (_) => const AccountTier3()));
+                  Go.to(const AccountScreen());
                 },
               ),
             ],

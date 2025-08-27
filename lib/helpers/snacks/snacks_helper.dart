@@ -69,7 +69,7 @@ successSnack(context, message) async {
 //     elevation: 0,
 //     behavior: SnackBarBehavior.floating,
 //     duration: const Duration(seconds: 10),
-//     backgroundColor: Colors.transparent,
+//      forceMaterialTransparency: true,
 //     content: AwesomeSnackbarContent(
 //       title: title!,
 //       message: message,
@@ -93,7 +93,7 @@ successSnack(context, message) async {
 //     elevation: 0,
 //     duration: const Duration(seconds: 30),
 //     behavior: SnackBarBehavior.floating,
-//     backgroundColor: Colors.transparent,
+//      forceMaterialTransparency: true,
 //     content: AwesomeSnackbarContent(
 //       title: title!,
 //       message: message,

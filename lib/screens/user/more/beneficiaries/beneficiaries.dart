@@ -1,48 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/models/beneficiaries.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:zeelpay/providers/user_provider.dart';
+import 'package:zeelpay/screens/widgets/beneficiary_widget.dart';
+
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
-class SavedBeneficiaries extends StatefulWidget {
+class SavedBeneficiaries extends ConsumerStatefulWidget {
   const SavedBeneficiaries({super.key});
 
-  static List<BeneficiariesModel> listOfBeneficiaries = [
-    BeneficiariesModel(
-      name: "Yinka Adeola",
-      bank: "First bank",
-      accountNumber: "568498592552",
-    ),
-    BeneficiariesModel(
-      name: "Tamuno Adeola",
-      bank: "GTB bank",
-      accountNumber: "568498592552",
-    ),
-    BeneficiariesModel(
-      name: "Ola Adeola",
-      bank: "Zenith bank",
-      accountNumber: "568498592552",
-    ),
-  ];
-
   @override
-  State<SavedBeneficiaries> createState() => _SavedBeneficiariesState();
+  ConsumerState<SavedBeneficiaries> createState() => _SavedBeneficiariesState();
 }
 
-class _SavedBeneficiariesState extends State<SavedBeneficiaries> {
-  List<BeneficiariesModel> displayList =
-      List.from(SavedBeneficiaries.listOfBeneficiaries);
-
-  void updateList(String value) {
-    setState(() {
-      displayList = SavedBeneficiaries.listOfBeneficiaries
-          .where((element) =>
-              element.name!.toLowerCase().contains(value.toLowerCase()))
-          .toList();
-    });
-  }
-
+class _SavedBeneficiariesState extends ConsumerState<SavedBeneficiaries> {
+  var searchWord = "";
   @override
   Widget build(BuildContext context) {
+    var beneficiaries = ref.watch(fetchUserBeneficiariesProvider);
     return Scaffold(
       body: SafeArea(
         child: ListView(
@@ -62,7 +37,11 @@ class _SavedBeneficiariesState extends State<SavedBeneficiaries> {
             ),
             const SizedBox(height: 12),
             TextField(
-              onChanged: (value) => updateList(value),
+              onChanged: (value) {
+                setState(() {
+                  searchWord = value;
+                });
+              },
               decoration: InputDecoration(
                 enabledBorder: OutlineInputBorder(
                   borderSide: const BorderSide(
@@ -79,65 +58,29 @@ class _SavedBeneficiariesState extends State<SavedBeneficiaries> {
               ),
             ),
             const SizedBox(height: 12),
-            ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: displayList.length,
-                itemBuilder: (context, index) {
-                  return beneficiary(
-                    displayList[index].name!,
-                    displayList[index].bank!,
-                    displayList[index].accountNumber!,
-                    context,
-                  );
-                })
+            beneficiaries.when(
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (error, stackTrace) => Text(error.toString()),
+                data: (data) => ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: searchWord.isEmpty
+                        ? data!.data!.length
+                        : data!.data!
+                            .where((element) =>
+                                element.accountName!.contains(searchWord))
+                            .length,
+                    itemBuilder: (context, index) {
+                      return BeneficiaryTile(
+                        name: data.data![index].accountName!,
+                        bank: data.data![index].bankName!,
+                        accountNumber: data.data![index].accountNumber!,
+                        sessionId: data.data![index].sessionId!,
+                      );
+                    }))
           ],
         ),
       ),
     );
   }
-}
-
-Widget beneficiary(
-    String name, String bank, String accountNumber, BuildContext context) {
-  bool isDark = Theme.of(context).brightness == Brightness.dark;
-
-  return Container(
-    margin: const EdgeInsets.symmetric(vertical: 6),
-    padding: const EdgeInsets.all(14),
-    decoration: BoxDecoration(
-      color: isDark ? ZealPalette.lighterBlack : Colors.white,
-      borderRadius: BorderRadius.circular(14),
-    ),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          children: [
-            Image.asset("assets/images/access-bank.png"),
-            const SizedBox(width: 12),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name,
-                  style: const TextStyle(
-                      fontSize: 12, fontWeight: FontWeight.w700),
-                ),
-                Text(
-                  bank,
-                  style: const TextStyle(fontSize: 10, color: Colors.grey),
-                ),
-                Text(
-                  accountNumber,
-                  style: const TextStyle(fontSize: 10),
-                ),
-              ],
-            ),
-          ],
-        ),
-        const Icon(Icons.arrow_forward_ios),
-      ],
-    ),
-  );
 }

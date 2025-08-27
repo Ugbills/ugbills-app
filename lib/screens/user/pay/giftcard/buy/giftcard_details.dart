@@ -1,13 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:zeelpay/helpers/common/data_formatter.dart';
 import 'package:zeelpay/screens/user/pay/giftcard/confirm_giftcard_details.dart';
+import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
+import 'package:zeelpay/screens/widgets/zeel_scrollable_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
 class BuyGiftcardDetails extends StatefulWidget {
   final String title;
-  const BuyGiftcardDetails({super.key, this.title = 'Netflix'});
+  final String iconUrl;
+  final String countryCode;
+  final String productName;
+  final dynamic unitPrice;
+  final String productId;
+  final String brandId;
+  final String country;
+  final String redeemInfo;
+  final bool fixedPrice;
+  final dynamic senderFee;
+  final List<dynamic>? fixedRecipientDenominations;
+  final Map<String, dynamic>? fixedRecipientToSenderDenominationsMap;
+  final dynamic minSenderDenomination;
+  final dynamic maxSenderDenomination;
+  const BuyGiftcardDetails(
+      {super.key,
+      required this.title,
+      required this.iconUrl,
+      required this.productName,
+      required this.unitPrice,
+      required this.countryCode,
+      required this.productId,
+      required this.brandId,
+      required this.country,
+      required this.fixedPrice,
+      this.fixedRecipientDenominations,
+      this.fixedRecipientToSenderDenominationsMap,
+      this.minSenderDenomination,
+      this.maxSenderDenomination,
+      required this.redeemInfo,
+      this.senderFee});
 
   @override
   State<BuyGiftcardDetails> createState() => _BuyGiftcardDetailsState();
@@ -57,154 +90,156 @@ class _BuyGiftcardDetailsState extends State<BuyGiftcardDetails> {
     return format.format(priceInNaira);
   }
 
-  String? selectedCountry;
-  final List<String> items = [
-    'Canada',
-    'USA',
-    'Australia',
-  ];
-
   @override
   Widget build(BuildContext context) {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
         leadingWidth: 100,
+        forceMaterialTransparency: true,
         title: Text(
-          'Buy ${widget.title}',
-          style: const TextStyle(fontWeight: FontWeight.bold),
+          widget.title,
         ),
-        leading: const ZeelBackButton(
-          color: Colors.white,
-        ),
+        leading: const ZeelBackButton(),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView(
-                children: [
-                  const ZeelTextFieldTitle(text: "Country"),
-                  Container(
-                    margin: const EdgeInsets.symmetric(vertical: 12),
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
-                        color: Colors.grey,
-                        width: 0.5,
-                      ),
-                    ),
-                    child: DropdownButton<String>(
-                      isExpanded: true,
-                      hint: const Text('Select an option'),
-                      value: selectedCountry,
-                      underline: Container(color: Colors.transparent),
-                      items: items.map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          selectedCountry = newValue;
-                        });
-                      },
-                      icon: const Icon(Icons.arrow_drop_down),
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      _buildShortcutButton("5"),
-                      _buildShortcutButton("10"),
-                      _buildShortcutButton("15"),
-                      _buildShortcutButton("50"),
-                      _buildShortcutButton("100"),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  const ZeelTextFieldTitle(text: "Amount to buy"),
-                  const SizedBox(height: 12),
-                  TextFormField(
-                    enabled: true,
-                    controller: _amountController,
-                    keyboardType:
-                        const TextInputType.numberWithOptions(decimal: true),
-                    decoration: InputDecoration(
-                      prefixText: '\$',
-                      hintText: "0.00",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      const Text("Price in Naira: "),
-                      Text(
-                        _formattedPriceInNaira,
-                        style: const TextStyle(fontWeight: FontWeight.w700),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      color: isDark
-                          ? ZealPalette.orange
-                          : ZealPalette.rustColor.withAlpha(20),
-                      border: Border.all(color: ZealPalette.rustColor),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          "Note",
-                          style: TextStyle(
-                            color: ZealPalette.rustColor,
-                            fontWeight: FontWeight.w600,
-                          ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: ZeelScrollable(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const ZeelTextFieldTitle(text: "Country"),
+                ZeelTextField(enabled: false, hint: widget.country),
+                widget.fixedRecipientDenominations!.isNotEmpty
+                    ? SizedBox(
+                        height: 40,
+                        child: ListView.separated(
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(width: 8),
+                          itemCount: widget.fixedRecipientDenominations!.length,
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return _buildShortcutButton(
+                              widget.fixedRecipientDenominations![index]
+                                  .toString(),
+                            );
+                          },
                         ),
-                        Text(
-                          "The gift card will be delivered instantly via email.",
-                          style: TextStyle(
-                            color: isDark ? ZealPalette.rustColor : Colors.grey,
-                            fontSize: 10,
-                          ),
-                        )
-                      ],
+                      )
+                    : const SizedBox.shrink(),
+                widget.fixedRecipientDenominations!.isNotEmpty
+                    ? const SizedBox(height: 16)
+                    : const SizedBox.shrink(),
+                const ZeelTextFieldTitle(text: "Amount to buy"),
+                const SizedBox(height: 12),
+                TextFormField(
+                  enabled: widget.fixedPrice ? false : true,
+                  controller: _amountController,
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
+                  decoration: InputDecoration(
+                    prefixText: '\$',
+                    hintText: "0.00",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
                     ),
                   ),
-                ],
-              ),
-            ),
-            ZeelButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => ConfirmGiftcardDetails(
-                        transactionID: '32324defkfdc',
-                        usdAmount: '\$50',
-                        nairaAmount: '₦55,000',
-                        dateAndTime: 'Mar 09 2024, 5:04PM',
-                        fee: '₦150',
-                        title: widget.title,
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    const Text("Price in Naira: "),
+                    Text(
+                      _formattedPriceInNaira,
+                      style: const TextStyle(fontWeight: FontWeight.w700),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    color: isDark
+                        ? ZealPalette.orange
+                        : ZealPalette.rustColor.withAlpha(20),
+                    border: Border.all(color: ZealPalette.rustColor),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Note",
+                        style: TextStyle(
+                          color: ZealPalette.rustColor,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                    ));
-              },
-              text: "Buy",
+                      Text(
+                        "The gift card will be delivered instantly via email.",
+                        style: TextStyle(
+                          color: isDark ? ZealPalette.rustColor : Colors.grey,
+                          fontSize: 10,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      const Text(
+                        "Redeem instruction",
+                        style: TextStyle(
+                          color: ZealPalette.rustColor,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      Text(
+                        widget.redeemInfo,
+                        style: TextStyle(
+                          color: isDark ? ZealPalette.rustColor : Colors.grey,
+                          fontSize: 10,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: ZeelButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => ConfirmGiftcardDetails(
+                                  iconUrl: widget.iconUrl,
+                                  productName: widget.productName,
+                                  unitPrice: widget.fixedPrice
+                                      ? _amountController.text
+                                      : widget.unitPrice,
+                                  countryCode: widget.countryCode,
+                                  productId: widget.productId,
+                                  brandId: widget.brandId,
+                                  usdAmount: _amountController.text,
+                                  nairaAmount: _formattedPriceInNaira,
+                                  dateAndTime: formartDateTime(
+                                      DateTime.now().toString()),
+                                  fee: '₦${widget.senderFee}',
+                                  title: widget.title,
+                                ),
+                              ));
+                        },
+                        text: "Buy",
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

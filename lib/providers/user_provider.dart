@@ -1,11 +1,21 @@
 import 'dart:convert';
 import 'dart:developer';
+
 import 'package:dio/dio.dart';
+import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:zeelpay/constants/api/enpoints.dart';
+import 'package:short_navigation/short_navigation.dart';
+import 'package:zeelpay/constants/api/endpoints.dart';
 import 'package:zeelpay/helpers/api/response_helper.dart';
 import 'package:zeelpay/helpers/storage/token.dart';
+import 'package:zeelpay/models/api/bank_account_model.dart';
+import 'package:zeelpay/models/api/beneficiaries_model.dart';
+import 'package:zeelpay/models/api/level_model.dart';
+import 'package:zeelpay/models/api/onetime_bank_model.dart';
+import 'package:zeelpay/models/api/referrals_model.dart';
 import 'package:zeelpay/models/api/user_model.dart';
+import 'package:zeelpay/repository/auth_repository.dart';
+import 'package:zeelpay/screens/auth/create/set_pin.dart';
 import 'package:zeelpay/services/http_service.dart';
 
 part 'user_provider.g.dart';
@@ -16,8 +26,8 @@ var tokenStorage = TokenStorage();
 
 var httpService = HttpService();
 
-@Riverpod(keepAlive: true)
-Future<UserModel?> fetchUserInformation(FetchUserInformationRef ref) async {
+@Riverpod(keepAlive: false)
+Future<UserModel?> fetchUserInformation(Ref ref) async {
   try {
     var token = await tokenStorage.getToken();
 
@@ -31,9 +41,157 @@ Future<UserModel?> fetchUserInformation(FetchUserInformationRef ref) async {
         },
         responseType: ResponseType.plain);
 
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      log(response.data);
+      var user = UserModel.fromJson(jsonDecode(response.data));
+
+      if (user.data!.pin!.isEmpty) {
+        Go.to(const SetransactionPin());
+      }
+
+      return user;
+    }
+  } on DioException catch (e) {
+    log(e.toString());
+    if (e.response!.statusCode == 401) {
+      AuthRepository().logout();
+    }
+    throw Exception(e);
+  }
+  return null;
+}
+
+//fetch user beneficiaries
+
+@Riverpod(keepAlive: false)
+Future<BeneficiariesModel?> fetchUserBeneficiaries(Ref ref) async {
+  try {
+    var token = await tokenStorage.getToken();
+
+    log(token!);
+
+    var response = await httpService.getRequest(Endpoints.userBeneficiaries,
+        headers: {
+          'X-Forwarded-For': '1234',
+          'Y-decryption-key': '1234',
+          "ZEEL-SECURE-KEY": token
+        },
+        responseType: ResponseType.plain);
+
     if (response.statusCode == 200) {
       log(response.data);
-      return UserModel.fromJson(jsonDecode(response.data));
+      return BeneficiariesModel.fromJson(jsonDecode(response.data));
+    }
+  } on DioException catch (e) {
+    throw Exception(e);
+  }
+  return null;
+}
+
+//fetch user refferals
+
+@Riverpod(keepAlive: false)
+Future<ReferralsModel?> fetchUserReferrals(Ref ref) async {
+  try {
+    var token = await tokenStorage.getToken();
+
+    log(token!);
+
+    var response = await httpService.getRequest(Endpoints.userReferrals,
+        headers: {
+          'X-Forwarded-For': '1234',
+          'Y-decryption-key': '1234',
+          "ZEEL-SECURE-KEY": token
+        },
+        responseType: ResponseType.plain);
+
+    if (response.statusCode == 200) {
+      log(response.data);
+      return ReferralsModel.fromJson(jsonDecode(response.data));
+    }
+  } on DioException catch (e) {
+    throw Exception(e);
+  }
+  return null;
+}
+
+// fetch user virtual accounts
+
+@Riverpod(keepAlive: false)
+Future<OneTimeBank?> oneTimeAccount(Ref ref, {required dynamic amount}) async {
+  try {
+    var token = await tokenStorage.getToken();
+    var response = await httpService.postRequest(Endpoints.oneTimeAccount,
+        data: {
+          "amount": amount
+        },
+        headers: {
+          'X-Forwarded-For': '1234',
+          'Y-decryption-key': '1234',
+          "ZEEL-SECURE-KEY": token
+        });
+
+    if (response.statusCode == 200) {
+      log(response.data);
+      return OneTimeBank.fromJson(jsonDecode(response.data));
+    }
+  } on DioException catch (e) {
+    if (e.response!.data != null) {
+      //show custom error message
+
+      throw Exception(jsonDecode(e.response!.data)["message"]);
+    }
+
+    throw Exception(e);
+  }
+  return null;
+}
+
+// fetch user virtual accounts
+
+@Riverpod(keepAlive: false)
+Future<BankAccountModel?> fetchUserVirtualAccount(Ref ref) async {
+  try {
+    var token = await tokenStorage.getToken();
+
+    log(token!);
+
+    var response = await httpService.getRequest(Endpoints.virtualAccount,
+        headers: {
+          'X-Forwarded-For': '1234',
+          'Y-decryption-key': '1234',
+          "ZEEL-SECURE-KEY": token
+        },
+        responseType: ResponseType.plain);
+
+    if (response.statusCode == 200) {
+      log(response.data);
+      return BankAccountModel.fromJson(jsonDecode(response.data));
+    }
+  } on DioException catch (e) {
+    throw Exception(e);
+  }
+  return null;
+}
+
+@Riverpod(keepAlive: false)
+Future<AccountLevelModel?> fetchAccountLevel(Ref ref) async {
+  try {
+    var token = await tokenStorage.getToken();
+
+    log(token!);
+
+    var response = await httpService.getRequest(Endpoints.currentLevel,
+        headers: {
+          'X-Forwarded-For': '1234',
+          'Y-decryption-key': '1234',
+          "ZEEL-SECURE-KEY": token
+        },
+        responseType: ResponseType.plain);
+
+    if (response.statusCode == 200) {
+      log(response.data);
+      return AccountLevelModel.fromJson(jsonDecode(response.data));
     }
   } on DioException catch (e) {
     throw Exception(e);

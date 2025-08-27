@@ -31,7 +31,7 @@ class AccountTier3 extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => const EnterAddress(),
+                        builder: (_) => EnterAddress(),
                       ));
                 },
               ),

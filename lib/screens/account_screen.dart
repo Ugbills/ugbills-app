@@ -49,7 +49,7 @@ class AccountScreen extends StatelessWidget {
                               ZeelAltButton(
                                 text: "Create Account",
                                 onPressed: () {
-                                  Go.to(CreateAccountScreen());
+                                  Go.to(const CreateAccountScreen());
                                 },
                               ),
                               const SizedBox(height: 20.0),

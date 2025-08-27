@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/screens/auth/reset/new_password_screen.dart';
-import 'package:zeelpay/screens/user/home/home.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:short_navigation/short_navigation.dart';
+import 'package:zeelpay/providers/state/loading_state_provider.dart';
+import 'package:zeelpay/screens/auth/create/set_pin.dart';
+import 'package:zeelpay/screens/user/user.dart';
 import 'package:zeelpay/screens/widgets/images_widget.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 
-class AccountCreatedScreen extends StatelessWidget {
+class AccountCreatedScreen extends ConsumerWidget {
   const AccountCreatedScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
+        forceMaterialTransparency: true,
         leadingWidth: 100,
         leading: const Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -40,7 +44,7 @@ class AccountCreatedScreen extends StatelessWidget {
                       const SizedBox(height: 10.0),
                       const ZeelText(
                           text:
-                              "You have successfully created your account, now check it out and proceed to KYC verification.",
+                              "You have successfully created your account, now check it out and proceed with setting up your transaction pin.",
                           center: TextAlign.center),
                       const SizedBox(height: 50.0),
 
@@ -52,25 +56,18 @@ class AccountCreatedScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               ZeelAltButton(
-                                text: "Skip KYC",
+                                text: "Set PIN later",
                                 onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const DashBoardScreen()));
+                                  Go.to(const UserScreen());
                                 },
                               ),
                               const SizedBox(height: 20.0),
                               ZeelButton(
                                 text: "Continue",
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const NewPasswordScreen()));
-                                },
+                                isLoading:
+                                    ref.watch(isLoadingProvider.notifier).state,
+                                onPressed: () =>
+                                    Go.to(const SetransactionPin()),
                               ),
                             ],
                           ),

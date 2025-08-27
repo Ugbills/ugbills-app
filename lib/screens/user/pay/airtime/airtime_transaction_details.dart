@@ -29,6 +29,7 @@ class AirtimeTransactionDetails extends StatelessWidget {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       body: SafeArea(
+        top: false,
         child: Stack(
           alignment: Alignment.topCenter,
           children: [
@@ -54,6 +55,7 @@ class AirtimeTransactionDetails extends StatelessWidget {
                       borderRadius: BorderRadius.circular(100),
                       child: Image.asset(
                         networkLogo,
+                        height: 100,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -119,26 +121,29 @@ class AirtimeTransactionDetails extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 24),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back_ios_new_outlined,
-                    color: Colors.white,
+            Padding(
+              padding: const EdgeInsets.only(top: 50.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back_ios_new_outlined,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.share,
-                    color: Colors.white,
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.share,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             )
           ],
         ),
@@ -158,11 +163,14 @@ Widget showDetails(String lead, String trail, BuildContext context) {
           lead,
           style: TextStyle(color: Colors.grey.shade600),
         ),
-        Text(
-          trail,
-          style: TextStyle(
-            color: isDark ? Colors.grey.shade200 : Colors.grey.shade900,
-            fontWeight: FontWeight.w500,
+        Flexible(
+          child: Text(
+            overflow: TextOverflow.clip,
+            trail,
+            style: TextStyle(
+              color: isDark ? Colors.grey.shade200 : Colors.grey.shade900,
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
       ],

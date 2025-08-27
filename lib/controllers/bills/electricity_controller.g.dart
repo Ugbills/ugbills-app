@@ -1,0 +1,27 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'electricity_controller.dart';
+
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
+
+String _$electricityControllerHash() =>
+    r'cc4062c63698100f4e9d648e54f86cad35dd9dfb';
+
+/// See also [ElectricityController].
+@ProviderFor(ElectricityController)
+final electricityControllerProvider =
+    AutoDisposeNotifierProvider<ElectricityController, dynamic>.internal(
+  ElectricityController.new,
+  name: r'electricityControllerProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$electricityControllerHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$ElectricityController = AutoDisposeNotifier<dynamic>;
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

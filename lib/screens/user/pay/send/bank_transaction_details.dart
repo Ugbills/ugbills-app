@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/screens/onboarding/onboarding.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
@@ -12,6 +12,7 @@ class BankTransactionDetails extends StatelessWidget {
       accountName,
       accountNumber,
       fee,
+      sessionId,
       note;
   const BankTransactionDetails({
     super.key,
@@ -24,6 +25,7 @@ class BankTransactionDetails extends StatelessWidget {
     required this.accountNumber,
     required this.fee,
     required this.note,
+    required this.sessionId,
   });
 
   @override
@@ -32,6 +34,7 @@ class BankTransactionDetails extends StatelessWidget {
 
     return Scaffold(
       body: SafeArea(
+        top: false,
         child: Stack(
           alignment: Alignment.topCenter,
           children: [
@@ -53,7 +56,11 @@ class BankTransactionDetails extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset("assets/images/firstbank-img.png"),
+                    ShadImage(
+                      bankLogo,
+                      height: 70,
+                      width: 70,
+                    ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 12.0),
                       child: Text(
@@ -106,6 +113,7 @@ class BankTransactionDetails extends StatelessWidget {
                     showDetails("Account Number", accountNumber, context),
                     showDetails("Fee", fee, context),
                     showDetails("Note", note, context),
+                    showDetails("Session ID", sessionId, context),
                     const Spacer(),
                     ZeelButton(
                       text: "Share Transaction",
@@ -117,26 +125,29 @@ class BankTransactionDetails extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 24),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back_ios_new_outlined,
-                    color: Colors.white,
+            Padding(
+              padding: const EdgeInsets.only(top: 50.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back_ios_new_outlined,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.share,
-                    color: Colors.white,
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.share,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             )
           ],
         ),

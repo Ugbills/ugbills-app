@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:short_navigation/short_navigation.dart';
 import 'package:zeelpay/controllers/auth/auth_controller.dart';
 import 'package:zeelpay/helpers/forms/validators.dart';
-import 'package:zeelpay/providers/state/loading_state_provider.dart';
 import 'package:zeelpay/screens/auth/reset/forgot_password_screen.dart';
 import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 
-class LoginScreen extends ConsumerWidget {
+class LoginScreen extends HookConsumerWidget {
   LoginScreen({super.key});
 
   final TextEditingController emailController = TextEditingController();
@@ -18,10 +18,13 @@ class LoginScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final formKey = GlobalKey<FormState>();
-    var isloading = ref.watch(isLoadingProvider);
+    final pendinglogin = useState<Future<void>?>(null);
+    final isLoading = useFuture(pendinglogin.value).connectionState ==
+        ConnectionState.waiting;
     return Scaffold(
       appBar: AppBar(
         leadingWidth: 100,
+        forceMaterialTransparency: true,
         leading: const Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.0),
           child: ZeelBackButton(),
@@ -47,7 +50,7 @@ class LoginScreen extends ConsumerWidget {
                         text: "Log in to your account to manage your finance",
                       ),
                       const SizedBox(height: 50.0),
-                      const ZeelTextFieldTitle(text: "Username or Email"),
+                      const ZeelTextFieldTitle(text: "Email Address"),
                       Form(
                         key: formKey,
                         child: Column(
@@ -57,9 +60,8 @@ class LoginScreen extends ConsumerWidget {
                               enabled: true,
                               validator: emailValidator,
                               controller: emailController,
-                              hint: "Enter your username or email",
+                              hint: "Enter your email",
                             ),
-                            const SizedBox(height: 20.0),
                             const ZeelTextFieldTitle(text: "Password"),
                             PassWordFormField(controller: passwordController),
                           ],
@@ -73,16 +75,18 @@ class LoginScreen extends ConsumerWidget {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               ZeelButton(
-                                isLoading: isloading,
-                                onPressed: () {
-                                  AuthController().login(
-                                      context: context,
-                                      email: emailController.text,
-                                      password: passwordController.text,
-                                      ref: ref,
-                                      formkey: formKey);
-                                },
-                              ),
+                                  isLoading: isLoading,
+                                  onPressed: () {
+                                    final future = ref
+                                        .read(authControllerProvider.notifier)
+                                        .login(
+                                            ref: ref,
+                                            email: emailController.text,
+                                            password: passwordController.text,
+                                            formkey: formKey,
+                                            context: context);
+                                    pendinglogin.value = future;
+                                  }),
                               const SizedBox(height: 10.0),
                               TextButton(
                                   onPressed: () {

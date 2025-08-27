@@ -1,6 +1,6 @@
 import 'dart:io';
+
 import 'package:dio/dio.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:zeelpay/helpers/api/exceptions_helper.dart';
 import 'package:zeelpay/helpers/storage/token.dart';
 import 'package:zeelpay/services/http_service.dart';
@@ -15,8 +15,6 @@ class ApiRepository {
       bool? auth,
       File? file,
       String? key,
-      AutoDisposeStateProvider<bool>? loadingProvider,
-      WidgetRef? ref,
       required RequestType requestType,
       required String endpoint,
       required Function(dynamic) onSuccess,
@@ -25,9 +23,6 @@ class ApiRepository {
     try {
       Response response;
 
-      if (loadingProvider != null && ref != null) {
-        ref.read(loadingProvider.notifier).state = true;
-      }
       //switch case to handle request type
       headers ??= {'X-Forwarded-For': '1234', 'Y-decryption-key': '1234'};
 
@@ -65,7 +60,7 @@ class ApiRepository {
           );
           break;
         case RequestType.upload:
-          response = await httpService.patchUploadRequest(
+          response = await httpService.uploadRequest(
             endpoint,
             file: file!,
             key: key!,
@@ -74,19 +69,12 @@ class ApiRepository {
           break;
       }
 
-      //change loading state to false
-      if (loadingProvider != null && ref != null) {
-        ref.read(loadingProvider.notifier).state = false;
-      }
-
       if (response.statusCode != null && response.statusCode! <= 201) {
         onSuccess(response.data);
       }
     } on DioException catch (e) {
       //change loading state to false
-      if (loadingProvider != null && ref != null) {
-        ref.read(loadingProvider.notifier).state = false;
-      }
+
       onError(ApiExceptions.getErrorMessage(e));
     }
   }

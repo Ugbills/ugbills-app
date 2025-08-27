@@ -18,6 +18,11 @@ class SentSuccessfully extends StatelessWidget {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
+      appBar: AppBar(
+        leading: const SizedBox.shrink(),
+        leadingWidth: 100,
+        forceMaterialTransparency: true,
+      ),
       body: Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.all(24.0),
@@ -54,7 +59,7 @@ class SentSuccessfully extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             ZeelButton(
-              text: "Back",
+              text: "Done",
               onPressed: () {
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (_) => const UserScreen()));

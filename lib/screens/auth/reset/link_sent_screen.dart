@@ -5,12 +5,14 @@ import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 
 class LinkSentScreen extends StatelessWidget {
-  const LinkSentScreen({super.key});
+  final String email;
+  const LinkSentScreen({super.key, required this.email});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        forceMaterialTransparency: true,
         leadingWidth: 100,
         leading: const Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -34,7 +36,7 @@ class LinkSentScreen extends StatelessWidget {
                       Image.asset("assets/images/lock_image.png",
                           height: 224.0, width: 224.0),
                       const ZeelTitleText(
-                        text: "Reset Link Sent!",
+                        text: "Reset OTP Sent!",
                       ),
                       const SizedBox(height: 10.0),
                       const ZeelText(
@@ -48,20 +50,15 @@ class LinkSentScreen extends StatelessWidget {
                       Expanded(
                         child: Align(
                           alignment: Alignment.bottomCenter,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              ZeelButton(
-                                text: "Open Mail",
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const NewPasswordScreen()));
-                                },
-                              ),
-                            ],
+                          child: ZeelButton(
+                            text: "Continue",
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          NewPasswordScreen(email: email)));
+                            },
                           ),
                         ),
                       )

@@ -1,21 +1,24 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 
 class ApiExceptions {
   static String getErrorMessage(DioException e) {
     String errorDescription = '';
     if (e.response != null) {
+      var data = jsonDecode(e.response!.data);
       switch (e.response!.statusCode) {
         case 400:
-          errorDescription = 'Bad request';
+          errorDescription = data['message'];
           break;
         case 401:
-          errorDescription = 'Unauthorized';
+          errorDescription = data['message'];
           break;
         case 403:
           errorDescription = 'Forbidden';
           break;
         case 404:
-          errorDescription = 'Not Found';
+          errorDescription = data['message'];
           break;
         case 409:
           errorDescription = 'Conflict';
@@ -27,7 +30,7 @@ class ApiExceptions {
           errorDescription = 'Service Unavailable';
           break;
         default:
-          errorDescription = 'Oops something went wrong';
+          errorDescription = data.toString();
           break;
       }
     } else {

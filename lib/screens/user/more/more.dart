@@ -4,9 +4,12 @@ import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:short_navigation/short_navigation.dart';
 import 'package:zeelpay/constants/assets/png.dart';
 import 'package:zeelpay/constants/assets/svg.dart';
+import 'package:zeelpay/helpers/common/amount_formatter.dart';
+import 'package:zeelpay/helpers/storage/theme.dart';
+import 'package:zeelpay/providers/state/theme_state_provider.dart';
 import 'package:zeelpay/providers/user_provider.dart';
 import 'package:zeelpay/screens/user/more/about/about.dart';
-import 'package:zeelpay/screens/user/more/account_level/tier-2/tier_2.dart';
+import 'package:zeelpay/screens/user/more/account_level/account_level.dart';
 import 'package:zeelpay/screens/user/more/beneficiaries/beneficiaries.dart';
 import 'package:zeelpay/screens/user/more/contact/contact.dart';
 import 'package:zeelpay/screens/user/more/profile/edit.dart';
@@ -23,95 +26,117 @@ class More extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
     var userinfo = ref.watch(fetchUserInformationProvider);
+
+    var darkMode = ref.watch(themeModeProvider);
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: SingleChildScrollView(
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  userinfo.when(
-                    data: (user) => Row(
+              userinfo.when(
+                data: (user) => Container(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  decoration: BoxDecoration(
+                      color: isDark ? ZealPalette.lighterBlack : Colors.white),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        CircleAvatar(
-                          radius: 30,
-                          backgroundImage: user!.data!.profilePicture!.isEmpty
-                              ? const AssetImage(ZeelPng.avatar)
-                              : NetworkImage(user.data!.profilePicture!),
-                        ),
-                        const SizedBox(width: 10),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                                "${user.data!.firstName!} ${user.data!.lastName!}",
-                                style: ShadTheme.of(context).textTheme.h4),
-                            const SizedBox(
-                              height: 5,
+                            CircleAvatar(
+                              radius: 30,
+                              backgroundImage: user!
+                                      .data!.profilePicture!.isEmpty
+                                  ? const AssetImage(ZeelPng.avatar)
+                                  : NetworkImage(user.data!.profilePicture!),
                             ),
-                            Container(
-                              width: 70,
-                              decoration: BoxDecoration(
-                                  color: isDark
-                                      ? ZealPalette.lightPurple
-                                      : const Color(0xffE9E6EB),
-                                  borderRadius: BorderRadius.circular(20)),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Center(
-                                  child: Text("Tier ${user.data!.level!}"),
+                            const SizedBox(width: 10),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                    "${user.data!.firstName!} ${user.data!.lastName!}",
+                                    style: ShadTheme.of(context)
+                                        .textTheme
+                                        .small
+                                        .copyWith(fontWeight: FontWeight.bold)),
+                                Text("@${user.data!.username!}"),
+                                const SizedBox(
+                                  height: 5,
                                 ),
-                              ),
+                                Row(
+                                  children: [
+                                    const Text("Transfer Limit: "),
+                                    Text(
+                                        overflow: TextOverflow.clip,
+                                        "₦${returnAmount(user.data!.transferLimit!)} / ₦${returnAmount(user.data!.transferLevelLimit!)}",
+                                        style: ShadTheme.of(context)
+                                            .textTheme
+                                            .small
+                                            .copyWith(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold)),
+                                  ],
+                                )
+                              ],
                             ),
                           ],
                         ),
                       ],
                     ),
-                    loading: () => const SizedBox(),
-                    error: (error, stackTrace) => Text(error.toString()),
                   ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    height: 40,
-                    child: FilledButton(
-                      style: FilledButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          backgroundColor: const Color(0xff20013A)),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const EditProfile(),
-                          ),
-                        );
-                      },
-                      child: Text(
-                        "Edit Profile",
-                        style: ShadTheme.of(context).textTheme.small.copyWith(
-                            color: Colors.white, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  )
-                ],
+                ),
+                loading: () => const SizedBox(),
+                error: (error, stackTrace) => Text(error.toString()),
               ),
-              Expanded(
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: ListView.builder(
                   padding: const EdgeInsets.symmetric(vertical: 20),
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: tiles.length,
                   itemBuilder: (context, index) {
-                    return ZeelListTile(
-                        onTap: () {
-                          Go.to(tiles[index].route!);
-                        },
-                        title: tiles[index].title,
-                        leadingIcon: tiles[index].leadingIcon);
+                    if (tiles[index].title.toLowerCase().contains("theme")) {
+                      return Container(
+                        margin: const EdgeInsets.symmetric(vertical: 6),
+                        padding: const EdgeInsets.all(15),
+                        decoration: BoxDecoration(
+                          color:
+                              isDark ? ZealPalette.lighterBlack : Colors.white,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(tiles[index].title,
+                                style: ShadTheme.of(context)
+                                    .textTheme
+                                    .small
+                                    .copyWith(
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 16,
+                                    )),
+                            ShadSwitch(
+                                value: darkMode == ThemeMode.dark,
+                                onChanged: (value) async => switchTheme(
+                                    value: !(darkMode == ThemeMode.dark),
+                                    ref: ref)),
+                          ],
+                        ),
+                      );
+                    } else {
+                      return ZeelListTile(
+                          onTap: () {
+                            Go.to(tiles[index].route!);
+                          },
+                          title: tiles[index].title,
+                          leadingIcon: tiles[index].leadingIcon);
+                    }
                   },
                 ),
               ),
@@ -125,6 +150,11 @@ class More extends ConsumerWidget {
 
 List<Tiles> tiles = [
   Tiles(
+    title: "Edit Profile",
+    leadingIcon: ZeelSvg.userEdit,
+    route: EditProfile(),
+  ),
+  Tiles(
     title: "Account Statement",
     leadingIcon: ZeelSvg.accountStatement,
     route: const AccountStatement(),
@@ -132,7 +162,7 @@ List<Tiles> tiles = [
   Tiles(
     title: "Account Levels",
     leadingIcon: ZeelSvg.accountLevels,
-    route: const AccountTier2(),
+    route: const AccountLevel(),
   ),
   Tiles(
     title: "Refer and Earn",
@@ -150,6 +180,11 @@ List<Tiles> tiles = [
     route: const SecuritySettings(),
   ),
   Tiles(
+    title: "Dark Theme",
+    leadingIcon: ZeelSvg.settings,
+    route: const SecuritySettings(),
+  ),
+  Tiles(
       title: "Contact Us",
       leadingIcon: ZeelSvg.contact,
       route: const ContactUs()),
@@ -160,6 +195,11 @@ List<Tiles> tiles = [
   ),
   Tiles(title: "Logout", leadingIcon: ZeelSvg.logout),
 ];
+
+void switchTheme({required bool value, required WidgetRef ref}) async {
+  ThemeStorage().update(value);
+  ref.refresh(themeModeProvider);
+}
 
 class Tiles {
   final String title;

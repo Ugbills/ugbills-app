@@ -1,19 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/constants/assets/png.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:short_navigation/short_navigation.dart';
+import 'package:zeelpay/controllers/bills/betting_controller.dart';
+import 'package:zeelpay/providers/betting_provider.dart';
 import 'package:zeelpay/screens/user/pay/betting/betting_transaction_details.dart';
-import 'package:zeelpay/screens/widgets/sent.dart';
+import 'package:zeelpay/screens/widgets/authenticate_transaction.dart';
 import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_scrollable_widget.dart';
 
-class BettingBills extends StatelessWidget {
+class BettingBills extends ConsumerStatefulWidget {
   const BettingBills({super.key});
 
+  @override
+  ConsumerState<BettingBills> createState() => _BettingBillsState();
+}
+
+class _BettingBillsState extends ConsumerState<BettingBills> {
+  final TextEditingController _providerController = TextEditingController();
+  final TextEditingController _providerIdController = TextEditingController();
+  final TextEditingController _userIdController = TextEditingController();
+  final TextEditingController _amountController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        forceMaterialTransparency: true,
         title: const Text('Betting'),
         leadingWidth: 100,
         leading: const ZeelBackButton(),
@@ -26,44 +39,104 @@ class BettingBills extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const ZeelTextFieldTitle(text: "Select Provider"),
-              const ZeelSelectTextField(hint: "SportyBet"),
+              ZeelSelectTextField(
+                hint: "Select Provider",
+                controller: _providerController,
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      _createRoute(BettingProvidersWidget(
+                          _providerController, _providerIdController)));
+                },
+              ),
               const SizedBox(
                 height: 5,
               ),
               const ZeelTextFieldTitle(text: "User ID"),
-              const ZeelTextField(
-                  hint: "Enter your sportybet phone number", enabled: true),
+              ZeelTextField(
+                  hint: "Enter your betting id",
+                  onEditingComplete: () {
+                    FocusScope.of(context).nextFocus();
+                    setState(() {});
+                  },
+                  enabled: true,
+                  controller: _userIdController),
               const SizedBox(
                 height: 5,
               ),
               const ZeelTextFieldTitle(text: "Amount"),
-              const ZeelTextField(hint: "NGN1000", enabled: true),
+              ZeelTextField(
+                  hint: "NGN1000",
+                  onEditingComplete: () {
+                    FocusScope.of(context).unfocus();
+                    setState(() {});
+                  },
+                  enabled: true,
+                  controller: _amountController),
               Expanded(
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: ZeelButton(
-                    text: "Confirm",
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SentSuccessfully(
-                            title: "Completed",
-                            body:
-                                "Your Sportybet payment of ₦7,000.00 has been processed successfully.",
-                            nextPage: BettingTransactionDetails(
-                              bettingLogo: ZeelPng.sporty,
-                              amount: "7,000",
-                              transactionID: "2D94ty823",
-                              dateAndTime: "Mar 10 2023, 2:33PM",
-                              userID: "2304834",
-                              serviceProvider: "Sportybet",
-                              fee: "10.00",
-                            ),
-                          ),
-                        ),
-                      );
-                    },
+                    text: "Fund",
+                    onPressed: _providerIdController.text.isNotEmpty &&
+                            _userIdController.text.isNotEmpty
+                        ? () {
+                            showModalBottomSheet(
+                                scrollControlDisabledMaxHeightRatio:
+                                    double.maxFinite,
+                                context: context,
+                                builder: (_) => Container(
+                                    padding: const EdgeInsets.all(24),
+                                    child: Column(children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          const Text(
+                                            "Confirm Details",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w700),
+                                          ),
+                                          IconButton(
+                                              onPressed: () =>
+                                                  Navigator.pop(context),
+                                              icon: Image.asset(
+                                                  "assets/images/x.png")),
+                                        ],
+                                      ),
+                                      showDetails("Amount",
+                                          _amountController.text, context),
+                                      showDetails("Provider Name",
+                                          _providerController.text, context),
+                                      showDetails("User ID",
+                                          _userIdController.text, context),
+                                      showDetails("Fee", "₦10.00", context),
+                                      const SizedBox(height: 24),
+                                      ZeelButton(
+                                        text: "Confirm",
+                                        onPressed: () {
+                                          Go.to(ConfirmTransaction(
+                                              onPinComplete: (pin) {
+                                            ref
+                                                .read(bettingControllerProvider
+                                                    .notifier)
+                                                .buy(
+                                                    customerId:
+                                                        _userIdController.text,
+                                                    productID:
+                                                        _providerIdController
+                                                            .text,
+                                                    pin: pin!,
+                                                    context: context,
+                                                    amount:
+                                                        _amountController.text,
+                                                    ref: ref);
+                                          }));
+                                        },
+                                      )
+                                    ])));
+                          }
+                        : null,
                   ),
                 ),
               )
@@ -73,4 +146,71 @@ class BettingBills extends StatelessWidget {
       )),
     );
   }
+}
+
+class BettingProvidersWidget extends ConsumerWidget {
+  final TextEditingController providerController;
+  final TextEditingController providerIdController;
+  const BettingProvidersWidget(
+      this.providerController, this.providerIdController,
+      {super.key});
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    var providers = ref.watch(fetchBettingProvidersProvider);
+    return Scaffold(
+      appBar: AppBar(
+        forceMaterialTransparency: true,
+        title: const Text('Bills & Packages'),
+        leadingWidth: 100,
+        leading: const ZeelBackButton(),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0).copyWith(top: 24),
+        child: providers.when(
+            error: (error, stackTrace) => Center(child: Text(error.toString())),
+            loading: () => const Center(
+                  child: CircularProgressIndicator(),
+                ),
+            data: (plans) => ListView.separated(
+                separatorBuilder: (context, index) => const Divider(),
+                itemCount: plans!.data!.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    onTap: () {
+                      providerController.text =
+                          plans.data![index].name!.toUpperCase();
+                      providerIdController.text = plans.data![index].productId!;
+                      Go.back();
+                    },
+                    title: Text(plans.data![index].name!.toUpperCase()),
+                    trailing: Text(
+                      "₦${plans.data![index].minAmount} - ₦${plans.data![index].maxAmount}",
+                      overflow: TextOverflow.clip,
+                    ),
+                  );
+                })),
+      ),
+    );
+  }
+}
+
+Route _createRoute(Widget child) {
+  return PageRouteBuilder(
+    transitionDuration: const Duration(milliseconds: 300),
+    reverseTransitionDuration: const Duration(milliseconds: 300),
+    pageBuilder: (context, animation, secondaryAnimation) => child,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(0.0, 1.0);
+      const end = Offset.zero;
+      const curve = Curves.ease;
+      final tween =
+          Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+      final offsetAnimation = animation.drive(tween);
+
+      return SlideTransition(
+        position: offsetAnimation,
+        child: child,
+      );
+    },
+  );
 }

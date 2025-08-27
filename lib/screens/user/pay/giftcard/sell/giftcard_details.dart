@@ -174,8 +174,13 @@ class _SellGiftcardDetailsState extends State<SellGiftcardDetails> {
                   context,
                   MaterialPageRoute(
                     builder: (_) => ConfirmGiftcardDetails(
+                      productName: "",
                       title: widget.title,
-                      transactionID: '32324defkfdc',
+                      productId: "",
+                      unitPrice: "",
+                      brandId: "",
+                      countryCode: "",
+                      iconUrl: "",
                       usdAmount: '\$50',
                       nairaAmount: '₦55,000',
                       dateAndTime: 'Mar 09 2024, 5:04PM',

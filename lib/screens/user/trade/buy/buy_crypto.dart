@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:zeelpay/helpers/forms/validators.dart';
 import 'package:zeelpay/screens/user/trade/buy/confirm.dart';
 import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
@@ -7,8 +8,12 @@ import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
 class BuyCrypto extends StatefulWidget {
-  final String cryptoCoin, network;
-  const BuyCrypto({super.key, required this.network, required this.cryptoCoin});
+  final String cryptoCoin, network, currency;
+  const BuyCrypto(
+      {super.key,
+      required this.network,
+      required this.cryptoCoin,
+      required this.currency});
 
   @override
   State<BuyCrypto> createState() => _BuyCryptoState();
@@ -16,6 +21,7 @@ class BuyCrypto extends StatefulWidget {
 
 class _BuyCryptoState extends State<BuyCrypto> {
   final TextEditingController _amountController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
   String _amountInDollar = "";
 
   @override
@@ -54,11 +60,14 @@ class _BuyCryptoState extends State<BuyCrypto> {
     return format.format(priceInNaira);
   }
 
+  var formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       appBar: AppBar(
+        forceMaterialTransparency: true,
         centerTitle: true,
         leadingWidth: 100,
         title: Text(
@@ -77,44 +86,58 @@ class _BuyCryptoState extends State<BuyCrypto> {
               child: ListView(
                 children: [
                   const ZeelTextFieldTitle(text: "Amount to buy"),
-                  TextFormField(
-                    enabled: true,
-                    controller: _amountController,
-                    keyboardType:
-                        const TextInputType.numberWithOptions(decimal: true),
-                    decoration: InputDecoration(
-                      prefixText: '\$',
-                      hintText: "0.00",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
+                  Form(
+                    key: formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextFormField(
+                          validator: amountValidator,
+                          enabled: true,
+                          controller: _amountController,
+                          keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true),
+                          decoration: InputDecoration(
+                            prefixText: '\$',
+                            hintText: "0.00",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            _buildShortcutButton("20"),
+                            _buildShortcutButton("50"),
+                            _buildShortcutButton("100"),
+                            _buildShortcutButton("500"),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            const Text("Price in Naira: "),
+                            Text(
+                              _formattedPriceInNaira,
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.w700),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        ZeelTextFieldTitle(
+                            text: "${widget.network.toUpperCase()} Address"),
+                        ZeelTextField(
+                            validator: addressValidator,
+                            enabled: true,
+                            controller: _addressController,
+                            hint: "Paste wallet address"),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      _buildShortcutButton("20"),
-                      _buildShortcutButton("50"),
-                      _buildShortcutButton("100"),
-                      _buildShortcutButton("500"),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      const Text("Price in Naira: "),
-                      Text(
-                        _formattedPriceInNaira,
-                        style: const TextStyle(fontWeight: FontWeight.w700),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  ZeelTextFieldTitle(text: "${widget.network} Address"),
-                  const ZeelTextField(
-                      enabled: true, hint: "Paste wallet address"),
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.all(12),
@@ -136,10 +159,10 @@ class _BuyCryptoState extends State<BuyCrypto> {
                           ),
                         ),
                         Text(
-                          "Please paste only USDT (TRC-20) Wallet address, putting a different wallet address might lead to crypto loss.",
+                          "Please paste only ${widget.cryptoCoin.toUpperCase()} (${widget.network.toUpperCase()}) Wallet address, putting a different wallet address might lead to crypto loss.",
                           style: TextStyle(
                               color:
-                                  isDark ? ZealPalette.rustColor : Colors.grey,
+                                  isDark ? ZealPalette.rustColor : Colors.black,
                               fontSize: 10),
                         )
                       ],
@@ -150,14 +173,19 @@ class _BuyCryptoState extends State<BuyCrypto> {
             ),
             ZeelButton(
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => ConfirmBuyDetails(
-                        network: widget.network,
-                        title: widget.cryptoCoin,
-                      ),
-                    ));
+                if (formKey.currentState!.validate()) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => ConfirmBuyDetails(
+                          network: widget.network,
+                          address: _addressController.text,
+                          currency: widget.currency,
+                          title: widget.cryptoCoin,
+                          amount: double.parse(_amountInDollar),
+                        ),
+                      ));
+                }
               },
               text: "Buy",
             ),
@@ -171,7 +199,7 @@ class _BuyCryptoState extends State<BuyCrypto> {
     return FilledButton(
       onPressed: () => _updateAmount(amount),
       style: FilledButton.styleFrom(
-        backgroundColor: Colors.transparent,
+         backgroundColor: Colors.transparent,
         side: const BorderSide(
           color: ZealPalette.darkerGrey,
         ),

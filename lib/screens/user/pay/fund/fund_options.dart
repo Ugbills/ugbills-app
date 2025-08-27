@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:zeelpay/constants/assets/png.dart';
+import 'package:zeelpay/screens/user/pay/fund/bank/amount.dart';
 import 'package:zeelpay/screens/user/pay/fund/bank/bank_transfer.dart';
 import 'package:zeelpay/screens/user/pay/fund/coupon/coupon_code.dart';
 import 'package:zeelpay/screens/user/widgets/zeel_tile.dart';
@@ -13,6 +14,7 @@ class FundOptions extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        forceMaterialTransparency: true,
         leadingWidth: 100,
         title: Text("Fund Your Account",
             style: ShadTheme.of(context).textTheme.h3),
@@ -27,18 +29,20 @@ class FundOptions extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) => const VirtualAccount())),
-                title: "Bank Transfer",
+                title: "Virtual Account",
                 subtitle: "Transfer funds directly from your bank account.",
                 leadingImage: ZeelPng.bankTransfer),
-            const ZeelTile(
-                title: "Debit Card",
-                subtitle: "Use your debit card to make a secure payment.",
-                leadingImage: ZeelPng.debitCard),
             ZeelTile(
                 onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const CouponCode())),
+                        builder: (context) => const FundAmountScreen())),
+                title: "Bank Transfer (One-time)",
+                subtitle: "Transfer funds directly from your bank account.",
+                leadingImage: ZeelPng.bankTransfer),
+            ZeelTile(
+                onTap: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => CouponCode())),
                 title: "Coupon Code",
                 subtitle: "Redeem a coupon code for a special offer or bonus.",
                 leadingImage: ZeelPng.coupon)

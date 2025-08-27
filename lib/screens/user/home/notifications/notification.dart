@@ -19,6 +19,7 @@ class Notifications extends ConsumerWidget {
         ref.watch(fetchUserNotificationsProvider);
     return Scaffold(
         appBar: AppBar(
+          forceMaterialTransparency: true,
           leadingWidth: 100,
           leading: const Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.0),

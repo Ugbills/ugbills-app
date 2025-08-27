@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/constants/assets/png.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
@@ -33,6 +33,7 @@ class CryptoTransactionDetails extends StatelessWidget {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       body: SafeArea(
+        top: false,
         child: Stack(
           alignment: Alignment.topCenter,
           children: [
@@ -54,7 +55,7 @@ class CryptoTransactionDetails extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(ZeelPng.tetherImage),
+                    ShadImage(cryptoCoinLogo),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 12.0),
                       child: Text(
@@ -104,9 +105,10 @@ class CryptoTransactionDetails extends StatelessWidget {
                     showDetails("Date & time", dateAndTime, context),
                     showDetails("USD Amount", usdAmount, context),
                     showDetails("Token Amount", tokenAmount, context),
-                    showDetails("Token", token, context),
+                    showDetails("Token", token.toUpperCase(), context),
                     showDetails("Type", type, context),
-                    showDetails("USDT Address", usdtAddress, context),
+                    showDetails(
+                        "${token.toUpperCase()} Address", usdtAddress, context),
                     showDetails("Fee", fee, context),
                     const Spacer(),
                     ZeelButton(
@@ -119,26 +121,29 @@ class CryptoTransactionDetails extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 24),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back_ios_new_outlined,
-                    color: Colors.white,
+            Padding(
+              padding: const EdgeInsets.only(top: 50.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back_rounded,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.share,
-                    color: Colors.white,
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.info,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             )
           ],
         ),

@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:zeelpay/screens/user/trade/sell/confirm.dart';
-import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
 class SellCrypto extends StatefulWidget {
-  final String cryptoCoin, network;
+  final String cryptoCoin, network, currency;
   const SellCrypto(
-      {super.key, required this.cryptoCoin, required this.network});
+      {super.key,
+      required this.cryptoCoin,
+      required this.currency,
+      required this.network});
 
   @override
   State<SellCrypto> createState() => _SellCryptoState();
@@ -62,6 +64,7 @@ class _SellCryptoState extends State<SellCrypto> {
       appBar: AppBar(
         leadingWidth: 100,
         centerTitle: true,
+        forceMaterialTransparency: true,
         title: Text(
           'Sell ${widget.cryptoCoin}',
           style: const TextStyle(fontWeight: FontWeight.bold),
@@ -77,7 +80,7 @@ class _SellCryptoState extends State<SellCrypto> {
             Expanded(
               child: ListView(
                 children: [
-                  const ZeelTextFieldTitle(text: "Amount to buy"),
+                  const ZeelTextFieldTitle(text: "Amount to Sell"),
                   TextFormField(
                     enabled: true,
                     controller: _amountController,
@@ -101,56 +104,17 @@ class _SellCryptoState extends State<SellCrypto> {
                       _buildShortcutButton("500"),
                     ],
                   ),
-                  const SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      const Text("You get: "),
-                      Text(
-                        _formattedPriceInNaira,
-                        style: const TextStyle(fontWeight: FontWeight.w700),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  ZeelTextFieldTitle(text: "${widget.network} Address"),
-                  ZeelTextField(
-                    enabled: false,
-                    copy: true,
-                    controller: TextEditingController(
-                      text: "0x000000000000000000000000000000000000dEaD",
-                    ),
-                  ),
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      color: isDark
-                          ? ZealPalette.orange
-                          : ZealPalette.rustColor.withAlpha(20),
-                      border: Border.all(color: ZealPalette.rustColor),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          "Note",
-                          style: TextStyle(
-                            color: ZealPalette.rustColor,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        Text(
-                          "Please send only USDT (TRC-20) to the above generated Wallet address.",
-                          style: TextStyle(
-                              color:
-                                  isDark ? ZealPalette.rustColor : Colors.grey,
-                              fontSize: 10),
-                        )
-                      ],
-                    ),
-                  ),
+                  // const SizedBox(height: 16),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.end,
+                  //   children: [
+                  //     const Text("You get: "),
+                  //     Text(
+                  //       _formattedPriceInNaira,
+                  //       style: const TextStyle(fontWeight: FontWeight.w700),
+                  //     ),
+                  //   ],
+                  // ),
                 ],
               ),
             ),
@@ -160,12 +124,15 @@ class _SellCryptoState extends State<SellCrypto> {
                     context,
                     MaterialPageRoute(
                       builder: (_) => ConfirmSellDetails(
+                        currency: widget.currency,
+                        coin: widget.cryptoCoin,
                         title: widget.cryptoCoin,
+                        amount: double.parse(_amountInDollar),
                         network: widget.network,
                       ),
                     ));
               },
-              text: "Buy",
+              text: "Sell",
             ),
           ],
         ),

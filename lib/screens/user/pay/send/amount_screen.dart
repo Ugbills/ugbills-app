@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:zeelpay/constants/assets/svg.dart';
-import 'package:zeelpay/screens/user/pay/send/bank/bank.dart';
+import 'package:zeelpay/helpers/common/amount_formatter.dart';
+import 'package:zeelpay/providers/user_provider.dart';
 import 'package:zeelpay/screens/widgets/number_pad.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
 class AmountScreen extends ConsumerWidget {
-  const AmountScreen({super.key});
+  final Widget page;
+  const AmountScreen({super.key, required this.page});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var theme = ShadTheme.of(context);
     var amount = ref.watch(amountProvider);
     bool isDark = Theme.of(context).brightness == Brightness.dark;
+
+    var user = ref.watch(fetchUserInformationProvider);
     return Scaffold(
       backgroundColor:
           isDark ? ZealPalette.scaffoldBlack : theme.colorScheme.primary,
@@ -29,12 +32,6 @@ class AmountScreen extends ConsumerWidget {
         leading: ZeelBackButton(
           color: isDark ? ZealPalette.scaffoldBlack : Colors.white,
         ),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: ShadImage(ZeelSvg.tag),
-          )
-        ],
         backgroundColor:
             isDark ? ZealPalette.scaffoldBlack : theme.colorScheme.primary,
         leadingWidth: 100,
@@ -49,28 +46,31 @@ class AmountScreen extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         "Amount",
                         style:
                             theme.textTheme.small.copyWith(color: Colors.white),
                       ),
-                      const Spacer(),
-                      Row(
-                        children: [
-                          Text(
-                            "Balance: ",
-                            style: theme.textTheme.small
-                                .copyWith(color: Colors.white),
-                          ),
-                          Text(
-                            "₦12,073,000.00",
-                            style: theme.textTheme.small.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
+                      user.when(
+                          loading: () => const SizedBox.shrink(),
+                          error: (error, stack) => const SizedBox.shrink(),
+                          data: (user) => Row(
+                                children: [
+                                  Text(
+                                    "Balance: ",
+                                    style: theme.textTheme.small
+                                        .copyWith(color: Colors.white),
+                                  ),
+                                  Text(
+                                    returnAmount(user!.data!.walletBalance),
+                                    style: theme.textTheme.small.copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              )),
                     ],
                   ),
                   const SizedBox(
@@ -85,30 +85,25 @@ class AmountScreen extends ConsumerWidget {
               ),
             ),
             const Spacer(),
-            // Number Pad Section Starts Here
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.1,
-            ),
-            // NUMBER PAD
             ZeelNumberPad(
               provider: amountProvider,
               ref: ref,
             ),
-
             Expanded(
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
-                    padding: const EdgeInsets.all(20),
+                    padding:
+                        const EdgeInsets.only(left: 20, right: 20, bottom: 20),
                     child: ZeelAltButton(
-                      onPressed: amount == "0.00"
+                      onPressed: amount == "0.00" || amount == "0"
                           ? null
                           : () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) {
-                                        return const BankTransfer();
+                                        return page;
                                       },
                                       settings:
                                           RouteSettings(arguments: amount)));

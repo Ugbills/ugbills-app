@@ -2,13 +2,21 @@ import 'package:flutter/material.dart';
 
 class ZeelScrollable extends StatelessWidget {
   final Widget child;
-  const ZeelScrollable({super.key, required this.child});
+  final bool? hasScrollBody;
+  final bool? reverse;
+  const ZeelScrollable(
+      {super.key,
+      required this.child,
+      this.hasScrollBody = false,
+      this.reverse = true});
 
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-        reverse: true,
-        slivers: [SliverFillRemaining(hasScrollBody: false, child: child)]);
+        reverse: reverse!,
+        slivers: [
+          SliverFillRemaining(hasScrollBody: hasScrollBody!, child: child)
+        ]);
   }
 }

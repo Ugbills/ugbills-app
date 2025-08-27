@@ -1,41 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/constants/assets/png.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
+import 'package:zeelpay/providers/crypto_provider.dart';
 import 'package:zeelpay/screens/user/trade/sell/sell_crypto.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
-class SellCryptoOptions extends StatelessWidget {
+class SellCryptoOptions extends ConsumerWidget {
   const SellCryptoOptions({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
-    final List buyOptions = [
-      [
-        ZeelPng.tether,
-        "Tether",
-        "USDT",
-        const SellCrypto(
-          cryptoCoin: 'Tether',
-          network: 'USDT',
-        )
-      ],
-      [
-        ZeelPng.bitcoin,
-        "Bitcoin",
-        "BTC",
-        const SellCrypto(cryptoCoin: "Bitcoin", network: "BTC")
-      ],
-      [
-        ZeelPng.ethereum,
-        "Ethereum",
-        "ETH",
-        const SellCrypto(cryptoCoin: "Ethereum", network: "ETH")
-      ],
-    ];
+
+    var supported = ref.watch(fetchCoinListProvider);
 
     return Scaffold(
       appBar: AppBar(
+        forceMaterialTransparency: true,
         leadingWidth: 100,
         centerTitle: true,
         title: const Text('Sell Crypto',
@@ -44,30 +26,107 @@ class SellCryptoOptions extends StatelessWidget {
           color: isDark ? ZealPalette.lighterBlack : Colors.white,
         ),
       ),
-      body: ListView.builder(
-          padding: const EdgeInsets.all(24),
-          itemCount: buyOptions.length,
-          itemBuilder: (context, index) {
-            return Container(
-              margin: const EdgeInsets.symmetric(vertical: 6),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                color: isDark ? ZealPalette.lighterBlack : Colors.white,
+      body: supported.when(
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (error, stackTrace) => Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 16),
+                    Text(
+                      'An error occurred',
+                      style: TextStyle(
+                        color: isDark ? ZealPalette.lighterBlack : Colors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    ZeelButton(
+                      onPressed: () {
+                        ref.refresh(fetchCoinListProvider);
+                      },
+                      text: 'Retry',
+                    ),
+                  ],
+                ),
               ),
-              child: ListTile(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => buyOptions[index][3]),
-                  );
-                },
-                leading: Image.asset(buyOptions[index][0]),
-                title: Text(buyOptions[index][1]),
-                subtitle: Text(buyOptions[index][2]),
-                trailing: const Icon(Icons.arrow_forward_ios_rounded),
-              ),
-            );
-          }),
+          data: (crypto) => ListView.builder(
+              padding: const EdgeInsets.all(24),
+              itemCount: crypto!.data!.length,
+              itemBuilder: (context, index) {
+                return Container(
+                  margin: const EdgeInsets.symmetric(vertical: 6),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    color: isDark ? ZealPalette.lighterBlack : Colors.white,
+                  ),
+                  child: ListTile(
+                    onTap: () {
+                      //bottom sheet for user to select network
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return Container(
+                              color: isDark
+                                  ? ZealPalette.lighterBlack
+                                  : Colors.white,
+                              child: Wrap(
+                                children: [
+                                  ListView.separated(
+                                      separatorBuilder: (context, index) =>
+                                          const Divider(),
+                                      shrinkWrap: true,
+                                      itemCount:
+                                          crypto.data![index].networks!.length,
+                                      itemBuilder: (context, dex) {
+                                        return Container(
+                                          margin: const EdgeInsets.symmetric(
+                                              vertical: 6),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(16),
+                                            color: isDark
+                                                ? ZealPalette.lighterBlack
+                                                : Colors.white,
+                                          ),
+                                          child: ListTile(
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (_) => SellCrypto(
+                                                      network: crypto
+                                                          .data![index]
+                                                          .networks![dex],
+                                                      currency: crypto
+                                                          .data![index]
+                                                          .currency!,
+                                                      cryptoCoin: crypto
+                                                          .data![index].name!,
+                                                    ),
+                                                  ));
+                                            },
+                                            title: Text(crypto
+                                                .data![index].networks![dex]
+                                                .toUpperCase()),
+                                            trailing: const Icon(Icons
+                                                .arrow_forward_ios_rounded),
+                                          ),
+                                        );
+                                      }),
+                                ],
+                              ),
+                            );
+                          });
+                    },
+                    leading: ShadImage(
+                        "https://devapi.zeelpay.app${crypto.data![index].icon!}"),
+                    title: Text(crypto.data![index].name!),
+                    subtitle: Text(crypto.data![index].currency!.toUpperCase()),
+                    trailing: const Icon(Icons.arrow_forward_ios_rounded),
+                  ),
+                );
+              })),
     );
   }
 }

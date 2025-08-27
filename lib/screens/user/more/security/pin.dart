@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:zeelpay/screens/user/more/security/confirm.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
+import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
 class ResetTransactionPin extends StatefulWidget {
-  const ResetTransactionPin({super.key});
+  final String otp;
+  final String email;
+  const ResetTransactionPin(
+      {super.key, required this.otp, required this.email});
 
   @override
   State<ResetTransactionPin> createState() => _ResetTransactionPinState();
@@ -17,7 +21,12 @@ class _ResetTransactionPinState extends State<ResetTransactionPin> {
   void onPinComplete() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const ConfirmTransactionPin()),
+      MaterialPageRoute(
+          builder: (context) => ConfirmTransactionPin(
+                otp: widget.otp,
+                pin: enteredPin,
+                email: widget.email,
+              )),
     );
   }
 
@@ -42,8 +51,8 @@ class _ResetTransactionPinState extends State<ResetTransactionPin> {
           alignment: Alignment.center,
           margin: const EdgeInsets.only(top: 16),
           constraints: const BoxConstraints(
-            maxHeight: 92,
-            maxWidth: 92,
+            maxHeight: 64,
+            maxWidth: 64,
           ),
           decoration: BoxDecoration(
               shape: BoxShape.circle,
@@ -65,6 +74,11 @@ class _ResetTransactionPinState extends State<ResetTransactionPin> {
   Widget build(BuildContext context) {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
+      appBar: AppBar(
+        leading: const ZeelBackButton(),
+        leadingWidth: 100,
+        forceMaterialTransparency: true,
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(18.0),
@@ -84,8 +98,8 @@ class _ResetTransactionPinState extends State<ResetTransactionPin> {
                       return Container(
                         margin: const EdgeInsets.all(6.0),
                         constraints: const BoxConstraints(
-                          maxHeight: 75,
-                          maxWidth: 75,
+                          maxHeight: 64,
+                          maxWidth: 64,
                         ),
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
@@ -154,8 +168,8 @@ class _ResetTransactionPinState extends State<ResetTransactionPin> {
                         alignment: Alignment.center,
                         margin: const EdgeInsets.only(top: 32),
                         constraints: const BoxConstraints(
-                          maxHeight: 85,
-                          maxWidth: 85,
+                          maxHeight: 64,
+                          maxWidth: 64,
                         ),
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,

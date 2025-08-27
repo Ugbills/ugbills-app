@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zeelpay/constants/assets/png.dart';
 import 'package:zeelpay/screens/user/pay/giftcard/buy/buy_giftcard.dart';
-import 'package:zeelpay/screens/user/pay/giftcard/sell/sell_giftcard.dart';
+import 'package:zeelpay/screens/user/pay/giftcard/coming.dart';
 import 'package:zeelpay/screens/user/widgets/zeel_tile.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 
@@ -14,6 +14,7 @@ class GiftcardScreen extends StatelessWidget {
       appBar: AppBar(
         leadingWidth: 100,
         centerTitle: true,
+        forceMaterialTransparency: true,
         title: const Text(
           'Gift Card',
           style: TextStyle(fontWeight: FontWeight.bold),
@@ -46,7 +47,7 @@ class GiftcardScreen extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => const SellGiftcard(),
+                    builder: (_) => const ComingSoon(),
                   ));
             },
           ),

@@ -5,7 +5,16 @@ import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 
 class DollarCardDetails extends StatelessWidget {
-  const DollarCardDetails({super.key});
+  final String cardNumber;
+  final String expiryDate;
+  final String cvv;
+  final String address;
+  const DollarCardDetails(
+      {super.key,
+      required this.cardNumber,
+      required this.expiryDate,
+      required this.cvv,
+      required this.address});
 
   @override
   Widget build(BuildContext context) {
@@ -20,23 +29,23 @@ class DollarCardDetails extends StatelessWidget {
         children: [
           const ZeelTextFieldTitle(text: "Card Number"),
           ZeelTextField(
-              controller: TextEditingController(text: "2084 2308 2304 2304"),
+              controller: TextEditingController(text: cardNumber),
               enabled: false,
               copy: true),
-          const ZeelTextFieldTitle(text: "Card Number"),
+          const ZeelTextFieldTitle(text: "Expiry Date"),
           ZeelTextField(
               enabled: false,
-              controller: TextEditingController(text: "12/12"),
+              controller: TextEditingController(text: expiryDate),
               copy: true),
-          const ZeelTextFieldTitle(text: "Card Number"),
+          const ZeelTextFieldTitle(text: "CVV"),
           ZeelTextField(
-              controller: TextEditingController(text: "234"),
+              controller: TextEditingController(text: cvv),
               enabled: false,
               copy: true),
-          const ZeelTextFieldTitle(text: "Card Number"),
+          const ZeelTextFieldTitle(text: "Address"),
           ZeelTextField(
               controller: TextEditingController(
-                  text: "12 Big Zee towers, Washington DC"),
+                  text: address.isEmpty ? "Not set" : address),
               enabled: false,
               copy: true),
         ],

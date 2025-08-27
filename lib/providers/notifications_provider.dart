@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:zeelpay/constants/api/enpoints.dart';
+import 'package:zeelpay/constants/api/endpoints.dart';
 import 'package:zeelpay/helpers/api/response_helper.dart';
 import 'package:zeelpay/helpers/storage/token.dart';
 import 'package:zeelpay/models/api/notifications_model.dart';

@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/screens/user/more/account_level/congrats.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:zeelpay/controllers/user/user_controller.dart';
+import 'package:zeelpay/providers/state/loading_state_provider.dart';
 import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
-class KYCVerification extends StatefulWidget {
+class KYCVerification extends ConsumerStatefulWidget {
   const KYCVerification({super.key});
 
   @override
-  State<KYCVerification> createState() => _KYCVerificationState();
+  ConsumerState<KYCVerification> createState() => _KYCVerificationState();
 }
 
-class _KYCVerificationState extends State<KYCVerification> {
+class _KYCVerificationState extends ConsumerState<KYCVerification> {
   DateTime? _selectedDate;
 
+  final TextEditingController bvnController = TextEditingController();
   void _showDatePicker() {
     showDatePicker(
       context: context,
@@ -33,7 +36,13 @@ class _KYCVerificationState extends State<KYCVerification> {
   @override
   Widget build(BuildContext context) {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
+    var isloading = ref.watch(isLoadingProvider);
     return Scaffold(
+      appBar: AppBar(
+        leading: const ZeelBackButton(),
+        leadingWidth: 100,
+        forceMaterialTransparency: true,
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -46,7 +55,7 @@ class _KYCVerificationState extends State<KYCVerification> {
                     Text(
                       "Please fill in the correct information below. KYC is an important step to help reduce fraud.",
                       style: TextStyle(
-                        color: isDark ? Colors.grey : Colors.white,
+                        color: isDark ? Colors.grey : Colors.black,
                       ),
                     ),
                     const SizedBox(height: 24),
@@ -65,7 +74,7 @@ class _KYCVerificationState extends State<KYCVerification> {
                           children: [
                             Text(
                               _selectedDate != null
-                                  ? "${_selectedDate!.day}-${_selectedDate!.month}-${_selectedDate!.year}"
+                                  ? "${_selectedDate!.year}-${_selectedDate!.month}-${_selectedDate!.day}"
                                   : "Select Date of Birth",
                               style: const TextStyle(color: Colors.grey),
                             ),
@@ -76,17 +85,35 @@ class _KYCVerificationState extends State<KYCVerification> {
                     ),
                     const SizedBox(height: 24),
                     const ZeelTextFieldTitle(text: "BVN"),
-                    const ZeelTextField(
-                        hint: "Enter 11 digit BVN Number", enabled: true),
+                    ZeelTextField(
+                        onChanged: (value) {
+                          setState(() {});
+                        },
+                        keyboardType: TextInputType.number,
+                        maxLength: 11,
+                        controller: bvnController,
+                        hint: "Enter 11 digit BVN Number",
+                        enabled: true),
                   ],
                 ),
               ),
               ZeelButton(
                 text: "Submit",
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => const Congrats()));
-                },
+                isLoading: isloading,
+                onPressed:
+                    bvnController.text.length < 11 || _selectedDate == null
+                        ? null
+                        : () {
+                            FocusScope.of(context).unfocus();
+                            ref.read(isLoadingProvider.notifier).state = true;
+                            ref.read(userControllerProvider.notifier).submitBVN(
+                                dob: _selectedDate!.month < 10
+                                    ? "${_selectedDate!.year}-0${_selectedDate!.month}-${_selectedDate!.day}"
+                                    : "${_selectedDate!.year}-${_selectedDate!.month}-${_selectedDate!.day}",
+                                bvn: bvnController.text,
+                                context: context,
+                                ref: ref);
+                          },
               ),
             ],
           ),

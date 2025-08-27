@@ -61,6 +61,7 @@ class _AccountStatementState extends State<AccountStatement> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        forceMaterialTransparency: true,
         title: const Text('Account Statement'),
         leadingWidth: 100,
         leading: const ZeelBackButton(),
@@ -168,11 +169,12 @@ class _AccountStatementState extends State<AccountStatement> {
                   isLoading: ref.watch(isLoadingProvider),
                   onPressed: _startDate != null && _endDate != null
                       ? () async {
+                          ref.read(isLoadingProvider.notifier).state = true;
                           UserController().generateStatement(
+                              ref: ref,
                               startDate: _startDate.toString(),
                               endDate: _endDate.toString(),
                               format: _selectedFormat.toString(),
-                              ref: ref,
                               context: context);
                         }
                       : null,

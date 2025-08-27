@@ -13,6 +13,7 @@ class AboutUs extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leadingWidth: 100,
+        forceMaterialTransparency: true,
         title: Text("About Us", style: ShadTheme.of(context).textTheme.h3),
         leading: const ZeelBackButton(),
       ),

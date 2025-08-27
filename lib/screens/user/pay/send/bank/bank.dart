@@ -1,29 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:zeelpay/constants/assets/png.dart';
+import 'package:short_navigation/short_navigation.dart';
+import 'package:zeelpay/controllers/transfer/model.dart';
+import 'package:zeelpay/controllers/transfer/transfer_controller.dart';
 import 'package:zeelpay/screens/user/more/beneficiaries/beneficiaries.dart';
-import 'package:zeelpay/screens/user/pay/send/bank_transaction_details.dart';
-import 'package:zeelpay/screens/widgets/sent.dart';
-// import 'package:zeelpay/screens/user/pay/send/sent.dart';
+import 'package:zeelpay/screens/user/pay/send/bank/select.dart';
+import 'package:zeelpay/screens/widgets/authenticate_transaction.dart';
 import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_scrollable_widget.dart';
 
-class BankTransfer extends ConsumerWidget {
-  const BankTransfer({super.key});
+class BankTransfer extends HookConsumerWidget {
+  BankTransfer({super.key});
 
+  var sessionId = '';
+  final TextEditingController _accountNumberController =
+      TextEditingController();
+  final TextEditingController _accountNameController = TextEditingController();
+  final TextEditingController _noteController = TextEditingController();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final validatingName = useState<Future<AccountInfoModel?>?>(null);
+
+    final isLoading = useFuture(validatingName.value).connectionState ==
+        ConnectionState.waiting;
+
+    var selectedBank = ref.watch(selectedBankProvider);
+    var selectedBankCode = ref.watch(selectedBankCodeProvider);
     var saveBeneficiary = ref.watch(saveBeneficiaryProvider);
     var theme = ShadTheme.of(context);
-    //GET amount from arguments
     final amount = ModalRoute.of(context)!.settings.arguments as String;
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Send Money'),
+        forceMaterialTransparency: true,
         leadingWidth: 100,
         leading: const ZeelBackButton(),
       ),
@@ -59,105 +73,185 @@ class BankTransfer extends ConsumerWidget {
                 ),
                 const ZeelTextFieldTitle(text: "Select a Bank"),
                 ZeelSelectTextField(
-                  hint: "Select a Bank",
-                  onTap: () {},
-                ),
-                const ZeelTextFieldTitle(text: "Account Number"),
-                const ZeelTextField(
-                  hint: "Enter Account Number",
-                  enabled: true,
-                  copy: false,
-                ),
-                const ZeelTextFieldTitle(text: "Account Name"),
-                const ZeelTextField(
-                  hint: "OMERE OSAHENRHUMWEN KELLY",
-                  enabled: false,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ShadSwitch(
-                      value: saveBeneficiary,
-                      onChanged: (value) {
-                        ref.read(saveBeneficiaryProvider.notifier).state =
-                            value;
-                      },
-                    ),
-                    Text(
-                      "Save Beneficiary",
-                      style: theme.textTheme.small.copyWith(
-                        color: theme.colorScheme.primary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )
-                  ],
-                ),
-                const SizedBox(height: 20),
-                const ZeelTextFieldTitle(text: "Note (Optional)"),
-                const ZeelTextField(
-                  hint: "Add a note",
-                  enabled: true,
-                ),
-                const Spacer(),
-                ZeelButton(
-                  text: "Send",
-                  onPressed: () {
-                    showModalBottomSheet(
-                      scrollControlDisabledMaxHeightRatio: double.maxFinite,
-                      context: context,
-                      builder: (_) => Container(
-                        padding: const EdgeInsets.all(24),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text(
-                                  "Confirm Details",
-                                  style: TextStyle(fontWeight: FontWeight.w700),
-                                ),
-                                IconButton(
-                                    onPressed: () => Navigator.pop(context),
-                                    icon: Image.asset("assets/images/x.png")),
-                              ],
-                            ),
-                            showDetails("Amount", "₦10,000.00", context),
-                            showDetails("Bank Name", "Access Bank", context),
-                            showDetails("Account Name", "Mary Doe", context),
-                            showDetails("Account Name", "1038344233", context),
-                            showDetails("Fee", "₦10.00", context),
-                            const SizedBox(height: 24),
-                            ZeelButton(
-                              text: "Confirm",
-                              onPressed: () {
-                                Navigator.pop(context);
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) => const SentSuccessfully(
-                                        title: "Sent",
-                                        body:
-                                            "You have successfully sent ₦10,000 to Mary Doe.",
-                                        nextPage: BankTransactionDetails(
-                                          bankLogo: ZeelPng.firstbank,
-                                          amount: "₦10,000",
-                                          transactionID: "#2D94ty823",
-                                          dateAndTime: "Mar 10 2023, 2:33PM",
-                                          bankName: "First Bank of Nigeria",
-                                          accountName: "243802003835",
-                                          accountNumber: "243802003835",
-                                          fee: "₦10.00",
-                                          note: "None",
-                                        ),
-                                      ),
-                                    ));
-                              },
-                            ),
-                          ],
-                        ),
+                  hint: selectedBank.isEmpty ? "Select a Bank" : selectedBank,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      _createRoute(
+                        SelectBank(
+                            selectedBankProvider, selectedBankCodeProvider),
                       ),
                     );
                   },
+                ),
+                selectedBank.isEmpty
+                    ? const SizedBox.shrink()
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const ZeelTextFieldTitle(text: "Account Number"),
+                          ZeelTextField(
+                            keyboardType: TextInputType.number,
+                            onChanged: (value) {
+                              if (value.length >= 10) {
+                                //unfocus the textfield
+                                FocusScope.of(context).unfocus();
+                                var future = ref
+                                    .read(transferControllerProvider.notifier)
+                                    .validateAccount(
+                                        accountNameController:
+                                            _accountNameController,
+                                        accountNumber:
+                                            _accountNumberController.text,
+                                        bankCode: selectedBankCode)
+                                    .then((value) {
+                                  if (value != null) {
+                                    _accountNameController.text =
+                                        value.accountName!;
+                                    sessionId = value.nameEnquiryId!;
+                                  }
+                                });
+
+                                validatingName.value = future;
+                              }
+                            },
+                            hint: "Enter Account Number",
+                            maxLength: 10,
+                            controller: _accountNumberController,
+                            enabled: true,
+                            copy: false,
+                          ),
+                        ],
+                      ),
+                selectedBank.isEmpty
+                    ? const SizedBox.shrink()
+                    : isLoading
+                        ? const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: CircularProgressIndicator(),
+                          )
+                        : _accountNameController.text.isEmpty
+                            ? const SizedBox.shrink()
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const ZeelTextFieldTitle(
+                                      text: "Account Name"),
+                                  ZeelTextField(
+                                    hint: "",
+                                    controller: _accountNameController,
+                                    enabled: false,
+                                  ),
+                                ],
+                              ),
+                selectedBank.isEmpty | _accountNameController.text.isEmpty
+                    ? const SizedBox.shrink()
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ShadSwitch(
+                            value: saveBeneficiary,
+                            onChanged: (value) {
+                              ref.read(saveBeneficiaryProvider.notifier).state =
+                                  value;
+                            },
+                          ),
+                          Text(
+                            "Save Beneficiary",
+                            style: theme.textTheme.small.copyWith(
+                              color: theme.colorScheme.primary,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                        ],
+                      ),
+                const SizedBox(height: 20),
+                selectedBank.isEmpty | _accountNameController.text.isEmpty
+                    ? const SizedBox.shrink()
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const ZeelTextFieldTitle(text: "Note (Optional)"),
+                          ZeelTextField(
+                            hint: "Add a note",
+                            enabled: true,
+                            controller: _noteController,
+                          ),
+                        ],
+                      ),
+                const Spacer(),
+                ZeelButton(
+                  text: "Send",
+                  onPressed: _accountNameController.text.isEmpty ||
+                          selectedBank.isEmpty ||
+                          isLoading ||
+                          amount.isEmpty ||
+                          _accountNumberController.text.isEmpty
+                      ? null
+                      : () {
+                          showModalBottomSheet(
+                            scrollControlDisabledMaxHeightRatio:
+                                double.maxFinite,
+                            context: context,
+                            builder: (_) => Container(
+                              padding: const EdgeInsets.all(24),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text(
+                                        "Confirm Details",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                      IconButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                          icon: Image.asset(
+                                              "assets/images/x.png")),
+                                    ],
+                                  ),
+                                  showDetails("Amount", amount, context),
+                                  showDetails(
+                                      "Bank Name", selectedBank, context),
+                                  showDetails("Account Name",
+                                      _accountNameController.text, context),
+                                  showDetails("Fee", "₦20.00", context),
+                                  const SizedBox(height: 24),
+                                  ZeelButton(
+                                    text: "Confirm",
+                                    onPressed: () {
+                                      Go.to(ConfirmTransaction(
+                                        onPinComplete: (pin) {
+                                          ref
+                                              .read(transferControllerProvider
+                                                  .notifier)
+                                              .transfer(
+                                                  context: context,
+                                                  sessionId: sessionId,
+                                                  note: _noteController.text,
+                                                  pin: pin!,
+                                                  ref: ref,
+                                                  amount: double.parse(amount),
+                                                  bankName: selectedBank,
+                                                  bankCode: selectedBankCode,
+                                                  accountName:
+                                                      _accountNameController
+                                                          .text,
+                                                  accountNumber:
+                                                      _accountNumberController
+                                                          .text);
+                                        },
+                                      ));
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
                 )
               ],
             ),
@@ -191,8 +285,16 @@ Widget showDetails(String lead, String trail, BuildContext context) {
   );
 }
 
-final saveBeneficiaryProvider = StateProvider<bool>((ref) {
+final saveBeneficiaryProvider = StateProvider.autoDispose<bool>((ref) {
   return false;
+});
+
+final selectedBankProvider = StateProvider.autoDispose<String>((ref) {
+  return '';
+});
+
+final selectedBankCodeProvider = StateProvider.autoDispose<String>((ref) {
+  return '';
 });
 
 Route _createRoute(Widget child) {

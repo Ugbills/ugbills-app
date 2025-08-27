@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/constants/assets/png.dart';
-import 'package:zeelpay/screens/onboarding/onboarding.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
@@ -29,98 +28,97 @@ class GiftcardTransactionDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          alignment: Alignment.topCenter,
-          children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-            ),
-            Positioned(
-              child: Container(
-                width: double.infinity,
-                height: MediaQuery.of(context).size.height / 2,
-                decoration: const BoxDecoration(
-                  color: ZealPalette.primaryPurple,
-                  image: DecorationImage(
-                    image: AssetImage("assets/images/bcc.png"),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: Image.asset(
-                        ZeelPng.netflix_2,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12.0),
-                      child: Text(
-                        amount,
-                        style: const TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: ZealPalette.lightGreen,
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      padding: const EdgeInsets.all(6),
-                      child: const Text(
-                        "Completed",
-                        style: TextStyle(
-                          color: ZealPalette.successGreen,
-                        ),
-                      ),
-                    ),
-                  ],
+      body: Stack(
+        alignment: Alignment.topCenter,
+        children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+          ),
+          Positioned(
+            child: Container(
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height / 2,
+              decoration: const BoxDecoration(
+                color: ZealPalette.primaryPurple,
+                image: DecorationImage(
+                  image: AssetImage("assets/images/bcc.png"),
+                  fit: BoxFit.cover,
                 ),
               ),
-            ),
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: Container(
-                padding: const EdgeInsets.all(16),
-                height: MediaQuery.of(context).size.height / 1.89,
-                decoration: BoxDecoration(
-                  color: isDark ? ZealPalette.lighterBlack : Colors.white,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(24),
-                    topRight: Radius.circular(24),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ShadImage(
+                    giftcardLogo,
+                    height: 70,
+                    width: 70,
                   ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text("Transaction details"),
-                    const SizedBox(height: 12),
-                    showDetails("Transaction ID", transactionID, context),
-                    showDetails("Date & time", dateAndTime, context),
-                    showDetails("USD Amount", usdAmount, context),
-                    showDetails("Card", card, context),
-                    showDetails("Fee", fee, context),
-                    showDetails("Note", note, context),
-                    const Spacer(),
-                    ZeelButton(
-                      text: "Share Transaction",
-                      onPressed: () {},
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 12.0),
+                    child: Text(
+                      amount,
+                      style: const TextStyle(
+                        color: Colors.white,
+                      ),
                     ),
-                    const SizedBox(height: 24),
-                  ],
-                ),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: ZealPalette.lightGreen,
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    padding: const EdgeInsets.all(6),
+                    child: const Text(
+                      "Completed",
+                      style: TextStyle(
+                        color: ZealPalette.successGreen,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 24),
-            Row(
+          ),
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              height: MediaQuery.of(context).size.height / 1.89,
+              decoration: BoxDecoration(
+                color: isDark ? ZealPalette.lighterBlack : Colors.white,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(24),
+                  topRight: Radius.circular(24),
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text("Transaction details"),
+                  const SizedBox(height: 12),
+                  showDetails("Transaction ID", transactionID, context),
+                  showDetails("Date & time", dateAndTime, context),
+                  showDetails("USD Amount", usdAmount, context),
+                  showDetails("Card", card, context),
+                  showDetails("Fee", fee, context),
+                  showDetails("Note", note, context),
+                  const Spacer(),
+                  ZeelButton(
+                    text: "Share Transaction",
+                    onPressed: () {},
+                  ),
+                  const SizedBox(height: 24),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 24),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 50.0),
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
@@ -140,9 +138,9 @@ class GiftcardTransactionDetails extends StatelessWidget {
                   ),
                 ),
               ],
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }

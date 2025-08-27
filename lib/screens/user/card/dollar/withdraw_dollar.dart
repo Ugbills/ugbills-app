@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
+import 'package:short_navigation/short_navigation.dart';
 import 'package:zeelpay/constants/assets/svg.dart';
-import 'package:zeelpay/screens/user/card/success_message.dart';
+import 'package:zeelpay/controllers/card/card_controller.dart';
+import 'package:zeelpay/screens/widgets/authenticate_transaction.dart';
 import 'package:zeelpay/screens/widgets/number_pad.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
 class WithdrawDollar extends ConsumerWidget {
-  const WithdrawDollar({super.key});
+  final String cardId;
+  const WithdrawDollar({super.key, required this.cardId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -57,7 +60,7 @@ class WithdrawDollar extends ConsumerWidget {
                     height: 50,
                   ),
                   Text(
-                    "₦ $amount",
+                    "\$$amount",
                     style: theme.textTheme.h2.copyWith(
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
@@ -65,10 +68,7 @@ class WithdrawDollar extends ConsumerWidget {
               ),
             ),
             const Spacer(),
-            // Number Pad Section Starts Here
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.1,
-            ),
+
             // NUMBER PAD
             ZeelNumberPad(
               provider: amountProvider,
@@ -79,24 +79,20 @@ class WithdrawDollar extends ConsumerWidget {
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
-                    padding: const EdgeInsets.all(20),
+                    padding:
+                        const EdgeInsets.only(left: 20, right: 20, bottom: 20),
                     child: ZeelAltButton(
                       onPressed: amount == "0.00"
                           ? null
                           : () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return const SuccessMessage(
-                                      title: "Card Withdrawal",
-                                      body:
-                                          "You have successfully withdrew \$20 from your dollar card.",
-                                    );
-                                  },
-                                  settings: RouteSettings(arguments: amount),
-                                ),
-                              );
+                              Go.to(ConfirmTransaction(
+                                onPinComplete: (pin) async => withdrawCard(
+                                    cardId: cardId,
+                                    amount: double.parse(amount),
+                                    context: context,
+                                    pin: pin!,
+                                    ref: ref),
+                              ));
                             },
                       text: "Withdraw",
                     )),

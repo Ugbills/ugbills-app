@@ -1,15 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/screens/auth/create/verify_otp_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:zeelpay/helpers/forms/validators.dart';
+import 'package:zeelpay/providers/state/loading_state_provider.dart';
+import 'package:zeelpay/repository/auth_repository.dart';
+import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 
-class ProfileInfoScreen extends StatelessWidget {
-  const ProfileInfoScreen({super.key});
+class ProfileInfoScreen extends ConsumerStatefulWidget {
+  final String userId;
+  final String email;
+  const ProfileInfoScreen(
+      {super.key, required this.userId, required this.email});
+
+  @override
+  ConsumerState<ProfileInfoScreen> createState() => _ProfileInfoScreenState();
+}
+
+class _ProfileInfoScreenState extends ConsumerState<ProfileInfoScreen> {
+  final TextEditingController fullNameController = TextEditingController();
+  final TextEditingController userNameController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
+  final TextEditingController referralController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    var isloading = ref.watch(isLoadingProvider);
     return Scaffold(
       appBar: AppBar(
+        forceMaterialTransparency: true,
         leadingWidth: 100,
         leading: const Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -23,6 +43,7 @@ class ProfileInfoScreen extends StatelessWidget {
         ],
       ),
       body: CustomScrollView(
+          reverse: true,
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           slivers: [
             SliverFillRemaining(
@@ -36,57 +57,69 @@ class ProfileInfoScreen extends StatelessWidget {
                       const ZeelTitleText(
                         text: "Profile Information",
                       ),
-
                       const SizedBox(height: 10.0),
                       const ZeelText(
                         text:
                             "Provide the correct information below to complete your account creation.",
                       ),
                       const SizedBox(height: 50.0),
-                      const ZeelTextFieldTitle(text: "Username"),
-
-                      TextField(
-                        decoration: InputDecoration(
-                            hintText: "@",
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0))),
+                      Form(
+                        key: formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const ZeelTextFieldTitle(text: "Username"),
+                            ZeelTextField(
+                              enabled: true,
+                              validator: usernameValidator,
+                              controller: userNameController,
+                              hint: "@",
+                            ),
+                            const ZeelTextFieldTitle(text: "Full Name"),
+                            ZeelTextField(
+                              enabled: true,
+                              controller: fullNameController,
+                              validator: fullNameValidator,
+                              hint: "Enter your full name",
+                            ),
+                            const ZeelTextFieldTitle(text: "Phone Number"),
+                            ZeelTextField(
+                              enabled: true,
+                              keyboardType: TextInputType.phone,
+                              controller: phoneNumberController,
+                              maxLength: 11,
+                              validator: phoneNumberValidator,
+                              hint: "Enter your phone number",
+                            ),
+                          ],
+                        ),
                       ),
-                      const SizedBox(height: 20.0),
-                      const ZeelTextFieldTitle(text: "Full Name"),
-
-                      TextField(
-                        decoration: InputDecoration(
-                            hintText: "Enter your full name",
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0))),
-                      ),
-                      const SizedBox(height: 20.0), // Add this line to the code
-                      const ZeelTextFieldTitle(text: "Phone Number"),
-
-                      TextField(
-                        decoration: InputDecoration(
-                            hintText: "Enter your phone number",
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0))),
+                      const ZeelTextFieldTitle(
+                          text: "Referral code (Optional)"),
+                      ZeelTextField(
+                        enabled: true,
+                        controller: referralController,
+                        hint: "Enter referral code",
                       ),
                       Expanded(
                         child: Align(
                           alignment: Alignment.bottomCenter,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              ZeelButton(
-                                text: "Create Account",
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const VerifyOtpScreen()));
-                                },
-                              ),
-                            ],
-                          ),
+                          child: ZeelButton(
+                              isLoading: isloading,
+                              text: "Create Account",
+                              onPressed: () {
+                                if (formKey.currentState!.validate()) {
+                                  AuthRepository().completeSignUp(
+                                      context: context,
+                                      userId: widget.userId,
+                                      email: widget.email,
+                                      fullName: fullNameController.text,
+                                      phoneNumber: phoneNumberController.text,
+                                      userName: userNameController.text,
+                                      referralCode: referralController.text,
+                                      ref: ref);
+                                }
+                              }),
                         ),
                       )
                     ],

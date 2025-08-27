@@ -1,82 +1,391 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
+
+import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:short_navigation/short_navigation.dart';
-import 'package:zeelpay/constants/api/enpoints.dart';
+import 'package:zeelpay/constants/api/endpoints.dart';
 import 'package:zeelpay/helpers/api/response_helper.dart';
 import 'package:zeelpay/helpers/snacks/snacks_helper.dart';
 import 'package:zeelpay/helpers/storage/token.dart';
 import 'package:zeelpay/helpers/storage/user.dart';
 import 'package:zeelpay/providers/state/loading_state_provider.dart';
+import 'package:zeelpay/providers/transaction_provider.dart';
+import 'package:zeelpay/providers/user_provider.dart';
 import 'package:zeelpay/screens/account_screen.dart';
-import 'package:zeelpay/screens/user/more/security/password.dart';
+import 'package:zeelpay/screens/auth/create/account_created.dart';
+import 'package:zeelpay/screens/auth/create/profile_information_screen.dart';
+import 'package:zeelpay/screens/auth/create/verify_otp_screen.dart';
+import 'package:zeelpay/screens/auth/reset/link_sent_screen.dart';
+import 'package:zeelpay/screens/auth/reset/password_saved_screen.dart';
 import 'package:zeelpay/screens/user/user.dart';
+import 'package:zeelpay/services/http_service.dart';
 
 class AuthRepository {
   final ApiRepository api = ApiRepository();
+  final httpService = HttpService();
 
   ///This function handles login
-  Future<void> login(
-    String email,
-    String password,
-    WidgetRef ref,
-    BuildContext context,
-  ) async {
-    await api.handleRequest(
-        endpoint: Endpoints.passwordLogin,
-        requestType: RequestType.post,
-        data: {
-          'email': email,
-          'password': password,
-          "device_name": "string",
-          "device_id": "string",
-          "operating_system": "string",
-          "latitude": "string",
-          "longitude": "string"
-        },
-        loadingProvider: isLoadingProvider,
-        ref: ref,
-        onSuccess: (data) async {
-          await UserStorage().update(data["data"]["user_id"]);
-          await TokenStorage().storeToken(data["data"]["access_key"]);
-          if (context.mounted) {
-            await successSnack(context, data["message"]);
-          }
-          Go.toRemoveAll(const UserScreen());
-        },
-        onError: (message) async {
-          await errorSnack(context, message);
-          log(message);
-        });
+  Future<String> login(String email, String password, WidgetRef ref,
+      BuildContext context) async {
+    try {
+      //get devices notification token
+      var token = await FirebaseMessaging.instance.getToken();
+      log(token.toString());
+
+      var message = "";
+      await api.handleRequest(
+          endpoint: Endpoints.passwordLogin,
+          requestType: RequestType.post,
+          data: {
+            'email': email.trim(),
+            'password': password,
+            "device_name": "string",
+            "device_id": token,
+            "operating_system": Platform.operatingSystem,
+            "latitude": "string",
+            "longitude": "string"
+          },
+          onSuccess: (data) async {
+            var json = jsonDecode(data);
+            message = json["message"];
+            await TokenStorage().storeToken(json["data"]["access_key"]);
+            await UserStorage().update(json["data"]["user_id"]);
+            await UserStorage().updateEmail(email.trim());
+            // await UserStorage().updatePin(json["data"]["pin"]);
+            ref.invalidate(fetchUserInformationProvider);
+            ref.invalidate(fetchUserTransactionsProvider());
+            saveNotificationToken();
+            await successSnack(context, message);
+            Go.toRemoveAll(const UserScreen());
+          },
+          onError: (getmessage) async {
+            errorSnack(context, getmessage);
+            message = getmessage;
+            log(message);
+          });
+      return message;
+    } catch (e) {
+      log(e.toString());
+      throw Exception(e);
+    }
+  }
+
+  Future<String> saveNotificationToken() async {
+    try {
+      //get devices notification token
+      var token = await FirebaseMessaging.instance.getToken();
+      log(token.toString());
+      var message = "";
+      await api.handleRequest(
+          auth: true,
+          endpoint: Endpoints.userNotificationToken,
+          requestType: RequestType.post,
+          data: {
+            'token': token,
+          },
+          onSuccess: (data) async {
+            var json = jsonDecode(data);
+            message = json["message"];
+            log(message);
+          },
+          onError: (getmessage) async {
+            message = getmessage;
+            log(message);
+          });
+      return message;
+    } catch (e) {
+      log(e.toString());
+      return e.toString();
+    }
   }
 
   ///this function handles logout
   Future<void> logout() async {
     await TokenStorage().deleteToken();
     UserStorage().update("");
+    UserStorage().updateEmail("");
+    UserStorage().updateBiometrics(false);
+    UserStorage().updatePin("");
     Go.toRemoveAll(const AccountScreen());
   }
 
-  ///This function handles forgot password
-  Future<void> forgotPassword(
-      String email, WidgetRef ref, BuildContext context) async {
-    await api.handleRequest(
-        requestType: RequestType.post,
-        endpoint: Endpoints.recoverPassword,
-        data: {
-          'email': email,
-        },
-        loadingProvider: isLoadingProvider,
-        ref: ref,
-        onSuccess: (data) async {
-          await successSnack(context, data["message"]);
-          Go.to(const ChangePassword());
-        },
-        onError: (message) async {
-          await errorSnack(context, message);
-          log(message);
-        });
+  Future forgotPassword(
+      {required BuildContext context,
+      required String email,
+      required WidgetRef ref}) async {
+    try {
+      ref.read(isLoadingProvider.notifier).state = true;
+      var response =
+          await httpService.postRequest(Endpoints.recoverPassword, headers: {
+        'Y-decryption-key': '1234'
+      }, data: {
+        'email': email.trim(),
+      });
+
+      ref.read(isLoadingProvider.notifier).state = false;
+
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.data);
+        log(data.toString());
+        Go.to(LinkSentScreen(
+          email: email,
+        ));
+      }
+    } on DioException catch (e) {
+      log(e.toString());
+      ref.read(isLoadingProvider.notifier).state = false;
+      if (e.response!.data != null) {
+        var data = jsonDecode(e.response!.data);
+        log(data["message"]);
+        errorSnack(context, data["message"]);
+      }
+      throw Exception(e);
+    }
+  }
+
+  Future resetPassword(
+      {required BuildContext context,
+      required String email,
+      required String password,
+      required String code,
+      required WidgetRef ref}) async {
+    try {
+      ref.read(isLoadingProvider.notifier).state = true;
+      var response = await httpService.postRequest(Endpoints.resetPassword,
+          headers: {
+            'Y-decryption-key': '1234'
+          },
+          data: {
+            'email': email.trim(),
+            "new_password": password,
+            "code": code
+          });
+
+      ref.read(isLoadingProvider.notifier).state = false;
+
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.data);
+        log(data.toString());
+        Go.to(const PassswordSavedScreen());
+      }
+    } on DioException catch (e) {
+      log(e.toString());
+      ref.read(isLoadingProvider.notifier).state = false;
+      if (e.response!.data != null) {
+        var data = jsonDecode(e.response!.data);
+        log(data["message"]);
+        errorSnack(context, data["message"]);
+      }
+      throw Exception(e);
+    }
+  }
+
+  Future signUp(
+      {required BuildContext context,
+      required String email,
+      required String password,
+      required WidgetRef ref}) async {
+    try {
+      ref.read(isLoadingProvider.notifier).state = true;
+      var response = await httpService.postRequest(Endpoints.signupStart,
+          headers: {'Y-decryption-key': '1234'},
+          data: {"email": email.trim(), "password": password});
+
+      ref.read(isLoadingProvider.notifier).state = false;
+
+      if (response.statusCode == 201) {
+        var data = jsonDecode(response.data);
+        log(data.toString());
+        Go.to(ProfileInfoScreen(userId: data["data"]["user_id"], email: email));
+      }
+    } on DioException catch (e) {
+      log(e.toString());
+      ref.read(isLoadingProvider.notifier).state = false;
+      if (e.response!.data != null) {
+        var data = jsonDecode(e.response!.data);
+        log(data["message"]);
+        errorSnack(context, data["message"]);
+      }
+      throw Exception(e);
+    }
+  }
+
+  Future completeSignUp(
+      {required BuildContext context,
+      required String userId,
+      required String email,
+      required String fullName,
+      required String phoneNumber,
+      required String userName,
+      required String referralCode,
+      required WidgetRef ref}) async {
+    try {
+      ref.read(isLoadingProvider.notifier).state = true;
+      var response = await httpService.postRequest(Endpoints.signup, headers: {
+        'Y-decryption-key': '1234'
+      }, data: {
+        "user_id": userId,
+        "full_name": fullName.trim(),
+        "phone_number": phoneNumber,
+        "username": userName.trim(),
+        "refferal_code": referralCode
+      });
+
+      ref.read(isLoadingProvider.notifier).state = false;
+
+      if (response.statusCode == 201) {
+        var data = jsonDecode(response.data);
+        log(data.toString());
+        Go.to(VerifyOtpScreen(
+          email: email,
+        ));
+      }
+    } on DioException catch (e) {
+      log(e.toString());
+      ref.read(isLoadingProvider.notifier).state = false;
+      if (e.response!.data != null) {
+        var data = jsonDecode(e.response!.data);
+        log(data["message"]);
+        errorSnack(context, data["message"]);
+      }
+      throw Exception(e);
+    }
+  }
+
+  Future verifyEmail(
+      {required BuildContext context,
+      required String email,
+      required String code,
+      required WidgetRef ref}) async {
+    try {
+      ref.read(isLoadingProvider.notifier).state = true;
+      var response = await httpService.postRequest(Endpoints.verifyEmail,
+          headers: {'Y-decryption-key': '1234'},
+          data: {"code": code, "email": email.trim()});
+      ref.read(isLoadingProvider.notifier).state = false;
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.data);
+        log(data.toString());
+        await TokenStorage().storeToken(data["data"]["access_key"]);
+        await UserStorage().update(data["data"]["user_id"]);
+        Go.to(const AccountCreatedScreen());
+      }
+    } on DioException catch (e) {
+      log(e.toString());
+      ref.read(isLoadingProvider.notifier).state = false;
+      if (e.response!.data != null) {
+        var data = jsonDecode(e.response!.data);
+        log(data["message"]);
+        errorSnack(context, data["message"]);
+      }
+      throw Exception(e);
+    }
+  }
+
+  Future resendVerifyEmail(
+      {required BuildContext context,
+      required String email,
+      required WidgetRef ref}) async {
+    try {
+      ref.read(isLoadingProvider.notifier).state = true;
+      var response = await httpService.getRequest(Endpoints.resendEmailVerify,
+          headers: {'Y-decryption-key': '1234'},
+          queryParameters: {"email": email.trim()});
+
+      ref.read(isLoadingProvider.notifier).state = false;
+
+      if (response.statusCode == 200) {
+        successSnack(context, response.data["message"]);
+      }
+    } on DioException catch (e) {
+      log(e.toString());
+      ref.read(isLoadingProvider.notifier).state = false;
+      if (e.response!.data != null) {
+        var data = jsonDecode(e.response!.data);
+        log(data["message"]);
+        errorSnack(context, data["message"]);
+      }
+      throw Exception(e);
+    }
   }
 
   //
+
+  Future loginWithPin(
+      {required BuildContext context,
+      required String pin,
+      required WidgetRef ref}) async {
+    try {
+      ref.read(isLoadingProvider.notifier).state = true;
+      var response = await httpService.postRequest(Endpoints.pinLogin,
+          headers: {'Y-decryption-key': '1234'},
+          data: {"pin": pin, "user_id": UserStorage().get()});
+      ref.read(isLoadingProvider.notifier).state = false;
+
+      if (response.statusCode == 200) {
+        ref.read(isLoadingProvider.notifier).state = false;
+        var json = jsonDecode(response.data);
+        var message = json["message"];
+        await TokenStorage().storeToken(json["data"]["access_key"]);
+        await UserStorage().update(json["data"]["user_id"]);
+        await UserStorage().updatePin(pin);
+        ref.invalidate(fetchUserInformationProvider);
+        ref.invalidate(fetchUserTransactionsProvider());
+        await successSnack(context, message);
+        Go.toRemoveAll(const UserScreen());
+      }
+    } on DioException catch (e) {
+      log(e.toString());
+      ref.read(isLoadingProvider.notifier).state = false;
+      if (e.response!.data != null) {
+        var data = jsonDecode(e.response!.data);
+        log(data["message"]);
+        errorSnack(context, data["message"]);
+      }
+      throw Exception(e);
+    }
+  }
+
+  //delete account and it only takes pin as parameter
+
+  Future deleteAccount(
+      {required BuildContext context,
+      required String pin,
+      required WidgetRef ref}) async {
+    try {
+      ref.read(isLoadingProvider.notifier).state = true;
+      var token = await TokenStorage().getToken();
+      var response = await httpService.postRequest(Endpoints.userDelete,
+          headers: {
+            'X-Forwarded-For': '1234',
+            'Y-decryption-key': '1234',
+            "ZEEL-SECURE-KEY": token
+          },
+          data: {
+            "pin": pin
+          });
+      ref.read(isLoadingProvider.notifier).state = false;
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        var data = jsonDecode(response.data);
+        log(data.toString());
+        logout();
+      }
+    } on DioException catch (e) {
+      log(e.toString());
+      ref.read(isLoadingProvider.notifier).state = false;
+      if (e.response!.data != null) {
+        var data = jsonDecode(e.response!.data);
+        log(data["message"]);
+        errorSnack(context, data["message"]);
+      }
+      throw Exception(e);
+    }
+  }
 }

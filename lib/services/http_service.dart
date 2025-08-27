@@ -3,7 +3,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:zeelpay/constants/api/enpoints.dart';
+import 'package:zeelpay/constants/api/endpoints.dart';
 
 ///this class houses all the http methods
 class HttpService {
@@ -12,8 +12,8 @@ class HttpService {
   HttpService() {
     _dio = Dio(BaseOptions(
       baseUrl: Endpoints.baseUrl,
-      connectTimeout: const Duration(seconds: 10),
-      receiveTimeout: const Duration(seconds: 10),
+      connectTimeout: const Duration(seconds: 30),
+      receiveTimeout: const Duration(seconds: 30),
     ));
 
     _dio.interceptors.add(InterceptorsWrapper(
@@ -54,7 +54,8 @@ class HttpService {
       {Map<String, dynamic>? data, Map<String, dynamic>? headers}) async {
     try {
       Response response = await _dio.post(endpoint,
-          data: data, options: Options(headers: headers));
+          data: data,
+          options: Options(headers: headers, responseType: ResponseType.plain));
       return response;
     } on DioException catch (e) {
       rethrow;
@@ -98,12 +99,31 @@ class HttpService {
   }
 
   /// This function handles file upload
-  Future<Response> patchUploadRequest(String endpoint,
+  Future<Response> uploadRequest(String endpoint,
       {Map<String, dynamic>? headers,
       required File file,
       required String key}) async {
     try {
       final formData = FormData.fromMap({
+        key: await MultipartFile.fromFile(file.path),
+      });
+      Response response = await _dio.post(endpoint,
+          data: formData, options: Options(headers: headers));
+      return response;
+    } on DioException catch (e) {
+      rethrow;
+    }
+  }
+
+  /// This function handles file upload
+  Future<Response> uploadFileRequest(String endpoint,
+      {Map<String, dynamic>? headers,
+      required File file,
+      required String fileName,
+      required String key}) async {
+    try {
+      final formData = FormData.fromMap({
+        "file_name": fileName,
         key: await MultipartFile.fromFile(file.path),
       });
       Response response = await _dio.post(endpoint,

@@ -1,30 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/screens/user/more/success.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:zeelpay/controllers/user/user_controller.dart';
+import 'package:zeelpay/helpers/snacks/snacks_helper.dart';
+import 'package:zeelpay/providers/state/loading_state_provider.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
+import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
-class ConfirmTransactionPin extends StatefulWidget {
-  const ConfirmTransactionPin({super.key});
+class ConfirmTransactionPin extends ConsumerStatefulWidget {
+  final String otp;
+  final String pin;
+  final String email;
+  const ConfirmTransactionPin(
+      {super.key, required this.otp, required this.pin, required this.email});
 
   @override
-  State<ConfirmTransactionPin> createState() => _ConfirmTransactionPinState();
+  ConsumerState<ConfirmTransactionPin> createState() =>
+      _ConfirmTransactionPinState();
 }
 
-class _ConfirmTransactionPinState extends State<ConfirmTransactionPin> {
+class _ConfirmTransactionPinState extends ConsumerState<ConfirmTransactionPin> {
   String enteredPin = '';
   bool pinProgress = false;
 
   void onPinComplete() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const Success(
-          title: "Updated",
-          body:
-              "Your password has been updated successfully and should be used on next login.",
-        ),
-      ),
-    );
+    //check if pin matches, if it does not clear the entered pin
+    if (widget.pin != enteredPin) {
+      setState(() {
+        errorSnack(context, "Pins do not match. Please try again.");
+        enteredPin = '';
+      });
+    } else {
+      ref.read(isLoadingProvider.notifier).state = true;
+      ref.read(userControllerProvider.notifier).resetPin(
+          ref: ref,
+          email: widget.email,
+          otp: widget.otp,
+          newPin: enteredPin,
+          context: context);
+    }
   }
 
   Widget numButton(int number) {
@@ -46,8 +60,8 @@ class _ConfirmTransactionPinState extends State<ConfirmTransactionPin> {
           alignment: Alignment.center,
           margin: const EdgeInsets.only(top: 16),
           constraints: const BoxConstraints(
-            maxHeight: 92,
-            maxWidth: 92,
+            maxHeight: 64,
+            maxWidth: 64,
           ),
           decoration: BoxDecoration(
               shape: BoxShape.circle,
@@ -68,7 +82,33 @@ class _ConfirmTransactionPinState extends State<ConfirmTransactionPin> {
   @override
   Widget build(BuildContext context) {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
+
+    Dialog alert = const Dialog(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        child: Center(child: CircularProgressIndicator()));
+
+    ref.listen(isLoadingProvider, (previous, next) {
+      if (next == true) {
+        showDialog(
+            barrierColor: const Color.fromARGB(39, 0, 0, 0),
+            barrierDismissible: false,
+            context: context,
+            builder: (BuildContext context) {
+              return alert;
+            });
+      }
+      if (next == false) {
+        Navigator.of(context).pop();
+      }
+    });
+
     return Scaffold(
+      appBar: AppBar(
+        leading: const ZeelBackButton(),
+        leadingWidth: 100,
+        forceMaterialTransparency: true,
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(18.0),
@@ -88,8 +128,8 @@ class _ConfirmTransactionPinState extends State<ConfirmTransactionPin> {
                       return Container(
                         margin: const EdgeInsets.all(6.0),
                         constraints: const BoxConstraints(
-                          maxHeight: 75,
-                          maxWidth: 75,
+                          maxHeight: 64,
+                          maxWidth: 64,
                         ),
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
@@ -158,8 +198,8 @@ class _ConfirmTransactionPinState extends State<ConfirmTransactionPin> {
                         alignment: Alignment.center,
                         margin: const EdgeInsets.only(top: 32),
                         constraints: const BoxConstraints(
-                          maxHeight: 85,
-                          maxWidth: 85,
+                          maxHeight: 64,
+                          maxWidth: 64,
                         ),
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,

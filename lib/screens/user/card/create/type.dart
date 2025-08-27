@@ -1,84 +1,108 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/screens/onboarding/onboarding.dart';
-import 'package:zeelpay/screens/user/card/available.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:short_navigation/short_navigation.dart';
+import 'package:zeelpay/controllers/card/card_controller.dart';
+import 'package:zeelpay/helpers/common/amount_formatter.dart';
+import 'package:zeelpay/providers/card_provider.dart';
+import 'package:zeelpay/screens/widgets/authenticate_transaction.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
-class CardType extends StatefulWidget {
+import '../../../../models/api/card_type_model.dart';
+
+class CardType extends ConsumerStatefulWidget {
   const CardType({super.key});
 
   @override
-  State<CardType> createState() => _CardTypeState();
+  ConsumerState<CardType> createState() => _CardTypeState();
 }
 
-class _CardTypeState extends State<CardType> {
+class _CardTypeState extends ConsumerState<CardType> {
   String? selectedCardType;
-  final List<String> items = [
-    'Visa',
-    'MasterCard',
-    'Verve',
-  ];
+  dynamic amount;
+  String? selectId;
 
   @override
   Widget build(BuildContext context) {
+    var cardType = ref.watch(getCardTypesProvider);
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Card Type'),
+        leading: const ZeelBackButton(),
+        leadingWidth: 100,
+        forceMaterialTransparency: true,
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text("Card Type"),
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 12),
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: Colors.grey,
-                    width: 0.5,
-                  ),
-                ),
-                child: DropdownButton<String>(
-                  isExpanded: true,
-                  hint: const Text('Select an option'),
-                  value: selectedCardType,
-                  underline: Container(color: Colors.transparent),
-                  items: items.map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectedCardType = newValue;
-                    });
-                  },
-                  icon: const Icon(Icons.arrow_drop_down),
-                ),
-              ),
-              _feeContainer(),
-              const Spacer(),
-              ZeelButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const AvailableCards(),
-                    ),
-                  );
-                },
-                text: "Pay",
-              ),
-            ],
-          ),
+          child: cardType.when(
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (error, _) => Center(child: Text(error.toString())),
+              data: (items) => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text("Card Type"),
+                      Container(
+                        margin: const EdgeInsets.symmetric(vertical: 12),
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                            color: Colors.grey,
+                            width: 0.5,
+                          ),
+                        ),
+                        child: DropdownButton<String>(
+                          isExpanded: true,
+                          hint: const Text('Select an option'),
+                          value: selectedCardType,
+                          underline: Container(color: Colors.transparent),
+                          items: items!.data!.map((Data value) {
+                            return DropdownMenuItem<String>(
+                              value: value.name,
+                              child: Text(value.name!.toUpperCase()),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              selectedCardType = newValue;
+                              amount = items.data!
+                                  .firstWhere(
+                                      (element) => element.name == newValue)
+                                  .creationFee;
+                              selectId = items.data!
+                                  .firstWhere(
+                                      (element) => element.name == newValue)
+                                  .id;
+                            });
+                          },
+                          icon: const Icon(Icons.arrow_drop_down),
+                        ),
+                      ),
+                      _feeContainer(amount ?? 0),
+                      const Spacer(),
+                      ZeelButton(
+                        onPressed: () {
+                          Go.to(ConfirmTransaction(
+                            onPinComplete: (pin) async {
+                              await createCard(
+                                  context: context,
+                                  cardType: selectId!,
+                                  pin: pin!,
+                                  ref: ref);
+                            },
+                          ));
+                        },
+                        text: "Pay",
+                      ),
+                    ],
+                  )),
         ),
       ),
     );
   }
 
-  Widget _feeContainer() {
+  Widget _feeContainer(dynamic amount) {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,7 +116,7 @@ class _CardTypeState extends State<CardType> {
             border: Border.all(color: Colors.grey.shade400),
             color: isDark ? ZealPalette.lighterBlack : Colors.grey.shade300,
           ),
-          child: const Text("₦1,000.00"),
+          child: Text("\$${returnAmount(amount)}"),
         ),
       ],
     );

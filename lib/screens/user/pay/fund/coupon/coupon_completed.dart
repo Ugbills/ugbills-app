@@ -4,7 +4,8 @@ import 'package:zeelpay/constants/assets/png.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 
 class CouponCompleted extends StatelessWidget {
-  const CouponCompleted({super.key});
+  final String message;
+  const CouponCompleted({super.key, required this.message});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class CouponCompleted extends StatelessWidget {
                       fontWeight: FontWeight.bold)),
               const SizedBox(height: 20),
               Text(
-                "Your coupon code has been applied successfully. You have received  ₦10,000.",
+                message,
                 textAlign: TextAlign.center,
                 style: theme.textTheme.p,
               ),

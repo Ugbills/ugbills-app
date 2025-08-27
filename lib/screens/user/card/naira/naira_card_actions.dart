@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:zeelpay/constants/assets/png.dart';
 import 'package:zeelpay/constants/assets/svg.dart';
@@ -10,11 +11,12 @@ import 'package:zeelpay/screens/user/card/naira/naira_card_history.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
-class NairaVirtualCardActions extends StatelessWidget {
-  const NairaVirtualCardActions({super.key});
+class NairaVirtualCardActions extends ConsumerWidget {
+  final String cardId;
+  const NairaVirtualCardActions({super.key, required this.cardId});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final List options = [
       [ZeelSvg.fundCard, "Fund", const FundNairaCard()],
       [ZeelSvg.withdraw, "Withdraw", const AvailableCards()],

@@ -152,7 +152,7 @@ class SellGiftcardState extends State<SellGiftcard> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
-              backgroundColor: Colors.transparent,
+               backgroundColor: Colors.transparent,
               side: const BorderSide(color: ZealPalette.primaryPurple),
               padding: const EdgeInsets.symmetric(
                 horizontal: 12,

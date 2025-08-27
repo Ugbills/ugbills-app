@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:zeelpay/controllers/auth/auth_controller.dart';
 import 'package:zeelpay/helpers/forms/validators.dart';
 import 'package:zeelpay/providers/state/loading_state_provider.dart';
+import 'package:zeelpay/repository/auth_repository.dart';
+import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 
@@ -10,13 +11,14 @@ class ForgotPasswordScreen extends ConsumerWidget {
   ForgotPasswordScreen({super.key});
 
   final TextEditingController emailController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final formKey = GlobalKey<FormState>();
     var isloading = ref.watch(isLoadingProvider);
     return Scaffold(
       appBar: AppBar(
+        forceMaterialTransparency: true,
         leadingWidth: 100,
         leading: const Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -46,13 +48,11 @@ class ForgotPasswordScreen extends ConsumerWidget {
                       const ZeelTextFieldTitle(text: "Email"),
                       Form(
                         key: formKey,
-                        child: TextFormField(
+                        child: ZeelTextField(
+                          enabled: true,
                           controller: emailController,
                           validator: emailValidator,
-                          decoration: InputDecoration(
-                              hintText: "Enter your email address",
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0))),
+                          hint: "Enter your email address",
                         ),
                       ),
 
@@ -67,11 +67,12 @@ class ForgotPasswordScreen extends ConsumerWidget {
                                 isLoading: isloading,
                                 text: "Send Rest Link",
                                 onPressed: () {
-                                  AuthController().forgotPassword(
-                                      email: emailController.text,
-                                      ref: ref,
-                                      formkey: formKey,
-                                      context: context);
+                                  if (formKey.currentState!.validate()) {
+                                    AuthRepository().forgotPassword(
+                                        ref: ref,
+                                        email: emailController.text,
+                                        context: context);
+                                  }
                                 },
                               ),
                             ],

@@ -1,16 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/constants/assets/png.dart';
-import 'package:zeelpay/screens/user/pay/giftcard/giftcard_transaction_details.dart';
-import 'package:zeelpay/screens/widgets/sent.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:short_navigation/short_navigation.dart';
+import 'package:zeelpay/controllers/bills/giftcard_controller.dart';
+import 'package:zeelpay/providers/state/loading_state_provider.dart';
+import 'package:zeelpay/screens/widgets/authenticate_transaction.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
-class ConfirmGiftcardDetails extends StatelessWidget {
-  final String title, transactionID, usdAmount, nairaAmount, dateAndTime, fee;
+class ConfirmGiftcardDetails extends ConsumerWidget {
+  final String title,
+      iconUrl,
+      countryCode,
+      productName,
+      productId,
+      brandId,
+      usdAmount,
+      nairaAmount,
+      dateAndTime,
+      fee;
+  final dynamic unitPrice;
   const ConfirmGiftcardDetails({
     super.key,
     this.title = 'Netflix',
-    required this.transactionID,
+    required this.iconUrl,
+    required this.productName,
+    required this.unitPrice,
+    required this.brandId,
+    required this.countryCode,
+    required this.productId,
     required this.usdAmount,
     required this.nairaAmount,
     required this.dateAndTime,
@@ -18,14 +35,14 @@ class ConfirmGiftcardDetails extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
+    var isloading = ref.watch(isLoadingProvider);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         leadingWidth: 100,
-        title: Text('Sell $title',
-            style: const TextStyle(fontWeight: FontWeight.bold)),
+        title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
         leading: const ZeelBackButton(
           color: Colors.white,
         ),
@@ -45,11 +62,10 @@ class ConfirmGiftcardDetails extends StatelessWidget {
                     ),
                     child: Column(
                       children: [
-                        _detail("Transaction ID", "d230982wj23"),
-                        _detail("USD Amount", "\$15"),
-                        _detail("Naira Amount", "₦55,000"),
-                        _detail("Date & Time", "Mar 09 2024, 5:04PM"),
-                        _detail("Fees", "₦150"),
+                        _detail("USD Amount", "\$$usdAmount"),
+                        _detail("Naira Amount", nairaAmount),
+                        _detail("Date & Time", dateAndTime),
+                        _detail("Fees", fee),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -116,26 +132,23 @@ class ConfirmGiftcardDetails extends StatelessWidget {
             ),
             ZeelButton(
               text: "Confirm",
+              isLoading: isloading,
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const SentSuccessfully(
-                        title: "Gift Card is Coming!",
-                        body:
-                            "Your purchase of the \$20 Netflix gift card was successful. You'll receive an email with the gift card details shortly.",
-                        nextPage: GiftcardTransactionDetails(
-                          giftcardLogo: ZeelPng.tether,
-                          amount: "₦20,000.00",
-                          transactionID: "#2D94ty823",
-                          dateAndTime: "Mar 10 2023, 2:33PM",
-                          usdAmount: "\$10",
-                          card: "Netflix",
-                          fee: "₦10.00",
-                          note: 'None',
-                        ),
-                      ),
-                    ));
+                Go.to(ConfirmTransaction(
+                  onPinComplete: (pin) async {
+                    await buyGiftCard(
+                        context: context,
+                        productId: productId,
+                        productName: productName,
+                        brandId: brandId,
+                        countryCode: countryCode,
+                        quantity: 1,
+                        pin: pin!,
+                        ref: ref,
+                        iconUrl: iconUrl,
+                        unitPrice: unitPrice);
+                  },
+                ));
               },
             )
           ],

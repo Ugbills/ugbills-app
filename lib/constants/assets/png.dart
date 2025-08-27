@@ -21,6 +21,7 @@ class ZeelPng {
   static const String tradeCrypto = 'assets/images/trade_crypto.png';
   static const String avatar = 'assets/images/image.png';
   static const String done = 'assets/images/sent.png';
+  static const String processing = 'assets/images/processing.png';
   static const String ellipse = 'assets/images/ellipse.png';
   static const String mastercard = 'assets/images/mastercard.png';
   static const String whitezeel = 'assets/images/white-logo.png';

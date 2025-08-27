@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/screens/auth/create/account_created.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:zeelpay/helpers/forms/validators.dart';
+import 'package:zeelpay/providers/state/loading_state_provider.dart';
+import 'package:zeelpay/repository/auth_repository.dart';
+import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 
-class VerifyOtpScreen extends StatelessWidget {
-  const VerifyOtpScreen({super.key});
+class VerifyOtpScreen extends ConsumerWidget {
+  final String email;
+  VerifyOtpScreen({super.key, required this.email});
+
+  final TextEditingController codeController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    var isloading = ref.watch(isLoadingProvider);
     return Scaffold(
       appBar: AppBar(
         leadingWidth: 100,
+        forceMaterialTransparency: true,
         leading: const Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.0),
           child: ZeelBackButton(),
@@ -42,38 +51,39 @@ class VerifyOtpScreen extends StatelessWidget {
                             "Enter the 4-digit OTP code sent to your email to verify your account.",
                       ),
                       const SizedBox(height: 50.0),
-                      TextField(
-                        decoration: InputDecoration(
-                            hintText: "Enter OTP",
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0))),
+                      ZeelTextField(
+                        enabled: true,
+                        validator: otpValidator,
+                        hint: "Enter OTP",
+                        controller: codeController,
                       ),
                       const SizedBox(height: 20.0),
-                      const Center(
-                        child: Text(
-                          "Did not receive the mail? Resend",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.black),
-                          textAlign: TextAlign.center,
+                      Center(
+                        child: GestureDetector(
+                          onTap: () => AuthRepository().resendVerifyEmail(
+                              context: context, email: email, ref: ref),
+                          child: const Text(
+                            "Did not receive the mail? Resend",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
                       Expanded(
                         child: Align(
                           alignment: Alignment.bottomCenter,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              ZeelButton(
-                                text: "Verify",
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const AccountCreatedScreen()));
-                                },
-                              ),
-                            ],
+                          child: ZeelButton(
+                            isLoading: isloading,
+                            text: "Verify",
+                            onPressed: () {
+                              AuthRepository().verifyEmail(
+                                  context: context,
+                                  email: email,
+                                  code: codeController.text,
+                                  ref: ref);
+                            },
                           ),
                         ),
                       )

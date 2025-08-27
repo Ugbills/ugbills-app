@@ -38,8 +38,8 @@ class _ConfirmFreezeNairaCardState extends State<ConfirmFreezeNairaCard> {
           alignment: Alignment.center,
           margin: const EdgeInsets.only(top: 16),
           constraints: const BoxConstraints(
-            maxHeight: 92,
-            maxWidth: 92,
+            maxHeight: 64,
+            maxWidth: 64,
           ),
           decoration: BoxDecoration(
               shape: BoxShape.circle,
@@ -79,8 +79,8 @@ class _ConfirmFreezeNairaCardState extends State<ConfirmFreezeNairaCard> {
                     return Container(
                       margin: const EdgeInsets.all(6.0),
                       constraints: const BoxConstraints(
-                        maxHeight: 75,
-                        maxWidth: 75,
+                        maxHeight: 64,
+                        maxWidth: 64,
                       ),
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
@@ -150,8 +150,8 @@ class _ConfirmFreezeNairaCardState extends State<ConfirmFreezeNairaCard> {
                       alignment: Alignment.center,
                       margin: const EdgeInsets.only(top: 32),
                       constraints: const BoxConstraints(
-                        maxHeight: 85,
-                        maxWidth: 85,
+                        maxHeight: 64,
+                        maxWidth: 64,
                       ),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,

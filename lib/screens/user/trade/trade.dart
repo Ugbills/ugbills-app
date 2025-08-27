@@ -18,6 +18,7 @@ class TradeScreen extends StatelessWidget {
           style: ShadTheme.of(context).textTheme.h3,
         ),
         leading: const SizedBox.shrink(),
+        forceMaterialTransparency: true,
       ),
       body: SafeArea(
         child: Padding(
@@ -29,24 +30,24 @@ class TradeScreen extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => const BuyCryptoOptions(),
-                      ));
-                },
-                leadingImage: ZeelPng.buyCrypto,
-                title: 'Buy Crypto',
-                subtitle: 'Buy BTC, ETH, LTC and lot more for quick cash.',
-              ),
-              ZeelTile(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
                         builder: (_) => const SellCryptoOptions(),
                       ));
                 },
                 leadingImage: ZeelPng.sellCrypto,
                 title: 'Sell Crypto',
                 subtitle: 'Sell BTC, ETH, LTC and lot more for quick cash.',
+              ),
+              ZeelTile(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const BuyCryptoOptions(),
+                      ));
+                },
+                leadingImage: ZeelPng.buyCrypto,
+                title: 'Buy Crypto',
+                subtitle: 'Buy BTC, ETH, LTC and lot more for quick cash.',
               ),
             ],
           ),

@@ -41,4 +41,16 @@ class ZeelSvg {
   static const String details = 'assets/svgs/card-detail.svg';
   static const String transaction = 'assets/svgs/dollar-transactions.svg';
   static const String freeze = 'assets/svgs/freeze-card.svg';
+  static const String fingerprint = 'assets/svgs/fingerprint.svg';
+  static const String eye = 'assets/svgs/eye.svg';
+  static const String eyeSlash = 'assets/svgs/eye-off.svg';
+  static const String userEdit = 'assets/svgs/users-edit.svg';
+  static const String bet = 'assets/svgs/bet.svg';
+  static const String electricity = 'assets/svgs/electricity.svg';
+  static const String cable = 'assets/svgs/cable.svg';
+  static const String giftcards = 'assets/svgs/giftcard.svg';
+  static const String coupon = 'assets/svgs/coupon.svg';
+  static const String money = 'assets/svgs/money.svg';
+  static const String vc = 'assets/svgs/vc.svg';
+   static const String reward = 'assets/svgs/reward.svg';
 }

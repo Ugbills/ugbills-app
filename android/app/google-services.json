@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "28085771925",
+    "project_id": "zeelpay",
+    "storage_bucket": "zeelpay.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:28085771925:android:033118a1903a6db988059c",
+        "android_client_info": {
+          "package_name": "com.zgt.zeelpay"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxOFP0qfuWQTejFVD94vn-PUXZV-t3jHs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

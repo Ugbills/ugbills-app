@@ -1,20 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/screens/user/more/success.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:zeelpay/controllers/user/user_controller.dart';
+import 'package:zeelpay/helpers/forms/validators.dart';
+import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
-import 'package:zeelpay/themes/palette.dart';
 
-class ChangePassword extends StatelessWidget {
+class ChangePassword extends StatefulHookConsumerWidget {
   const ChangePassword({super.key});
 
   @override
+  ConsumerState<ChangePassword> createState() => _ChangePasswordState();
+}
+
+class _ChangePasswordState extends ConsumerState<ChangePassword> {
+  TextEditingController currentPasswordController = TextEditingController();
+  TextEditingController newPasswordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+  @override
   Widget build(BuildContext context) {
-    TextEditingController currentPasswordController = TextEditingController();
-    TextEditingController newPasswordController = TextEditingController();
-    TextEditingController confirmPasswordController = TextEditingController();
+    final formKey = GlobalKey<FormState>();
+    final pendingPasswordChange = useState<Future<void>?>(null);
+    final isLoading = useFuture(pendingPasswordChange.value).connectionState ==
+        ConnectionState.waiting;
     return Scaffold(
       appBar: AppBar(
         title: const Text("Security Settings"),
+        forceMaterialTransparency: true,
         leading: const ZeelBackButton(),
         leadingWidth: 100,
       ),
@@ -24,37 +37,45 @@ class ChangePassword extends StatelessWidget {
           child: Column(
             children: [
               Expanded(
-                child: ListView(
-                  children: [
-                    const ZeelTextFieldTitle(text: "Current Password"),
-                    inputField(
-                      currentPasswordController,
-                      context,
-                    ),
-                    const ZeelTextFieldTitle(text: "New Password"),
-                    inputField(
-                      newPasswordController,
-                      context,
-                    ),
-                    const ZeelTextFieldTitle(text: "Confirm Password"),
-                    inputField(
-                      confirmPasswordController,
-                      context,
-                    ),
-                  ],
+                child: Form(
+                  key: formKey,
+                  child: ListView(
+                    children: [
+                      const ZeelTextFieldTitle(text: "Current Password"),
+                      PassWordFormField(
+                          controller: currentPasswordController,
+                          validator: passwordValidator,
+                          hint: "Enter your current password"),
+                      const ZeelTextFieldTitle(
+                        text: "New Password",
+                      ),
+                      PassWordFormField(
+                          controller: newPasswordController,
+                          validator: passwordValidator,
+                          hint: "Enter your new password"),
+                      const ZeelTextFieldTitle(text: "Confirm Password"),
+                      PassWordFormField(
+                          controller: confirmPasswordController,
+                          validator: confirmPasswordValidator,
+                          hint: "Confirm your new password"),
+                    ],
+                  ),
                 ),
               ),
               ZeelButton(
                 text: "Update",
+                isLoading: isLoading,
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const Success(
-                            title: "Updated",
-                            body:
-                                "Your password has been updated successfully and should be used on next login."),
-                      ));
+                  if (formKey.currentState!.validate()) {
+                    var future = ref
+                        .read(userControllerProvider.notifier)
+                        .updatePassword(
+                          ref: ref,
+                            context: context,
+                            currentPassword: currentPasswordController.text,
+                            newPassword: newPasswordController.text);
+                    pendingPasswordChange.value = future;
+                  }
                 },
               ),
             ],
@@ -63,33 +84,12 @@ class ChangePassword extends StatelessWidget {
       ),
     );
   }
-}
 
-Widget inputField(TextEditingController controller, BuildContext context,
-    {bool obscure = true}) {
-  bool isDark = Theme.of(context).brightness == Brightness.dark;
-
-  return Column(
-    children: [
-      TextField(
-        controller: controller,
-        obscureText: obscure,
-        decoration: InputDecoration(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          filled: true,
-          fillColor: isDark ? ZealPalette.lighterBlack : Colors.white,
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
-            borderSide: BorderSide(
-              color: isDark ? Colors.grey : ZealPalette.darkerGrey,
-            ),
-          ),
-          suffixIcon: const Icon(Icons.remove_red_eye_outlined),
-        ),
-      ),
-      const SizedBox(height: 24),
-    ],
-  );
+  //confirm password validator
+  String? confirmPasswordValidator(String? value) {
+    if (value != confirmPasswordController.text) {
+      return "Passwords do not match";
+    }
+    return null;
+  }
 }

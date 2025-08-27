@@ -12,6 +12,7 @@ class ContactUs extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        forceMaterialTransparency: true,
         leadingWidth: 100,
         title: Text("Contact Us", style: ShadTheme.of(context).textTheme.h3),
         leading: const ZeelBackButton(),

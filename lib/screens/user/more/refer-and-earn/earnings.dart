@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:zeelpay/helpers/common/amount_formatter.dart';
+import 'package:zeelpay/providers/user_provider.dart';
 import 'package:zeelpay/screens/user/more/refer-and-earn/history.dart';
 import 'package:zeelpay/screens/user/more/refer-and-earn/referral_tile.dart';
 import 'package:zeelpay/screens/widgets/texts_widget.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 import 'package:zeelpay/themes/palette.dart';
 
-class ReferralEarnings extends StatefulWidget {
+class ReferralEarnings extends ConsumerStatefulWidget {
   const ReferralEarnings({super.key});
 
   @override
-  State<ReferralEarnings> createState() => _ReferralEarningsState();
+  ConsumerState<ReferralEarnings> createState() => _ReferralEarningsState();
 }
 
-class _ReferralEarningsState extends State<ReferralEarnings> {
+class _ReferralEarningsState extends ConsumerState<ReferralEarnings> {
   bool _stealth = false;
+
   @override
   Widget build(BuildContext context) {
+    var referrals = ref.watch(fetchUserReferralsProvider);
     return Scaffold(
       appBar: AppBar(
         leadingWidth: 100,
@@ -24,56 +29,64 @@ class _ReferralEarningsState extends State<ReferralEarnings> {
         leading: const ZeelBackButton(),
       ),
       body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 24).copyWith(top: 24),
-          children: [
-            showBalance(
-              _stealth ? "***********" : "₦73,000.00",
-              () {
-                setState(() {
-                  _stealth = !_stealth;
-                });
-              },
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const ZeelTextFieldTitle(text: "Referral Status"),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const ReferralHistory(),
-                          ));
-                    },
-                    child: Row(
-                      children: [
-                        const ZeelTextFieldTitle(text: "View all"),
-                        const SizedBox(width: 6),
-                        Container(
-                          padding: const EdgeInsets.all(4),
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: ZealPalette.primaryPurple,
-                          ),
-                          child: const Icon(
-                            Icons.arrow_forward_ios_rounded,
-                            size: 16,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
+        child: referrals.when(
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (error, stack) => Center(child: Text("Error: $error")),
+            data: (referrals) => ListView(
+                  padding: const EdgeInsets.symmetric(horizontal: 24)
+                      .copyWith(top: 24),
+                  children: [
+                    showBalance(
+                      _stealth
+                          ? "***********"
+                          : "₦${returnAmount(referrals!.data!.balance!)}",
+                      () {
+                        setState(() {
+                          _stealth = !_stealth;
+                        });
+                      },
                     ),
-                  ),
-                ],
-              ),
-            ),
-            const ReferralTile(),
-          ],
-        ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const ZeelTextFieldTitle(text: "Referral Status"),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => const ReferralHistory(),
+                                  ));
+                            },
+                            child: Row(
+                              children: [
+                                const ZeelTextFieldTitle(text: "View all"),
+                                const SizedBox(width: 6),
+                                Container(
+                                  padding: const EdgeInsets.all(4),
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: ZealPalette.primaryPurple,
+                                  ),
+                                  child: const Icon(
+                                    Icons.arrow_forward_ios_rounded,
+                                    size: 16,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    ReferralTile(
+                      referrals: referrals!,
+                    ),
+                  ],
+                )),
       ),
     );
   }

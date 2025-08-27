@@ -40,6 +40,7 @@ class Data {
   String? bvn;
   String? nin;
   bool? kycVerified;
+  bool? kycSubmitted;
   String? refferalId;
   bool? isRestricted;
   String? profilePicture;
@@ -64,6 +65,7 @@ class Data {
       this.dateOfBirth,
       this.level,
       this.bvn,
+      this.kycSubmitted,
       this.nin,
       this.kycVerified,
       this.refferalId,
@@ -92,6 +94,7 @@ class Data {
     bvn = json['bvn'];
     nin = json['nin'];
     kycVerified = json['kyc_verified'];
+    kycSubmitted = json['kyc_submitted'];
     refferalId = json['refferal_id'];
     isRestricted = json['is_restricted'];
     profilePicture = json['profile_picture'];

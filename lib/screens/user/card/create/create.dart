@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:zeelpay/constants/assets/png.dart';
+import 'package:zeelpay/controllers/card/card_controller.dart';
+import 'package:zeelpay/providers/card_provider.dart';
+import 'package:zeelpay/providers/state/loading_state_provider.dart';
 import 'package:zeelpay/screens/user/card/modal.dart';
 import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
 
-class CreateCardScreen extends StatelessWidget {
+class CreateCardScreen extends ConsumerWidget {
   const CreateCardScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    var cardStatus = ref.watch(canCreateCardProvider);
+    var isLoading = ref.watch(isLoadingProvider);
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -46,14 +52,22 @@ class CreateCardScreen extends StatelessWidget {
               ),
               Expanded(
                 child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: ZeelButton(
-                    text: "Create",
-                    onPressed: () {
-                      CardModal.showModal(context);
-                    },
-                  ),
-                ),
+                    alignment: Alignment.bottomCenter,
+                    child: cardStatus.when(
+                      loading: () => const CircularProgressIndicator(),
+                      error: (error, stack) => Text("Error: $error"),
+                      data: (status) => ZeelButton(
+                        isLoading: isLoading,
+                        text: status! ? "Create" : "Apply",
+                        onPressed: () async {
+                          if (status) {
+                            CardModal.showModal(context);
+                          } else {
+                            await applyForCard(context: context, ref: ref);
+                          }
+                        },
+                      ),
+                    )),
               ),
               const SizedBox(
                 height: 20,

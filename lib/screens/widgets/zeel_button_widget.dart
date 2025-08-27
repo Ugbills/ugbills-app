@@ -25,7 +25,7 @@ class ZeelButton extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0)),
                 backgroundColor: const Color(0xff20013A)),
-            onPressed: onPressed,
+            onPressed: isLoading! ? () {} : onPressed,
             child: isLoading!
                 ? Center(
                     child: CircularProgressIndicator(
