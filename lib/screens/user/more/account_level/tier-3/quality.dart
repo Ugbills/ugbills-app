@@ -5,18 +5,18 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:zeelpay/constants/api/endpoints.dart';
-import 'package:zeelpay/controllers/user/user_controller.dart';
-import 'package:zeelpay/helpers/storage/token.dart';
-import 'package:zeelpay/providers/state/loading_state_provider.dart';
-import 'package:zeelpay/screens/user/more/account_level/tier-3/kyc_model.dart';
-import 'package:zeelpay/screens/user/user.dart';
-import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
-import 'package:zeelpay/screens/widgets/texts_widget.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
-import 'package:zeelpay/screens/widgets/zeel_scrollable_widget.dart';
-import 'package:zeelpay/services/http_service.dart';
-import 'package:zeelpay/themes/palette.dart';
+import 'package:ugbills/constants/api/endpoints.dart';
+import 'package:ugbills/controllers/user/user_controller.dart';
+import 'package:ugbills/helpers/storage/token.dart';
+import 'package:ugbills/providers/state/loading_state_provider.dart';
+import 'package:ugbills/screens/user/more/account_level/tier-3/kyc_model.dart';
+import 'package:ugbills/screens/user/user.dart';
+import 'package:ugbills/screens/widgets/text_field_widgets.dart';
+import 'package:ugbills/screens/widgets/texts_widget.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/screens/widgets/zeel_scrollable_widget.dart';
+import 'package:ugbills/services/http_service.dart';
+import 'package:ugbills/themes/palette.dart';
 
 class CheckQuality extends StatefulWidget {
   final File image;
@@ -76,8 +76,8 @@ class _CheckQualityState extends State<CheckQuality> {
                   padding: const EdgeInsets.symmetric(vertical: 14),
                   side: BorderSide(
                       color: isDark
-                          ? ZealPalette.lightPurple
-                          : ZealPalette.primaryPurple),
+                          ? ZealPalette.lightBlue
+                          : ZealPalette.primaryBlue),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(14),
                   ),
@@ -85,7 +85,7 @@ class _CheckQualityState extends State<CheckQuality> {
                 child: Text(
                   "Take a new photo",
                   style: TextStyle(
-                      color: isDark ? Colors.white : ZealPalette.primaryPurple),
+                      color: isDark ? Colors.white : ZealPalette.primaryBlue),
                 ),
               ),
             ),
@@ -110,7 +110,7 @@ class SelfieFailed extends StatelessWidget {
           padding: const EdgeInsets.all(24),
           child: Column(
             children: [
-              Image.asset("assets/images/zeel-top-logo.png"),
+              Image.asset("assets/images/ug-top-logo.png"),
               const Spacer(),
               Image.asset("assets/images/failed.png"),
               const Text(
@@ -361,7 +361,7 @@ class SelfieSuccess extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Image.asset("assets/images/zeel-top-logo.png"),
+              Image.asset("assets/images/ug-top-logo.png"),
               const Spacer(),
               Image.asset("assets/images/congrats.png"),
               const ZeelTitleText(text: "Congratulations!"),

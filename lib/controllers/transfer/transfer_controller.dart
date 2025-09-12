@@ -8,18 +8,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:short_navigation/short_navigation.dart';
-import 'package:zeelpay/constants/api/endpoints.dart';
-import 'package:zeelpay/constants/assets/svg.dart';
-import 'package:zeelpay/controllers/transfer/model.dart';
-import 'package:zeelpay/helpers/api/response_helper.dart';
-import 'package:zeelpay/helpers/common/amount_formatter.dart';
-import 'package:zeelpay/helpers/snacks/snacks_helper.dart';
-import 'package:zeelpay/helpers/storage/token.dart';
-import 'package:zeelpay/providers/state/loading_state_provider.dart';
-import 'package:zeelpay/screens/user/pay/send/bank_transaction_details.dart';
-import 'package:zeelpay/screens/user/user.dart';
-import 'package:zeelpay/screens/widgets/sent.dart';
-import 'package:zeelpay/services/http_service.dart';
+import 'package:ugbills/constants/api/endpoints.dart';
+import 'package:ugbills/constants/assets/svg.dart';
+import 'package:ugbills/controllers/transfer/model.dart';
+import 'package:ugbills/helpers/api/response_helper.dart';
+import 'package:ugbills/helpers/common/amount_formatter.dart';
+import 'package:ugbills/helpers/snacks/snacks_helper.dart';
+import 'package:ugbills/helpers/storage/token.dart';
+import 'package:ugbills/providers/state/loading_state_provider.dart';
+import 'package:ugbills/screens/user/pay/send/bank_transaction_details.dart';
+import 'package:ugbills/screens/user/user.dart';
+import 'package:ugbills/screens/widgets/sent.dart';
+import 'package:ugbills/services/http_service.dart';
 
 part 'transfer_controller.g.dart';
 
@@ -145,7 +145,7 @@ class TransferController extends _$TransferController {
 }
 
 //get fetchpackages
-Future<ZeePayInfo?> validateZeelpayAccount({required String username}) async {
+Future<ZeePayInfo?> validateUgBillsAccount({required String username}) async {
   try {
     var token = await tokenStorage.getToken();
     var response =
@@ -172,7 +172,7 @@ Future<ZeePayInfo?> validateZeelpayAccount({required String username}) async {
   return null;
 }
 
-Future transferZeelPay({
+Future transferUgBills({
   required BuildContext context,
   required String note,
   required String pin,
@@ -212,7 +212,7 @@ Future transferZeelPay({
           amount: "₦${returnAmount(data["data"]["amount"])}",
           transactionID: data["data"]["reference"],
           dateAndTime: data["data"]["date"],
-          bankName: "ZeelPay",
+          bankName: "UgBills",
           accountName: data["data"]["full_name"],
           accountNumber: "",
           fee: "₦${returnAmount(data["data"]["fee"])}",

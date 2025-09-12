@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:zeelpay/constants/assets/svg.dart';
-import 'package:zeelpay/controllers/bills/data_controller.dart';
-import 'package:zeelpay/helpers/common/amount_formatter.dart';
-import 'package:zeelpay/helpers/common/data_formatter.dart';
-import 'package:zeelpay/helpers/common/transaction_helper.dart';
-import 'package:zeelpay/models/api/transactions_model.dart';
-import 'package:zeelpay/screens/user/home/transaction/receipt.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
-import 'package:zeelpay/themes/palette.dart';
+import 'package:ugbills/constants/assets/svg.dart';
+import 'package:ugbills/controllers/bills/data_controller.dart';
+import 'package:ugbills/helpers/common/amount_formatter.dart';
+import 'package:ugbills/helpers/common/data_formatter.dart';
+import 'package:ugbills/helpers/common/transaction_helper.dart';
+import 'package:ugbills/models/api/transactions_model.dart';
+import 'package:ugbills/screens/user/home/transaction/receipt.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/themes/palette.dart';
 
 class TransactionDetails extends StatelessWidget {
   final ResponseData transaction;
@@ -38,7 +38,7 @@ class TransactionDetails extends StatelessWidget {
                 width: double.infinity,
                 height: MediaQuery.of(context).size.height / 2,
                 decoration: const BoxDecoration(
-                  color: ZealPalette.primaryPurple,
+                  color: ZealPalette.primaryBlue,
                   image: DecorationImage(
                     image: AssetImage("assets/images/bcc.png"),
                     fit: BoxFit.cover,

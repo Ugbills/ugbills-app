@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:zeelpay/constants/assets/png.dart';
-import 'package:zeelpay/helpers/storage/onboarding.dart';
-import 'package:zeelpay/screens/account_screen.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/constants/assets/png.dart';
+import 'package:ugbills/helpers/storage/onboarding.dart';
+import 'package:ugbills/screens/account_screen.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
 
 class Onboarding extends StatefulWidget {
   const Onboarding({super.key});
@@ -174,7 +174,7 @@ class OnboardingPage {
 //     super.key,
 //     this.onPressed,
 //     this.text = "Log in",
-//     this.color = const Color(0xff20013A),
+//     this.color = const Color(0xff1C41AB),
 //     this.borderColor = false,
 //   });
 
@@ -188,8 +188,8 @@ class OnboardingPage {
 //         style: FilledButton.styleFrom(
 //             side: BorderSide(
 //               color: isDark && borderColor
-//                   ? ZealPalette.lightPurple
-//                   : const Color(0xff20013A),
+//                   ? ZealPalette.lightBlue
+//                   : const Color(0xff1C41AB),
 //             ),
 //             shape: RoundedRectangleBorder(
 //                 borderRadius: BorderRadius.circular(15.0)),
@@ -203,12 +203,10 @@ class OnboardingPage {
 //               color: isDark
 //                   ? Colors.grey.shade200
 //                   : borderColor
-//                       ? const Color(0xff20013A)
+//                       ? const Color(0xff1C41AB)
 //                       : Colors.white),
 //         ),
 //       ),
 //     );
 //   }
 // }
-
-

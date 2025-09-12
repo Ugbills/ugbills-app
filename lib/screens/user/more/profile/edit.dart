@@ -6,16 +6,16 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:short_navigation/short_navigation.dart';
-import 'package:zeelpay/constants/assets/png.dart';
-import 'package:zeelpay/controllers/user/user_controller.dart';
-import 'package:zeelpay/helpers/forms/validators.dart';
-import 'package:zeelpay/providers/user_provider.dart';
-import 'package:zeelpay/repository/auth_repository.dart';
-import 'package:zeelpay/screens/widgets/authenticate_transaction.dart';
-import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
-import 'package:zeelpay/screens/widgets/texts_widget.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
-import 'package:zeelpay/themes/palette.dart';
+import 'package:ugbills/constants/assets/png.dart';
+import 'package:ugbills/controllers/user/user_controller.dart';
+import 'package:ugbills/helpers/forms/validators.dart';
+import 'package:ugbills/providers/user_provider.dart';
+import 'package:ugbills/repository/auth_repository.dart';
+import 'package:ugbills/screens/widgets/authenticate_transaction.dart';
+import 'package:ugbills/screens/widgets/text_field_widgets.dart';
+import 'package:ugbills/screens/widgets/texts_widget.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/themes/palette.dart';
 
 class EditProfile extends HookConsumerWidget {
   EditProfile({super.key});

@@ -44,4 +44,5 @@ class ZeelPng {
       'assets/images/kaduna-electricity.png';
   static const String dstv = 'assets/images/dstv.png';
   static const String mtn_2 = 'assets/images/mtn-2.png';
+  static const String backgroundImage = 'assets/images/bg.png';
 }

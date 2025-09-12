@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:zeelpay/constants/assets/svg.dart';
-import 'package:zeelpay/helpers/snacks/snacks_helper.dart';
-import 'package:zeelpay/providers/user_provider.dart';
-import 'package:zeelpay/screens/user/more/refer-and-earn/earnings.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
-import 'package:zeelpay/themes/palette.dart';
+import 'package:ugbills/constants/assets/svg.dart';
+import 'package:ugbills/helpers/snacks/snacks_helper.dart';
+import 'package:ugbills/providers/user_provider.dart';
+import 'package:ugbills/screens/user/more/refer-and-earn/earnings.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/themes/palette.dart';
 
 class ReferAndEarn extends ConsumerWidget {
   const ReferAndEarn({super.key});
@@ -54,7 +54,7 @@ class ReferAndEarn extends ConsumerWidget {
                             style: TextStyle(
                               color: isDark
                                   ? Colors.white
-                                  : ZealPalette.primaryPurple,
+                                  : ZealPalette.primaryBlue,
                               fontSize: 18,
                               fontWeight: FontWeight.w700,
                             ),
@@ -92,8 +92,8 @@ class ReferAndEarn extends ConsumerWidget {
                           padding: const EdgeInsets.symmetric(vertical: 14),
                           side: BorderSide(
                               color: isDark
-                                  ? ZealPalette.lightPurple
-                                  : ZealPalette.primaryPurple),
+                                  ? ZealPalette.lightBlue
+                                  : ZealPalette.primaryBlue),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(14),
                           ),
@@ -103,7 +103,7 @@ class ReferAndEarn extends ConsumerWidget {
                           style: TextStyle(
                               color: isDark
                                   ? Colors.white
-                                  : ZealPalette.primaryPurple),
+                                  : ZealPalette.primaryBlue),
                         ),
                       ),
                     ),
@@ -150,7 +150,7 @@ Widget referral(BuildContext context, String referralCode) {
                 referralCode,
                 style: TextStyle(
                   fontSize: 16,
-                  color: isDark ? Colors.white : ZealPalette.primaryPurple,
+                  color: isDark ? Colors.white : ZealPalette.primaryBlue,
                   fontWeight: FontWeight.w700,
                 ),
               ),

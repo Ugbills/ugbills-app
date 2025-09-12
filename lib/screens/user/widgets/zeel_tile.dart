@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:zeelpay/constants/assets/svg.dart';
-import 'package:zeelpay/controllers/auth/auth_controller.dart';
-import 'package:zeelpay/themes/palette.dart';
+import 'package:ugbills/constants/assets/svg.dart';
+import 'package:ugbills/controllers/auth/auth_controller.dart';
+import 'package:ugbills/themes/palette.dart';
 
 class ZeelTile extends StatelessWidget {
   final String title;

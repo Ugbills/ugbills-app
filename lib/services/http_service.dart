@@ -3,7 +3,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:zeelpay/constants/api/endpoints.dart';
+import 'package:ugbills/constants/api/endpoints.dart';
 
 ///this class houses all the http methods
 class HttpService {

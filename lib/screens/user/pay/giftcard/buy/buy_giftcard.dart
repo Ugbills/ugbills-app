@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:short_navigation/short_navigation.dart';
-import 'package:zeelpay/providers/gift_card_provider.dart';
-import 'package:zeelpay/screens/user/pay/giftcard/buy/giftcard_details.dart';
-import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
-import 'package:zeelpay/screens/widgets/texts_widget.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
-import 'package:zeelpay/themes/palette.dart';
+import 'package:ugbills/providers/gift_card_provider.dart';
+import 'package:ugbills/screens/user/pay/giftcard/buy/giftcard_details.dart';
+import 'package:ugbills/screens/widgets/text_field_widgets.dart';
+import 'package:ugbills/screens/widgets/texts_widget.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/themes/palette.dart';
 
 class BuyGiftcard extends ConsumerStatefulWidget {
   const BuyGiftcard({super.key});
@@ -193,7 +193,7 @@ class BuyGiftcardState extends ConsumerState<BuyGiftcard> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   backgroundColor: Colors.transparent,
-                  side: const BorderSide(color: ZealPalette.primaryPurple),
+                  side: const BorderSide(color: ZealPalette.primaryBlue),
                   padding: const EdgeInsets.symmetric(
                     horizontal: 12,
                     vertical: 12,
@@ -201,7 +201,7 @@ class BuyGiftcardState extends ConsumerState<BuyGiftcard> {
                 ),
                 child: const Text(
                   'Show More',
-                  style: TextStyle(color: ZealPalette.primaryPurple),
+                  style: TextStyle(color: ZealPalette.primaryBlue),
                 ),
               ),
             ],

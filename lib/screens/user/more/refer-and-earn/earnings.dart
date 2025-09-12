@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:zeelpay/helpers/common/amount_formatter.dart';
-import 'package:zeelpay/providers/user_provider.dart';
-import 'package:zeelpay/screens/user/more/refer-and-earn/history.dart';
-import 'package:zeelpay/screens/user/more/refer-and-earn/referral_tile.dart';
-import 'package:zeelpay/screens/widgets/texts_widget.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
-import 'package:zeelpay/themes/palette.dart';
+import 'package:ugbills/helpers/common/amount_formatter.dart';
+import 'package:ugbills/providers/user_provider.dart';
+import 'package:ugbills/screens/user/more/refer-and-earn/history.dart';
+import 'package:ugbills/screens/user/more/refer-and-earn/referral_tile.dart';
+import 'package:ugbills/screens/widgets/texts_widget.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/themes/palette.dart';
 
 class ReferralEarnings extends ConsumerStatefulWidget {
   const ReferralEarnings({super.key});
@@ -68,7 +68,7 @@ class _ReferralEarningsState extends ConsumerState<ReferralEarnings> {
                                   padding: const EdgeInsets.all(4),
                                   decoration: const BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color: ZealPalette.primaryPurple,
+                                    color: ZealPalette.primaryBlue,
                                   ),
                                   child: const Icon(
                                     Icons.arrow_forward_ios_rounded,
@@ -97,7 +97,7 @@ Widget showBalance(String balance, Function()? onPressed) {
     padding: const EdgeInsets.all(24),
     alignment: Alignment.center,
     decoration: BoxDecoration(
-      color: ZealPalette.primaryPurple,
+      color: ZealPalette.primaryBlue,
       borderRadius: BorderRadius.circular(24),
     ),
     child: Column(

@@ -3,15 +3,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:zeelpay/controllers/user/user_controller.dart';
-import 'package:zeelpay/helpers/storage/user.dart';
-import 'package:zeelpay/providers/state/biometrics_state_provider.dart';
-import 'package:zeelpay/providers/state/loading_state_provider.dart';
-import 'package:zeelpay/providers/user_provider.dart';
-import 'package:zeelpay/screens/user/more/security/password.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
-import 'package:zeelpay/services/auth_service.dart';
-import 'package:zeelpay/themes/palette.dart';
+import 'package:ugbills/controllers/user/user_controller.dart';
+import 'package:ugbills/helpers/storage/user.dart';
+import 'package:ugbills/providers/state/biometrics_state_provider.dart';
+import 'package:ugbills/providers/state/loading_state_provider.dart';
+import 'package:ugbills/providers/user_provider.dart';
+import 'package:ugbills/screens/user/more/security/password.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/services/auth_service.dart';
+import 'package:ugbills/themes/palette.dart';
 
 class SecuritySettings extends ConsumerWidget {
   const SecuritySettings({super.key});

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/models/api/referrals_model.dart';
-import 'package:zeelpay/screens/widgets/texts_widget.dart';
-import 'package:zeelpay/themes/palette.dart';
+import 'package:ugbills/models/api/referrals_model.dart';
+import 'package:ugbills/screens/widgets/texts_widget.dart';
+import 'package:ugbills/themes/palette.dart';
 
 class ReferralTile extends StatelessWidget {
   final ReferralsModel referrals;

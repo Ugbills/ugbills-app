@@ -3,15 +3,15 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:zeelpay/controllers/user/user_controller.dart';
-import 'package:zeelpay/helpers/forms/validators.dart';
-import 'package:zeelpay/helpers/storage/user.dart';
-import 'package:zeelpay/providers/state/loading_state_provider.dart';
-import 'package:zeelpay/providers/user_provider.dart';
-import 'package:zeelpay/screens/user/more/security/pin.dart';
-import 'package:zeelpay/screens/widgets/texts_widget.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
-import 'package:zeelpay/themes/palette.dart';
+import 'package:ugbills/controllers/user/user_controller.dart';
+import 'package:ugbills/helpers/forms/validators.dart';
+import 'package:ugbills/helpers/storage/user.dart';
+import 'package:ugbills/providers/state/loading_state_provider.dart';
+import 'package:ugbills/providers/user_provider.dart';
+import 'package:ugbills/screens/user/more/security/pin.dart';
+import 'package:ugbills/screens/widgets/texts_widget.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/themes/palette.dart';
 
 class OPTScreen extends ConsumerWidget {
   OPTScreen({super.key});

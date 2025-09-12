@@ -2,7 +2,7 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 var darkTheme = FlexThemeData.dark(
-  scheme: FlexScheme.deepPurple,
+  scheme: FlexScheme.blue,
   scaffoldBackground: FlexColor.darkSurface,
   surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
 

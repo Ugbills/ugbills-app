@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/screens/user/more/account_level/tier-3/address.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
-import 'package:zeelpay/themes/palette.dart';
+import 'package:ugbills/screens/user/more/account_level/tier-3/address.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/themes/palette.dart';
 
 class AccountTier3 extends StatelessWidget {
   const AccountTier3({super.key});
@@ -53,15 +53,15 @@ Widget selectedTier(bool selected, String tier, String limit, String fig,
       color: isDark
           ? ZealPalette.lighterBlack
           : selected
-              ? ZealPalette.lightestPurple
+              ? ZealPalette.lightestBlue
               : Colors.white,
       border: Border.all(
         color: isDark && !selected
             ? ZealPalette.lighterBlack
             : isDark && selected
-                ? ZealPalette.lightPurple
+                ? ZealPalette.lightBlue
                 : selected
-                    ? ZealPalette.primaryPurple
+                    ? ZealPalette.primaryBlue
                     : Colors.white,
       ),
     ),
@@ -76,9 +76,9 @@ Widget selectedTier(bool selected, String tier, String limit, String fig,
             color: isDark && !selected
                 ? ZealPalette.lighterBlack
                 : isDark && selected
-                    ? ZealPalette.lightPurple
+                    ? ZealPalette.lightBlue
                     : selected
-                        ? ZealPalette.primaryPurple
+                        ? ZealPalette.primaryBlue
                         : Colors.white,
           ),
           padding: const EdgeInsets.all(24),

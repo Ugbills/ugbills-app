@@ -9,15 +9,15 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:short_navigation/short_navigation.dart';
-import 'package:zeelpay/constants/api/endpoints.dart';
-import 'package:zeelpay/helpers/api/response_helper.dart';
-import 'package:zeelpay/helpers/snacks/snacks_helper.dart';
-import 'package:zeelpay/helpers/storage/token.dart';
-import 'package:zeelpay/providers/card_provider.dart';
-import 'package:zeelpay/providers/state/loading_state_provider.dart';
-import 'package:zeelpay/screens/user/card/success_message.dart';
-import 'package:zeelpay/screens/user/user.dart';
-import 'package:zeelpay/services/http_service.dart';
+import 'package:ugbills/constants/api/endpoints.dart';
+import 'package:ugbills/helpers/api/response_helper.dart';
+import 'package:ugbills/helpers/snacks/snacks_helper.dart';
+import 'package:ugbills/helpers/storage/token.dart';
+import 'package:ugbills/providers/card_provider.dart';
+import 'package:ugbills/providers/state/loading_state_provider.dart';
+import 'package:ugbills/screens/user/card/success_message.dart';
+import 'package:ugbills/screens/user/user.dart';
+import 'package:ugbills/services/http_service.dart';
 
 ApiRepository api = ApiRepository();
 

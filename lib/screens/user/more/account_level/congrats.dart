@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:short_navigation/short_navigation.dart';
-import 'package:zeelpay/screens/account_screen.dart';
-import 'package:zeelpay/screens/widgets/texts_widget.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/screens/account_screen.dart';
+import 'package:ugbills/screens/widgets/texts_widget.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
 
 class Congrats extends StatelessWidget {
   const Congrats({super.key});
@@ -17,7 +17,7 @@ class Congrats extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Image.asset("assets/images/zeel-top-logo.png"),
+              Image.asset("assets/images/ug-top-logo.png"),
               const Spacer(),
               Image.asset("assets/images/congrats.png"),
               const ZeelTitleText(text: "Congratulations!"),

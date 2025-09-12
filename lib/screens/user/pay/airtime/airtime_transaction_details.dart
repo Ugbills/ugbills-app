@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
-import 'package:zeelpay/themes/palette.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/themes/palette.dart';
 
 class AirtimeTransactionDetails extends StatelessWidget {
   final String networkLogo,
@@ -42,7 +42,7 @@ class AirtimeTransactionDetails extends StatelessWidget {
                 width: double.infinity,
                 height: MediaQuery.of(context).size.height / 2,
                 decoration: const BoxDecoration(
-                  color: ZealPalette.primaryPurple,
+                  color: ZealPalette.primaryBlue,
                   image: DecorationImage(
                     image: AssetImage("assets/images/bcc.png"),
                     fit: BoxFit.cover,

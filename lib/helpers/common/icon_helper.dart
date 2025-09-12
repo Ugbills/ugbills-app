@@ -1,4 +1,4 @@
-import 'package:zeelpay/constants/assets/png.dart';
+import 'package:ugbills/constants/assets/png.dart';
 
 getNetWorkIcon(String name) {
   if (name.toLowerCase().contains("mtn")) {

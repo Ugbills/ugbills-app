@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:zeelpay/providers/user_provider.dart';
-import 'package:zeelpay/screens/user/more/refer-and-earn/referral_tile.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/providers/user_provider.dart';
+import 'package:ugbills/screens/user/more/refer-and-earn/referral_tile.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
 
 class ReferralHistory extends ConsumerWidget {
   const ReferralHistory({super.key});

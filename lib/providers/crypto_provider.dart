@@ -4,13 +4,13 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:zeelpay/constants/api/endpoints.dart';
-import 'package:zeelpay/helpers/api/response_helper.dart';
-import 'package:zeelpay/helpers/storage/token.dart';
-import 'package:zeelpay/models/api/crypto_buy_quote_model.dart';
-import 'package:zeelpay/models/api/crypto_model.dart';
-import 'package:zeelpay/models/api/crypto_sell_quote_model.dart';
-import 'package:zeelpay/services/http_service.dart';
+import 'package:ugbills/constants/api/endpoints.dart';
+import 'package:ugbills/helpers/api/response_helper.dart';
+import 'package:ugbills/helpers/storage/token.dart';
+import 'package:ugbills/models/api/crypto_buy_quote_model.dart';
+import 'package:ugbills/models/api/crypto_model.dart';
+import 'package:ugbills/models/api/crypto_sell_quote_model.dart';
+import 'package:ugbills/services/http_service.dart';
 
 part 'crypto_provider.g.dart';
 

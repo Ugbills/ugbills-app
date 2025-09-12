@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:zeelpay/helpers/common/amount_formatter.dart';
-import 'package:zeelpay/providers/user_provider.dart';
-import 'package:zeelpay/screens/widgets/number_pad.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
-import 'package:zeelpay/themes/palette.dart';
+import 'package:ugbills/helpers/common/amount_formatter.dart';
+import 'package:ugbills/providers/user_provider.dart';
+import 'package:ugbills/screens/widgets/number_pad.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/themes/palette.dart';
 
 class AmountScreen extends ConsumerWidget {
   final Widget page;

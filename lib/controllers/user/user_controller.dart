@@ -6,15 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:short_navigation/short_navigation.dart';
-import 'package:zeelpay/constants/api/endpoints.dart';
-import 'package:zeelpay/controllers/auth/auth_helper.dart';
-import 'package:zeelpay/helpers/api/response_helper.dart';
-import 'package:zeelpay/helpers/snacks/snacks_helper.dart';
-import 'package:zeelpay/providers/state/loading_state_provider.dart';
-import 'package:zeelpay/screens/user/more/account_level/congrats.dart';
-import 'package:zeelpay/screens/user/more/account_level/tier-3/kyc_model.dart';
-import 'package:zeelpay/screens/user/more/security/otp.dart';
-import 'package:zeelpay/screens/user/more/success.dart';
+import 'package:ugbills/constants/api/endpoints.dart';
+import 'package:ugbills/controllers/auth/auth_helper.dart';
+import 'package:ugbills/helpers/api/response_helper.dart';
+import 'package:ugbills/helpers/snacks/snacks_helper.dart';
+import 'package:ugbills/providers/state/loading_state_provider.dart';
+import 'package:ugbills/screens/user/more/account_level/congrats.dart';
+import 'package:ugbills/screens/user/more/account_level/tier-3/kyc_model.dart';
+import 'package:ugbills/screens/user/more/security/otp.dart';
+import 'package:ugbills/screens/user/more/success.dart';
 
 part 'user_controller.g.dart';
 

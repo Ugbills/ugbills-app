@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:zeelpay/constants/assets/png.dart';
-import 'package:zeelpay/providers/card_provider.dart';
-import 'package:zeelpay/screens/user/card/dollar/dollar_card_actions.dart';
-import 'package:zeelpay/screens/user/card/modal.dart';
-import 'package:zeelpay/screens/user/card/naira/naira_card_actions.dart';
-import 'package:zeelpay/themes/palette.dart';
+import 'package:ugbills/constants/assets/png.dart';
+import 'package:ugbills/providers/card_provider.dart';
+import 'package:ugbills/screens/user/card/dollar/dollar_card_actions.dart';
+import 'package:ugbills/screens/user/card/modal.dart';
+import 'package:ugbills/screens/user/card/naira/naira_card_actions.dart';
+import 'package:ugbills/themes/palette.dart';
 
 class AvailableCards extends ConsumerWidget {
   const AvailableCards({super.key});
@@ -34,14 +34,13 @@ class AvailableCards extends ConsumerWidget {
                       backgroundColor: Colors.transparent,
                       side: BorderSide(
                         color: isDark
-                            ? ZealPalette.lightPurple
-                            : ZealPalette.primaryPurple,
+                            ? ZealPalette.lightBlue
+                            : ZealPalette.primaryBlue,
                       )),
                   child: Text(
                     "Create",
                     style: TextStyle(
-                        color:
-                            isDark ? Colors.white : ZealPalette.primaryPurple),
+                        color: isDark ? Colors.white : ZealPalette.primaryBlue),
                   ),
                 ),
               ),
@@ -61,7 +60,7 @@ class AvailableCards extends ConsumerWidget {
                         itemBuilder: (context, index) => availableCard(
                             card.data![index].cardCurrency!.toUpperCase() ==
                                     "USD"
-                                ? ZealPalette.primaryPurple
+                                ? ZealPalette.primaryBlue
                                 : const Color.fromARGB(20, 20, 20, 1),
                             card.data![index].cardCurrency!,
                             card.data![index].maskedPan!,

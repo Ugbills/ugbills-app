@@ -7,17 +7,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:short_navigation/short_navigation.dart';
-import 'package:zeelpay/constants/api/endpoints.dart';
-import 'package:zeelpay/constants/assets/svg.dart';
-import 'package:zeelpay/controllers/auth/auth_helper.dart';
-import 'package:zeelpay/controllers/transfer/transfer_controller.dart';
-import 'package:zeelpay/helpers/api/response_helper.dart';
-import 'package:zeelpay/helpers/common/amount_formatter.dart';
-import 'package:zeelpay/helpers/common/data_formatter.dart';
-import 'package:zeelpay/helpers/snacks/snacks_helper.dart';
-import 'package:zeelpay/providers/state/loading_state_provider.dart';
-import 'package:zeelpay/screens/user/pay/tv/tv_transaction_details.dart';
-import 'package:zeelpay/screens/widgets/sent.dart';
+import 'package:ugbills/constants/api/endpoints.dart';
+import 'package:ugbills/constants/assets/svg.dart';
+import 'package:ugbills/controllers/auth/auth_helper.dart';
+import 'package:ugbills/controllers/transfer/transfer_controller.dart';
+import 'package:ugbills/helpers/api/response_helper.dart';
+import 'package:ugbills/helpers/common/amount_formatter.dart';
+import 'package:ugbills/helpers/common/data_formatter.dart';
+import 'package:ugbills/helpers/snacks/snacks_helper.dart';
+import 'package:ugbills/providers/state/loading_state_provider.dart';
+import 'package:ugbills/screens/user/pay/tv/tv_transaction_details.dart';
+import 'package:ugbills/screens/widgets/sent.dart';
 
 part 'tv_controller.g.dart';
 

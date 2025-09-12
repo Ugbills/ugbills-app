@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/constants/assets/png.dart';
-import 'package:zeelpay/screens/user/pay/giftcard/buy/buy_giftcard.dart';
-import 'package:zeelpay/screens/user/pay/giftcard/coming.dart';
-import 'package:zeelpay/screens/user/widgets/zeel_tile.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/constants/assets/png.dart';
+import 'package:ugbills/screens/user/pay/giftcard/buy/buy_giftcard.dart';
+import 'package:ugbills/screens/user/pay/giftcard/coming.dart';
+import 'package:ugbills/screens/user/widgets/zeel_tile.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
 
 class GiftcardScreen extends StatelessWidget {
   const GiftcardScreen({super.key});

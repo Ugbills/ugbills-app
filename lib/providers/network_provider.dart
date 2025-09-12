@@ -2,12 +2,12 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:zeelpay/constants/api/endpoints.dart';
-import 'package:zeelpay/helpers/api/response_helper.dart';
-import 'package:zeelpay/helpers/storage/token.dart';
-import 'package:zeelpay/models/api/dataplans_model.dart';
-import 'package:zeelpay/models/api/networks_model.dart';
-import 'package:zeelpay/services/http_service.dart';
+import 'package:ugbills/constants/api/endpoints.dart';
+import 'package:ugbills/helpers/api/response_helper.dart';
+import 'package:ugbills/helpers/storage/token.dart';
+import 'package:ugbills/models/api/dataplans_model.dart';
+import 'package:ugbills/models/api/networks_model.dart';
+import 'package:ugbills/services/http_service.dart';
 
 part 'network_provider.g.dart';
 

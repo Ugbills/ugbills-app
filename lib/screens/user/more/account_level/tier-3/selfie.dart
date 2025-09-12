@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:short_navigation/short_navigation.dart';
-import 'package:zeelpay/screens/user/more/account_level/tier-3/kyc_model.dart';
-import 'package:zeelpay/screens/user/more/account_level/tier-3/quality.dart';
-import 'package:zeelpay/screens/widgets/texts_widget.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/screens/user/more/account_level/tier-3/kyc_model.dart';
+import 'package:ugbills/screens/user/more/account_level/tier-3/quality.dart';
+import 'package:ugbills/screens/widgets/texts_widget.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
 
 class TakeASelfie extends ConsumerWidget {
   final AddressData addressData;

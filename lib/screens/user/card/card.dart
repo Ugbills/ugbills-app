@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:zeelpay/providers/card_provider.dart';
-import 'package:zeelpay/screens/user/card/available.dart';
-import 'package:zeelpay/screens/user/card/create/create.dart';
+import 'package:ugbills/providers/card_provider.dart';
+import 'package:ugbills/screens/user/card/available.dart';
+import 'package:ugbills/screens/user/card/create/create.dart';
 
 class CardScreen extends ConsumerWidget {
   const CardScreen({super.key});

@@ -1,6 +1,6 @@
 class Endpoints {
   // Base URL
-  static const baseUrl = 'https://devapi.zeelpay.app/api/v1/';
+  static const baseUrl = 'https://devapi.UgBills.app/api/v1/';
 
   // Auth
   static const auth = 'auth/';

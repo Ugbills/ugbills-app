@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:short_navigation/short_navigation.dart';
-import 'package:zeelpay/controllers/bills/betting_controller.dart';
-import 'package:zeelpay/providers/betting_provider.dart';
-import 'package:zeelpay/screens/user/pay/betting/betting_transaction_details.dart';
-import 'package:zeelpay/screens/widgets/authenticate_transaction.dart';
-import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
-import 'package:zeelpay/screens/widgets/texts_widget.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
-import 'package:zeelpay/screens/widgets/zeel_scrollable_widget.dart';
+import 'package:ugbills/controllers/bills/betting_controller.dart';
+import 'package:ugbills/providers/betting_provider.dart';
+import 'package:ugbills/screens/user/pay/betting/betting_transaction_details.dart';
+import 'package:ugbills/screens/widgets/authenticate_transaction.dart';
+import 'package:ugbills/screens/widgets/text_field_widgets.dart';
+import 'package:ugbills/screens/widgets/texts_widget.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/screens/widgets/zeel_scrollable_widget.dart';
 
 class BettingBills extends ConsumerStatefulWidget {
   const BettingBills({super.key});

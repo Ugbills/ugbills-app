@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:zeelpay/constants/assets/png.dart';
-import 'package:zeelpay/helpers/common/amount_formatter.dart';
-import 'package:zeelpay/helpers/common/data_formatter.dart';
-import 'package:zeelpay/helpers/common/icon_helper.dart';
-import 'package:zeelpay/providers/swap_provider.dart';
-import 'package:zeelpay/screens/user/pay/swap/swap_transaction_details.dart';
-import 'package:zeelpay/screens/user/user.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
-import 'package:zeelpay/themes/palette.dart';
+import 'package:ugbills/constants/assets/png.dart';
+import 'package:ugbills/helpers/common/amount_formatter.dart';
+import 'package:ugbills/helpers/common/data_formatter.dart';
+import 'package:ugbills/helpers/common/icon_helper.dart';
+import 'package:ugbills/providers/swap_provider.dart';
+import 'package:ugbills/screens/user/pay/swap/swap_transaction_details.dart';
+import 'package:ugbills/screens/user/user.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/themes/palette.dart';
 
 class SwapResult extends ConsumerWidget {
   final String networkId;
@@ -45,7 +45,7 @@ class SwapResult extends ConsumerWidget {
                   swap!.data!.status!.toUpperCase(),
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
-                    color: isDark ? Colors.white : ZealPalette.primaryPurple,
+                    color: isDark ? Colors.white : ZealPalette.primaryBlue,
                   ),
                 ),
                 const Text(

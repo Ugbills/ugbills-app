@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:short_navigation/short_navigation.dart';
-import 'package:zeelpay/controllers/trade/crypto_controller.dart';
-import 'package:zeelpay/helpers/common/amount_formatter.dart';
-import 'package:zeelpay/helpers/common/data_formatter.dart';
-import 'package:zeelpay/providers/crypto_provider.dart';
-import 'package:zeelpay/providers/state/loading_state_provider.dart';
-import 'package:zeelpay/screens/widgets/authenticate_transaction.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
-import 'package:zeelpay/themes/palette.dart';
+import 'package:ugbills/controllers/trade/crypto_controller.dart';
+import 'package:ugbills/helpers/common/amount_formatter.dart';
+import 'package:ugbills/helpers/common/data_formatter.dart';
+import 'package:ugbills/providers/crypto_provider.dart';
+import 'package:ugbills/providers/state/loading_state_provider.dart';
+import 'package:ugbills/screens/widgets/authenticate_transaction.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/themes/palette.dart';
 
 class ConfirmBuyDetails extends ConsumerWidget {
   final String title, network, currency, address;

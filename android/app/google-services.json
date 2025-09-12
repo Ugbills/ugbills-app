@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "28085771925",
-    "project_id": "zeelpay",
-    "storage_bucket": "zeelpay.firebasestorage.app"
+    "project_number": "15819154592",
+    "project_id": "ugbills-b101d",
+    "storage_bucket": "ugbills-b101d.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:28085771925:android:033118a1903a6db988059c",
+        "mobilesdk_app_id": "1:15819154592:android:6ecb1c2cface40dfb295c5",
         "android_client_info": {
-          "package_name": "com.zgt.zeelpay"
+          "package_name": "com.zgt.ugbills"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDxOFP0qfuWQTejFVD94vn-PUXZV-t3jHs"
+          "current_key": "AIzaSyCuuW31xieJxc0gEYSixMCaCp2IOK5hHPs"
         }
       ],
       "services": {

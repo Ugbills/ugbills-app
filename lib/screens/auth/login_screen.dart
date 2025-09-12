@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:short_navigation/short_navigation.dart';
-import 'package:zeelpay/controllers/auth/auth_controller.dart';
-import 'package:zeelpay/helpers/forms/validators.dart';
-import 'package:zeelpay/screens/auth/reset/forgot_password_screen.dart';
-import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
-import 'package:zeelpay/screens/widgets/texts_widget.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/helpers/forms/validators.dart';
+import 'package:ugbills/screens/auth/reset/forgot_password_screen.dart';
+import 'package:ugbills/screens/user/user.dart';
+import 'package:ugbills/screens/widgets/text_field_widgets.dart';
+import 'package:ugbills/screens/widgets/texts_widget.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
 
 class LoginScreen extends HookConsumerWidget {
   LoginScreen({super.key});
@@ -77,15 +77,16 @@ class LoginScreen extends HookConsumerWidget {
                               ZeelButton(
                                   isLoading: isLoading,
                                   onPressed: () {
-                                    final future = ref
-                                        .read(authControllerProvider.notifier)
-                                        .login(
-                                            ref: ref,
-                                            email: emailController.text,
-                                            password: passwordController.text,
-                                            formkey: formKey,
-                                            context: context);
-                                    pendinglogin.value = future;
+                                    Go.toRemoveAll(const UserScreen());
+                                    // final future = ref
+                                    //     .read(authControllerProvider.notifier)
+                                    //     .login(
+                                    //         ref: ref,
+                                    //         email: emailController.text,
+                                    //         password: passwordController.text,
+                                    //         formkey: formKey,
+                                    //         context: context);
+                                    // pendinglogin.value = future;
                                   }),
                               const SizedBox(height: 10.0),
                               TextButton(

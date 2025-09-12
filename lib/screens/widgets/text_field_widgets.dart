@@ -3,10 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:zeelpay/constants/assets/svg.dart';
-import 'package:zeelpay/helpers/forms/validators.dart';
-import 'package:zeelpay/helpers/snacks/snacks_helper.dart';
-import 'package:zeelpay/themes/palette.dart';
+import 'package:ugbills/constants/assets/svg.dart';
+import 'package:ugbills/helpers/forms/validators.dart';
+import 'package:ugbills/helpers/snacks/snacks_helper.dart';
+import 'package:ugbills/themes/palette.dart';
 
 class ZeelTextField extends StatelessWidget {
   final String? hint;

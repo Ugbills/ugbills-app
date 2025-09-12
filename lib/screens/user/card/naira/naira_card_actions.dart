@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:zeelpay/constants/assets/png.dart';
-import 'package:zeelpay/constants/assets/svg.dart';
-import 'package:zeelpay/screens/user/card/available.dart';
-import 'package:zeelpay/screens/user/card/naira/confirm_freeze_naira.dart';
-import 'package:zeelpay/screens/user/card/naira/fund_naira_card.dart';
-import 'package:zeelpay/screens/user/card/naira/naira_card_details.dart';
-import 'package:zeelpay/screens/user/card/naira/naira_card_history.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
-import 'package:zeelpay/themes/palette.dart';
+import 'package:ugbills/constants/assets/png.dart';
+import 'package:ugbills/constants/assets/svg.dart';
+import 'package:ugbills/screens/user/card/available.dart';
+import 'package:ugbills/screens/user/card/naira/confirm_freeze_naira.dart';
+import 'package:ugbills/screens/user/card/naira/fund_naira_card.dart';
+import 'package:ugbills/screens/user/card/naira/naira_card_details.dart';
+import 'package:ugbills/screens/user/card/naira/naira_card_history.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/themes/palette.dart';
 
 class NairaVirtualCardActions extends ConsumerWidget {
   final String cardId;

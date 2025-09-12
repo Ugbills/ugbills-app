@@ -3,15 +3,15 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:short_navigation/short_navigation.dart';
-import 'package:zeelpay/controllers/transfer/model.dart';
-import 'package:zeelpay/controllers/transfer/transfer_controller.dart';
-import 'package:zeelpay/screens/user/more/beneficiaries/beneficiaries.dart';
-import 'package:zeelpay/screens/user/pay/send/bank/select.dart';
-import 'package:zeelpay/screens/widgets/authenticate_transaction.dart';
-import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
-import 'package:zeelpay/screens/widgets/texts_widget.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
-import 'package:zeelpay/screens/widgets/zeel_scrollable_widget.dart';
+import 'package:ugbills/controllers/transfer/model.dart';
+import 'package:ugbills/controllers/transfer/transfer_controller.dart';
+import 'package:ugbills/screens/user/more/beneficiaries/beneficiaries.dart';
+import 'package:ugbills/screens/user/pay/send/bank/select.dart';
+import 'package:ugbills/screens/widgets/authenticate_transaction.dart';
+import 'package:ugbills/screens/widgets/text_field_widgets.dart';
+import 'package:ugbills/screens/widgets/texts_widget.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/screens/widgets/zeel_scrollable_widget.dart';
 
 class BankTransfer extends HookConsumerWidget {
   BankTransfer({super.key});

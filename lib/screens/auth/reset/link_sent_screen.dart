@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/screens/auth/reset/new_password_screen.dart';
-import 'package:zeelpay/screens/widgets/images_widget.dart';
-import 'package:zeelpay/screens/widgets/texts_widget.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/screens/auth/reset/new_password_screen.dart';
+import 'package:ugbills/screens/widgets/images_widget.dart';
+import 'package:ugbills/screens/widgets/texts_widget.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
 
 class LinkSentScreen extends StatelessWidget {
   final String email;

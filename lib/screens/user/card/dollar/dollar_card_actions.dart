@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:zeelpay/constants/assets/png.dart';
-import 'package:zeelpay/constants/assets/svg.dart';
-import 'package:zeelpay/controllers/card/card_controller.dart';
-import 'package:zeelpay/providers/card_provider.dart';
-import 'package:zeelpay/screens/user/card/dollar/dollar_card_details.dart';
-import 'package:zeelpay/screens/user/card/dollar/dollar_card_history.dart';
-import 'package:zeelpay/screens/user/card/dollar/fund_dollar_card.dart';
-import 'package:zeelpay/screens/user/card/dollar/withdraw_dollar.dart';
-import 'package:zeelpay/screens/widgets/authenticate_transaction.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
-import 'package:zeelpay/themes/palette.dart';
+import 'package:ugbills/constants/assets/png.dart';
+import 'package:ugbills/constants/assets/svg.dart';
+import 'package:ugbills/controllers/card/card_controller.dart';
+import 'package:ugbills/providers/card_provider.dart';
+import 'package:ugbills/screens/user/card/dollar/dollar_card_details.dart';
+import 'package:ugbills/screens/user/card/dollar/dollar_card_history.dart';
+import 'package:ugbills/screens/user/card/dollar/fund_dollar_card.dart';
+import 'package:ugbills/screens/user/card/dollar/withdraw_dollar.dart';
+import 'package:ugbills/screens/widgets/authenticate_transaction.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/themes/palette.dart';
 
 class DollarVirtualCardActions extends ConsumerWidget {
   final String cardId;
@@ -47,7 +47,7 @@ class DollarVirtualCardActions extends ConsumerWidget {
                       width: double.infinity,
                       padding: const EdgeInsets.all(24),
                       decoration: BoxDecoration(
-                        color: ZealPalette.primaryPurple,
+                        color: ZealPalette.primaryBlue,
                         borderRadius: BorderRadius.circular(24),
                       ),
                       child: Stack(

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:short_navigation/short_navigation.dart';
-import 'package:zeelpay/controllers/bills/electricity_controller.dart';
-import 'package:zeelpay/providers/electricity_provider.dart';
-import 'package:zeelpay/providers/state/loading_state_provider.dart';
-import 'package:zeelpay/screens/user/pay/electricity/electricity_transaction_details.dart';
-import 'package:zeelpay/screens/widgets/authenticate_transaction.dart';
-import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
-import 'package:zeelpay/screens/widgets/texts_widget.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
-import 'package:zeelpay/screens/widgets/zeel_scrollable_widget.dart';
+import 'package:ugbills/controllers/bills/electricity_controller.dart';
+import 'package:ugbills/providers/electricity_provider.dart';
+import 'package:ugbills/providers/state/loading_state_provider.dart';
+import 'package:ugbills/screens/user/pay/electricity/electricity_transaction_details.dart';
+import 'package:ugbills/screens/widgets/authenticate_transaction.dart';
+import 'package:ugbills/screens/widgets/text_field_widgets.dart';
+import 'package:ugbills/screens/widgets/texts_widget.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/screens/widgets/zeel_scrollable_widget.dart';
 
 class ElectricityBills extends ConsumerStatefulWidget {
   const ElectricityBills({super.key});

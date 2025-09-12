@@ -4,10 +4,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:short_navigation/short_navigation.dart';
-import 'package:zeelpay/constants/api/endpoints.dart';
-import 'package:zeelpay/helpers/api/response_helper.dart';
-import 'package:zeelpay/helpers/snacks/snacks_helper.dart';
-import 'package:zeelpay/screens/user/pay/fund/coupon/coupon_completed.dart';
+import 'package:ugbills/constants/api/endpoints.dart';
+import 'package:ugbills/helpers/api/response_helper.dart';
+import 'package:ugbills/helpers/snacks/snacks_helper.dart';
+import 'package:ugbills/screens/user/pay/fund/coupon/coupon_completed.dart';
 
 part 'wallet_controller.g.dart';
 

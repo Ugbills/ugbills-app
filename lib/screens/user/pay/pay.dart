@@ -1,20 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:short_navigation/short_navigation.dart';
-import 'package:zeelpay/constants/assets/svg.dart';
-import 'package:zeelpay/screens/user/pay/airtime/airtime.dart';
-import 'package:zeelpay/screens/user/pay/betting/betting.dart';
-import 'package:zeelpay/screens/user/pay/data/data.dart';
-import 'package:zeelpay/screens/user/pay/electricity/electricity.dart';
-import 'package:zeelpay/screens/user/pay/fund/fund_options.dart';
-import 'package:zeelpay/screens/user/pay/giftcard/giftcard.dart';
-import 'package:zeelpay/screens/user/pay/send/amount_screen.dart';
-import 'package:zeelpay/screens/user/pay/send/bank/bank.dart';
-import 'package:zeelpay/screens/user/pay/send/username/by_username.dart';
-import 'package:zeelpay/screens/user/pay/swap/swap.dart';
-import 'package:zeelpay/screens/user/pay/tv/tv.dart';
-import 'package:zeelpay/screens/user/widgets/action_button.dart';
-import 'package:zeelpay/themes/palette.dart';
+import 'package:ugbills/constants/assets/svg.dart';
+import 'package:ugbills/screens/user/pay/airtime/airtime.dart';
+import 'package:ugbills/screens/user/pay/betting/betting.dart';
+import 'package:ugbills/screens/user/pay/data/data.dart';
+import 'package:ugbills/screens/user/pay/electricity/electricity.dart';
+import 'package:ugbills/screens/user/pay/swap/swap.dart';
+import 'package:ugbills/screens/user/pay/tv/tv.dart';
+import 'package:ugbills/screens/user/widgets/action_button.dart';
+import 'package:ugbills/themes/palette.dart';
 
 class Pay extends StatelessWidget {
   const Pay({super.key});
@@ -53,72 +46,6 @@ List<Widget> _buildMenuItems(BuildContext context) {
   bool isDark = Theme.of(context).brightness == Brightness.dark;
   return [
     ZeelActionButton(
-      text: "Fund",
-      icon: ZeelSvg.fund,
-      color: isDark ? ZealPalette.darkModeFund : const Color(0xffFFC9CE),
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const FundOptions(),
-          ),
-        );
-      },
-    ),
-    ZeelActionButton(
-      onTap: () {
-        //open bottomsheet with listview where user select username ot Bank
-        showModalBottomSheet(
-            isDismissible: true,
-            useSafeArea: true,
-            context: context,
-            builder: (context) => Container(
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border(
-                          top: BorderSide(
-                              width: 0.5,
-                              color:
-                                  ShadTheme.of(context).colorScheme.primary))),
-                  child: Wrap(
-                    children: [
-                      ListTile(
-                        onTap: () => Go.to(const AmountScreen(
-                          page: SendByUsername(),
-                        )),
-                        subtitle: const Text(
-                            "Send money from your wallet to another Zeelpay user for free"),
-                        title: Text("ZeelPay User",
-                            style:
-                                ShadTheme.of(context).textTheme.small.copyWith(
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 20,
-                                    )),
-                      ),
-                      const Divider(),
-                      ListTile(
-                        onTap: () => Go.to(AmountScreen(
-                          page: BankTransfer(),
-                        )),
-                        subtitle: const Text(
-                            "Send money from Zeelpay to local banks"),
-                        title: Text("Bank Account",
-                            style:
-                                ShadTheme.of(context).textTheme.small.copyWith(
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 20,
-                                    )),
-                      ),
-                    ],
-                  ),
-                ));
-      },
-      text: "Send",
-      icon: ZeelSvg.send,
-      color: isDark ? ZealPalette.darkModeSend : const Color(0xffFFD3B3),
-    ),
-    ZeelActionButton(
       onTap: () {
         Navigator.push(
           context,
@@ -129,7 +56,7 @@ List<Widget> _buildMenuItems(BuildContext context) {
       },
       text: "TV",
       icon: ZeelSvg.tv,
-      color: isDark ? ZealPalette.darkModeTV : const Color(0xffCFC6FF),
+      color: ZealPalette.lightBlue,
     ),
     ZeelActionButton(
       onTap: () {
@@ -142,7 +69,7 @@ List<Widget> _buildMenuItems(BuildContext context) {
       },
       text: "Buy Data",
       icon: ZeelSvg.data,
-      color: isDark ? ZealPalette.darkModeData : const Color(0xffFED4FF),
+      color: ZealPalette.lightBlue,
     ),
     ZeelActionButton(
       onTap: () {
@@ -155,44 +82,34 @@ List<Widget> _buildMenuItems(BuildContext context) {
       },
       text: "Buy Airtime",
       icon: ZeelSvg.airtime,
-      color: isDark ? ZealPalette.darkModeAirtime : const Color(0xffB6E1FF),
+      color: ZealPalette.lightBlue,
     ),
     ZeelActionButton(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const GiftcardScreen(),
-            ),
-          );
-        },
-        text: "Gift Card",
-        icon: ZeelSvg.betting,
-        color: isDark ? ZealPalette.darkModeSend : const Color(0xffE0FFAE)),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const AirtimeSwap(),
+          ),
+        );
+      },
+      text: "Airtime Swap",
+      icon: ZeelSvg.betting,
+      color: ZealPalette.lightBlue,
+    ),
     ZeelActionButton(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const AirtimeSwap(),
-            ),
-          );
-        },
-        text: "Airtime Swap",
-        icon: ZeelSvg.betting,
-        color: isDark ? ZealPalette.darkModeAirtime : const Color(0xffAEFFCF)),
-    ZeelActionButton(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const ElectricityBills(),
-            ),
-          );
-        },
-        text: "Electricity",
-        icon: ZeelSvg.betting,
-        color: isDark ? ZealPalette.darkModeFund : const Color(0xffFFC7AE)),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const ElectricityBills(),
+          ),
+        );
+      },
+      text: "Electricity",
+      icon: ZeelSvg.betting,
+      color: ZealPalette.lightBlue,
+    ),
     ZeelActionButton(
         onTap: () {
           Navigator.push(
@@ -204,6 +121,6 @@ List<Widget> _buildMenuItems(BuildContext context) {
         },
         text: "Betting",
         icon: ZeelSvg.betting,
-        color: isDark ? ZealPalette.darkModeTV : const Color(0xffAECAFF)),
+        color: ZealPalette.lightBlue),
   ];
 }

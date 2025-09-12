@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 var lightTheme = FlexThemeData.light(
   scaffoldBackground: const Color(0xfffafafa),
-  primary: const Color(0xf020013a),
+  primary: const Color(0xFF1C41AB),
   secondary: const Color(0xfffafafa),
   background: const Color(0xfffafafa),
   primaryContainer: const Color(0xfffafafa),

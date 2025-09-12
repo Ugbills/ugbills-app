@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:zeelpay/repository/auth_repository.dart';
+import 'package:ugbills/repository/auth_repository.dart';
 
 part 'auth_controller.g.dart';
 

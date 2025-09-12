@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:short_navigation/short_navigation.dart';
-import 'package:zeelpay/providers/state/loading_state_provider.dart';
-import 'package:zeelpay/screens/auth/create/set_pin.dart';
-import 'package:zeelpay/screens/user/user.dart';
-import 'package:zeelpay/screens/widgets/images_widget.dart';
-import 'package:zeelpay/screens/widgets/texts_widget.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/providers/state/loading_state_provider.dart';
+import 'package:ugbills/screens/auth/create/set_pin.dart';
+import 'package:ugbills/screens/user/user.dart';
+import 'package:ugbills/screens/widgets/images_widget.dart';
+import 'package:ugbills/screens/widgets/texts_widget.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
 
 class AccountCreatedScreen extends ConsumerWidget {
   const AccountCreatedScreen({super.key});

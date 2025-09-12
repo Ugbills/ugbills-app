@@ -1,5 +1,5 @@
-name: zeelpay
-description: A new Flutter project.
+name: ugbills
+description: Ugbills - A new Flutter project.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
@@ -34,8 +34,8 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  flex_color_scheme: ^7.3.1
-  google_fonts: ^6.1.0
+  flex_color_scheme: ^8.3.0
+  google_fonts: ^6.3.1
   flutter_riverpod: ^2.5.1
   shadcn_ui: ^0.6.2
   smooth_page_indicator: ^1.1.0
@@ -61,19 +61,20 @@ dependencies:
   permission_handler: ^11.3.1
   screenshot: ^3.0.0
   share_plus: ^10.1.2
+  carousel_slider: ^5.1.1
 
 
 flutter_native_splash:
-  color: "#20013A"
-  image: assets/images/splash_logo.png
-  color_dark: "#20013A"
-  image_dark: assets/images/splash_logo.png
+  color: "#1C41AB"
+  image: assets/images/splash.png
+  color_dark: "#1C41AB"
+  image_dark: assets/images/splash.png
 
   android_12:
-    image: assets/images/splash_logo.png
-    icon_background_color: "#20013A"
-    image_dark: assets/images/splash_logo.png
-    icon_background_color_dark: "#20013A"
+    image: assets/images/splash.png
+    icon_background_color: "#1C41AB"
+    image_dark: assets/images/splash.png
+    icon_background_color_dark: "#1C41AB"
 
 flutter_launcher_icons:
   remove_alpha_ios: true
@@ -138,12 +139,26 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
+  fonts:
+    - family: Geist
+      fonts:
+        - asset: google_fonts/Geist-Regular.ttf
+        - asset: google_fonts/Geist-Bold.ttf
+          weight: 700
+        - asset: google_fonts/Geist-Medium.ttf
+          weight: 500
+        - asset: google_fonts/Geist-Light.ttf
+          weight: 300
+        - asset: google_fonts/Geist-ExtraLight.ttf
+          weight: 200
+        - asset: google_fonts/Geist-ExtraBold.ttf
+          weight: 800
+        - asset: google_fonts/Geist-Black.ttf
+          weight: 900
+        - asset: google_fonts/Geist-Thin.ttf
+          weight: 100
+        - asset: google_fonts/Geist-SemiBold.ttf
+          weight: 600
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

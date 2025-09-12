@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:zeelpay/helpers/forms/validators.dart';
-import 'package:zeelpay/screens/user/trade/buy/confirm.dart';
-import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
-import 'package:zeelpay/screens/widgets/texts_widget.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
-import 'package:zeelpay/themes/palette.dart';
+import 'package:ugbills/helpers/forms/validators.dart';
+import 'package:ugbills/screens/user/trade/buy/confirm.dart';
+import 'package:ugbills/screens/widgets/text_field_widgets.dart';
+import 'package:ugbills/screens/widgets/texts_widget.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/themes/palette.dart';
 
 class BuyCrypto extends StatefulWidget {
   final String cryptoCoin, network, currency;
@@ -199,7 +199,7 @@ class _BuyCryptoState extends State<BuyCrypto> {
     return FilledButton(
       onPressed: () => _updateAmount(amount),
       style: FilledButton.styleFrom(
-         backgroundColor: Colors.transparent,
+        backgroundColor: Colors.transparent,
         side: const BorderSide(
           color: ZealPalette.darkerGrey,
         ),

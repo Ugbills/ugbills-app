@@ -27,7 +27,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.macOS:
         return macos;
       case TargetPlatform.windows:
-        return windows;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for windows - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -41,48 +44,38 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyByzwsdMDH9FN3IX6fpS7qQFB7PO3-5Ck8',
-    appId: '1:28085771925:web:43dbc79b892cf84f88059c',
-    messagingSenderId: '28085771925',
-    projectId: 'zeelpay',
-    authDomain: 'zeelpay.firebaseapp.com',
-    storageBucket: 'zeelpay.firebasestorage.app',
-    measurementId: 'G-80QBPHBRD5',
+    apiKey: 'AIzaSyAJuqq26yin2nJhXru_gdcWcPxPBJDdUAc',
+    appId: '1:15819154592:web:93392acc71659addb295c5',
+    messagingSenderId: '15819154592',
+    projectId: 'ugbills-b101d',
+    authDomain: 'ugbills-b101d.firebaseapp.com',
+    storageBucket: 'ugbills-b101d.firebasestorage.app',
+    measurementId: 'G-VHM2CE1QNH',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDxOFP0qfuWQTejFVD94vn-PUXZV-t3jHs',
-    appId: '1:28085771925:android:033118a1903a6db988059c',
-    messagingSenderId: '28085771925',
-    projectId: 'zeelpay',
-    storageBucket: 'zeelpay.firebasestorage.app',
+    apiKey: 'AIzaSyCuuW31xieJxc0gEYSixMCaCp2IOK5hHPs',
+    appId: '1:15819154592:android:6ecb1c2cface40dfb295c5',
+    messagingSenderId: '15819154592',
+    projectId: 'ugbills-b101d',
+    storageBucket: 'ugbills-b101d.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyA933892xKDY6vP0XSdM7NKj4X7mOG3RR8',
-    appId: '1:28085771925:ios:13b90009754a3ee688059c',
-    messagingSenderId: '28085771925',
-    projectId: 'zeelpay',
-    storageBucket: 'zeelpay.firebasestorage.app',
-    iosBundleId: 'com.zgt.zeelpay',
+    apiKey: 'AIzaSyApzBdcT_qIFcJWNgw1xwmoWLEUgxuRu-o',
+    appId: '1:15819154592:ios:bde252da1fe40a95b295c5',
+    messagingSenderId: '15819154592',
+    projectId: 'ugbills-b101d',
+    storageBucket: 'ugbills-b101d.firebasestorage.app',
+    iosBundleId: 'com.zgt.ugbills',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyA933892xKDY6vP0XSdM7NKj4X7mOG3RR8',
-    appId: '1:28085771925:ios:ec731d76b5d66b2d88059c',
-    messagingSenderId: '28085771925',
-    projectId: 'zeelpay',
-    storageBucket: 'zeelpay.firebasestorage.app',
-    iosBundleId: 'com.example.zealpay',
-  );
-
-  static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyByzwsdMDH9FN3IX6fpS7qQFB7PO3-5Ck8',
-    appId: '1:28085771925:web:a8e8aa67b065cb5288059c',
-    messagingSenderId: '28085771925',
-    projectId: 'zeelpay',
-    authDomain: 'zeelpay.firebaseapp.com',
-    storageBucket: 'zeelpay.firebasestorage.app',
-    measurementId: 'G-84HFSMQ953',
+    apiKey: 'AIzaSyApzBdcT_qIFcJWNgw1xwmoWLEUgxuRu-o',
+    appId: '1:15819154592:ios:8df939f7aa5f2b76b295c5',
+    messagingSenderId: '15819154592',
+    projectId: 'ugbills-b101d',
+    storageBucket: 'ugbills-b101d.firebasestorage.app',
+    iosBundleId: 'com.example.ugbills',
   );
 }

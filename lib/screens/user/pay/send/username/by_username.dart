@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:short_navigation/short_navigation.dart';
-import 'package:zeelpay/controllers/transfer/transfer_controller.dart';
-import 'package:zeelpay/providers/state/loading_state_provider.dart';
-import 'package:zeelpay/screens/widgets/authenticate_transaction.dart';
-import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
-import 'package:zeelpay/screens/widgets/texts_widget.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/controllers/transfer/transfer_controller.dart';
+import 'package:ugbills/providers/state/loading_state_provider.dart';
+import 'package:ugbills/screens/widgets/authenticate_transaction.dart';
+import 'package:ugbills/screens/widgets/text_field_widgets.dart';
+import 'package:ugbills/screens/widgets/texts_widget.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
 
 class SendByUsername extends ConsumerStatefulWidget {
   const SendByUsername({super.key});
@@ -73,7 +73,7 @@ class _SendByUsernameState extends ConsumerState<SendByUsername> {
                 onEditingComplete: () async {
                   if (userNameController.text.isNotEmpty) {
                     ref.read(isLoadingProvider.notifier).state = true;
-                    await validateZeelpayAccount(
+                    await validateUgBillsAccount(
                             username: userNameController.text)
                         .then((value) {
                       ref.read(isLoadingProvider.notifier).state = false;
@@ -107,7 +107,7 @@ class _SendByUsernameState extends ConsumerState<SendByUsername> {
                       ? null
                       : () {
                           Go.to(ConfirmTransaction(
-                            onPinComplete: (pin) => transferZeelPay(
+                            onPinComplete: (pin) => transferUgBills(
                                 context: context,
                                 note: noteController.text,
                                 pin: pin!,
@@ -129,4 +129,4 @@ class _SendByUsernameState extends ConsumerState<SendByUsername> {
   }
 }
 
-// Widget 
+// Widget

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:zeelpay/themes/palette.dart';
+import 'package:ugbills/themes/palette.dart';
 
 class ZeelButton extends StatelessWidget {
   final Function()? onPressed;
@@ -24,7 +24,7 @@ class ZeelButton extends StatelessWidget {
             style: FilledButton.styleFrom(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0)),
-                backgroundColor: const Color(0xff20013A)),
+                backgroundColor: const Color(0xff1C41AB)),
             onPressed: isLoading! ? () {} : onPressed,
             child: isLoading!
                 ? Center(
@@ -66,7 +66,7 @@ class ZeelAltButton extends StatelessWidget {
           ),
           side: BorderSide(
             width: 1.0,
-            color: isDark ? ZealPalette.lightPurple : const Color(0xff20013A),
+            color: isDark ? ZealPalette.lightBlue : const Color(0xff1C41AB),
           ),
           backgroundColor: ShadTheme.of(context).colorScheme.background,
         ),
@@ -75,7 +75,7 @@ class ZeelAltButton extends StatelessWidget {
           text!,
           style: TextStyle(
               fontWeight: FontWeight.w900,
-              color: isDark ? Colors.white : const Color(0xff20013A),
+              color: isDark ? Colors.white : const Color(0xff1C41AB),
               fontSize: 16),
         ),
       ),

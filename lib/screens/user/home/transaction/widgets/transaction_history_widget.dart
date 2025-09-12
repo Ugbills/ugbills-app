@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:short_navigation/short_navigation.dart';
-import 'package:zeelpay/constants/assets/svg.dart';
-import 'package:zeelpay/controllers/bills/data_controller.dart';
-import 'package:zeelpay/helpers/common/data_formatter.dart';
-import 'package:zeelpay/providers/transaction_provider.dart';
-import 'package:zeelpay/screens/user/home/transaction/details.dart';
-import 'package:zeelpay/themes/palette.dart';
+import 'package:ugbills/constants/assets/svg.dart';
+import 'package:ugbills/controllers/bills/data_controller.dart';
+import 'package:ugbills/helpers/common/data_formatter.dart';
+import 'package:ugbills/providers/transaction_provider.dart';
+import 'package:ugbills/screens/user/home/transaction/details.dart';
+import 'package:ugbills/themes/palette.dart';
 
 class TransactionHistoryWidget extends ConsumerWidget {
   final int? limit;

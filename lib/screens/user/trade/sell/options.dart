@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:zeelpay/providers/crypto_provider.dart';
-import 'package:zeelpay/screens/user/trade/sell/sell_crypto.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
-import 'package:zeelpay/themes/palette.dart';
+import 'package:ugbills/providers/crypto_provider.dart';
+import 'package:ugbills/screens/user/trade/sell/sell_crypto.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/themes/palette.dart';
 
 class SellCryptoOptions extends ConsumerWidget {
   const SellCryptoOptions({super.key});
@@ -120,7 +120,7 @@ class SellCryptoOptions extends ConsumerWidget {
                           });
                     },
                     leading: ShadImage(
-                        "https://devapi.zeelpay.app${crypto.data![index].icon!}"),
+                        "https://devapi.UgBills.app${crypto.data![index].icon!}"),
                     title: Text(crypto.data![index].name!),
                     subtitle: Text(crypto.data![index].currency!.toUpperCase()),
                     trailing: const Icon(Icons.arrow_forward_ios_rounded),

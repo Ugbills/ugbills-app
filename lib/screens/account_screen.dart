@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:short_navigation/short_navigation.dart';
-import 'package:zeelpay/screens/auth/create/create_account_screen.dart';
-import 'package:zeelpay/screens/auth/login_screen.dart';
-import 'package:zeelpay/screens/widgets/images_widget.dart';
-import 'package:zeelpay/screens/widgets/texts_widget.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/screens/auth/create/create_account_screen.dart';
+import 'package:ugbills/screens/auth/login_screen.dart';
+import 'package:ugbills/screens/widgets/images_widget.dart';
+import 'package:ugbills/screens/widgets/texts_widget.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({super.key});
@@ -30,11 +30,12 @@ class AccountScreen extends StatelessWidget {
                           height: MediaQuery.of(context).size.height * 0.3,
                           width: MediaQuery.of(context).size.width * 0.9),
                       const ZeelTitleText(
-                        text: "Welcome to ZeelPay!",
+                        text: "Welcome to UG Bills",
                       ),
                       const SizedBox(height: 10.0),
                       const ZeelText(
-                        text: "Manage your finances effortlessly",
+                        text:
+                            "UG Bills is your number one go to for cheap data purchase, airtime top-up and bill payments.",
                         center: TextAlign.center,
                       ),
                       const SizedBox(height: 50.0),

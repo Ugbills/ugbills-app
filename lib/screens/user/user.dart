@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:zeelpay/constants/assets/png.dart';
-import 'package:zeelpay/constants/assets/svg.dart';
-import 'package:zeelpay/screens/user/card/card.dart';
-import 'package:zeelpay/screens/user/home/home.dart';
-import 'package:zeelpay/screens/user/more/more.dart';
-import 'package:zeelpay/screens/user/pay/pay.dart';
-import 'package:zeelpay/screens/user/trade/trade.dart';
-import 'package:zeelpay/themes/palette.dart';
+import 'package:ugbills/constants/assets/png.dart';
+import 'package:ugbills/constants/assets/svg.dart';
+import 'package:ugbills/screens/user/home/home.dart';
+import 'package:ugbills/screens/user/more/more.dart';
+import 'package:ugbills/screens/user/pay/pay.dart';
+import 'package:ugbills/themes/palette.dart';
 
 class UserScreen extends ConsumerWidget {
   const UserScreen({super.key});
@@ -37,7 +35,7 @@ class UserScreen extends ConsumerWidget {
           items: [
             BottomNavigationBarItem(
               icon: ShadImage.square(
-                currentIndex == 0 ? ZeelPng.home : ZeelPng.homeInactive,
+                currentIndex == 0 ? ZeelPng.home : ZeelPng.home,
                 size: 30,
               ),
               label: 'Home',
@@ -54,29 +52,9 @@ class UserScreen extends ConsumerWidget {
             ),
             BottomNavigationBarItem(
               icon: ShadImage.square(
-                ZeelSvg.trade,
+                ZeelSvg.accountLevels,
                 size: 30,
                 color: currentIndex == 2
-                    ? ShadTheme.of(context).colorScheme.primary
-                    : Colors.grey,
-              ),
-              label: 'Trade',
-            ),
-            BottomNavigationBarItem(
-              icon: ShadImage.square(
-                ZeelSvg.card,
-                size: 30,
-                color: currentIndex == 3
-                    ? ShadTheme.of(context).colorScheme.primary
-                    : Colors.grey,
-              ),
-              label: 'Card',
-            ),
-            BottomNavigationBarItem(
-              icon: ShadImage.square(
-                ZeelSvg.more,
-                size: 30,
-                color: currentIndex == 4
                     ? ShadTheme.of(context).colorScheme.primary
                     : Colors.grey,
               ),
@@ -91,8 +69,6 @@ class UserScreen extends ConsumerWidget {
 List<Widget> _screens = const [
   DashBoardScreen(),
   Pay(),
-  TradeScreen(),
-  CardScreen(),
   More(),
 ];
 

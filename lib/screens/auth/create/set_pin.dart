@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/screens/auth/create/confirm_set_pin.dart';
-import 'package:zeelpay/screens/widgets/texts_widget.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
-import 'package:zeelpay/themes/palette.dart';
+import 'package:ugbills/screens/auth/create/confirm_set_pin.dart';
+import 'package:ugbills/screens/widgets/texts_widget.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/themes/palette.dart';
 
 class SetransactionPin extends StatefulWidget {
   const SetransactionPin({super.key});
@@ -107,7 +107,7 @@ class _SetransactionPinState extends State<SetransactionPin> {
                                 ? pinProgress
                                     ? Colors.grey
                                     : Colors.grey
-                                : ZealPalette.primaryPurple.withOpacity(0),
+                                : ZealPalette.primaryBlue.withOpacity(0),
                           ),
                         ),
                         child: index < enteredPin.length

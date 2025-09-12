@@ -1,82 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict>
-	<key>CADisableMinimumFrameDurationOnPhone</key>
-	<true/>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>$(DEVELOPMENT_LANGUAGE)</string>
-	<key>CFBundleDisplayName</key>
-	<string>Zealpay</string>
-	<key>CFBundleExecutable</key>
-	<string>$(EXECUTABLE_NAME)</string>
-	<key>CFBundleIdentifier</key>
-	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundleName</key>
-	<string>zealpay</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleShortVersionString</key>
-	<string>$(FLUTTER_BUILD_NAME)</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
-	<key>NSCameraUsageDescription</key>
-	<string>We need access to the camera to take pictures for your profile.</string>
-	<key>NSFaceIDUsageDescription</key>
-	<string>ZeelPay uses biometrics to authenticate user?</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>We need access to the microphone for video recording.</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>We need access to save photos to your photo library.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We need access to your photo library to upload pictures for your profile.</string>
-	<key>NSCalendarsUsageDescription</key>
-	<string>We need access to your calendar to add events.</string>
-	<key>NSContactsUsageDescription</key>
-	<string>We need access to your contacts to share your referral code.</string>
-	<key>NSAppleMusicUsageDescription</key>
-	<string>We need access to your music library to play music.</string>
-	<key>NSMotionUsageDescription</key>
-	<string>We need access to your motion data to track your steps.</string>
-	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>We need access to your microphone to transcribe your speech.</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>We need access to your location to show you nearby stores.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need access to your location to show you nearby stores.</string>
-	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>We need access to your bluetooth to connect to devices.</string>
-	<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>fetch</string>
-		<string>remote-notification</string>
-	</array>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
-	<key>UIMainStoryboardFile</key>
-	<string>Main</string>
-	<key>UIStatusBarHidden</key>
-	<false/>
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UISupportedInterfaceOrientations~ipad</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-</dict>
+	<dict>
+		<key>CADisableMinimumFrameDurationOnPhone</key>
+		<true/>
+		<key>CFBundleDevelopmentRegion</key>
+		<string>$(DEVELOPMENT_LANGUAGE)</string>
+		<key>CFBundleDisplayName</key>
+		<string>Ugbills</string>
+		<key>CFBundleExecutable</key>
+		<string>$(EXECUTABLE_NAME)</string>
+		<key>CFBundleIdentifier</key>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+		<key>CFBundleInfoDictionaryVersion</key>
+		<string>6.0</string>
+		<key>CFBundleName</key>
+		<string>ugbills</string>
+		<key>CFBundlePackageType</key>
+		<string>APPL</string>
+		<key>CFBundleShortVersionString</key>
+		<string>$(FLUTTER_BUILD_NAME)</string>
+		<key>CFBundleSignature</key>
+		<string>????</string>
+		<key>CFBundleVersion</key>
+		<string>$(FLUTTER_BUILD_NUMBER)</string>
+		<key>LSRequiresIPhoneOS</key>
+		<true/>
+		<key>NSAppleMusicUsageDescription</key>
+		<string>We need access to your music library to play music.</string>
+		<key>NSBluetoothAlwaysUsageDescription</key>
+		<string>We need access to your bluetooth to connect to devices.</string>
+		<key>NSCalendarsUsageDescription</key>
+		<string>We need access to your calendar to add events.</string>
+		<key>NSCameraUsageDescription</key>
+		<string>We need access to the camera to take pictures for your profile.</string>
+		<key>NSContactsUsageDescription</key>
+		<string>We need access to your contacts to share your referral code.</string>
+		<key>NSFaceIDUsageDescription</key>
+		<string>Ugbills uses biometrics to authenticate user?</string>
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>We need access to your location to show you nearby stores.</string>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>We need access to your location to show you nearby stores.</string>
+		<key>NSMicrophoneUsageDescription</key>
+		<string>We need access to the microphone for video recording.</string>
+		<key>NSMotionUsageDescription</key>
+		<string>We need access to your motion data to track your steps.</string>
+		<key>NSPhotoLibraryAddUsageDescription</key>
+		<string>We need access to save photos to your photo library.</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>We need access to your photo library to upload pictures for your profile.</string>
+		<key>NSSpeechRecognitionUsageDescription</key>
+		<string>We need access to your microphone to transcribe your speech.</string>
+		<key>UIApplicationSupportsIndirectInputEvents</key>
+		<true/>
+		<key>UIBackgroundModes</key>
+		<array>
+			<string>fetch</string>
+		</array>
+		<key>UILaunchStoryboardName</key>
+		<string>LaunchScreen</string>
+		<key>UIMainStoryboardFile</key>
+		<string>Main</string>
+		<key>UIStatusBarHidden</key>
+		<false/>
+		<key>UISupportedInterfaceOrientations</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+			<string>UIInterfaceOrientationLandscapeLeft</string>
+			<string>UIInterfaceOrientationLandscapeRight</string>
+		</array>
+		<key>UISupportedInterfaceOrientations~ipad</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+			<string>UIInterfaceOrientationPortraitUpsideDown</string>
+			<string>UIInterfaceOrientationLandscapeLeft</string>
+			<string>UIInterfaceOrientationLandscapeRight</string>
+		</array>
+	</dict>
 </plist>

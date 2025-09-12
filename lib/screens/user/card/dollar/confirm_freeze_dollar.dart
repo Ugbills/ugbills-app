@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/screens/widgets/texts_widget.dart';
-import 'package:zeelpay/themes/palette.dart';
+import 'package:ugbills/screens/widgets/texts_widget.dart';
+import 'package:ugbills/themes/palette.dart';
 
 class ConfirmFreezeDollarCard extends StatefulWidget {
   const ConfirmFreezeDollarCard({super.key});
@@ -95,7 +95,7 @@ class _ConfirmFreezeDollarCardState extends State<ConfirmFreezeDollarCard> {
                                 ? pinProgress
                                     ? Colors.grey
                                     : Colors.grey
-                                : ZealPalette.primaryPurple.withOpacity(0),
+                                : ZealPalette.primaryBlue.withOpacity(0),
                           ),
                         ),
                         child: index < enteredPin.length

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:zeelpay/constants/assets/png.dart';
-import 'package:zeelpay/controllers/card/card_controller.dart';
-import 'package:zeelpay/providers/card_provider.dart';
-import 'package:zeelpay/providers/state/loading_state_provider.dart';
-import 'package:zeelpay/screens/user/card/modal.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/constants/assets/png.dart';
+import 'package:ugbills/controllers/card/card_controller.dart';
+import 'package:ugbills/providers/card_provider.dart';
+import 'package:ugbills/providers/state/loading_state_provider.dart';
+import 'package:ugbills/screens/user/card/modal.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
 
 class CreateCardScreen extends ConsumerWidget {
   const CreateCardScreen({super.key});

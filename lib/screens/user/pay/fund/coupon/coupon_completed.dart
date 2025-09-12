@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:zeelpay/constants/assets/png.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/constants/assets/png.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
 
 class CouponCompleted extends StatelessWidget {
   final String message;

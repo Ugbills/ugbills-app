@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
-import 'package:zeelpay/themes/palette.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/themes/palette.dart';
 
 class InsufficientFunds extends StatelessWidget {
   const InsufficientFunds({super.key});
@@ -14,7 +14,7 @@ class InsufficientFunds extends StatelessWidget {
           padding: const EdgeInsets.all(24),
           child: Column(
             children: [
-              Image.asset("assets/images/zeel-top-logo.png"),
+              Image.asset("assets/images/ug-top-logo.png"),
               const Spacer(),
               Image.asset("assets/images/failed.png"),
               const Text(

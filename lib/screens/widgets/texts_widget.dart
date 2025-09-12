@@ -17,7 +17,7 @@ class ZeelTitleText extends StatelessWidget {
       style: TextStyle(
         fontSize: 30.0,
         fontWeight: FontWeight.w900,
-        color: isDark ? Colors.white : const Color(0xff20013A),
+        color: isDark ? Colors.white : const Color(0xff1C41AB),
       ),
     );
   }

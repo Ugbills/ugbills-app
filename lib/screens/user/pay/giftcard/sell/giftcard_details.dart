@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:zeelpay/screens/user/pay/giftcard/confirm_giftcard_details.dart';
-import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
-import 'package:zeelpay/screens/widgets/texts_widget.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
-import 'package:zeelpay/themes/palette.dart';
+import 'package:ugbills/screens/user/pay/giftcard/confirm_giftcard_details.dart';
+import 'package:ugbills/screens/widgets/text_field_widgets.dart';
+import 'package:ugbills/screens/widgets/texts_widget.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/themes/palette.dart';
 
 class SellGiftcardDetails extends StatefulWidget {
   final String title;
@@ -203,7 +203,7 @@ class _SellGiftcardDetailsState extends State<SellGiftcardDetails> {
         decoration: BoxDecoration(
           border: Border.all(
             color: _selectedAmount == amount
-                ? ZealPalette.primaryPurple
+                ? ZealPalette.primaryBlue
                 : ZealPalette.darkerGrey,
           ),
           borderRadius: BorderRadius.circular(8),

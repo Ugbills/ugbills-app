@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:zeelpay/controllers/user/user_controller.dart';
-import 'package:zeelpay/helpers/forms/validators.dart';
-import 'package:zeelpay/screens/widgets/text_field_widgets.dart';
-import 'package:zeelpay/screens/widgets/texts_widget.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/controllers/user/user_controller.dart';
+import 'package:ugbills/helpers/forms/validators.dart';
+import 'package:ugbills/screens/widgets/text_field_widgets.dart';
+import 'package:ugbills/screens/widgets/texts_widget.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
 
 class ChangePassword extends StatefulHookConsumerWidget {
   const ChangePassword({super.key});
@@ -70,7 +70,7 @@ class _ChangePasswordState extends ConsumerState<ChangePassword> {
                     var future = ref
                         .read(userControllerProvider.notifier)
                         .updatePassword(
-                          ref: ref,
+                            ref: ref,
                             context: context,
                             currentPassword: currentPasswordController.text,
                             newPassword: newPasswordController.text);

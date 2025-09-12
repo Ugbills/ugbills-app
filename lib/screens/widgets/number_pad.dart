@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:zeelpay/constants/assets/svg.dart';
+import 'package:ugbills/constants/assets/svg.dart';
 
 class ZeelNumberPad extends StatelessWidget {
   final WidgetRef ref;
@@ -22,7 +22,7 @@ class ZeelNumberPad extends StatelessWidget {
       alignment: Alignment.center,
       child: Column(
         children: <Widget>[
-          ButtonBar(
+          OverflowBar(
             alignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               _calcButton('1', ref, context, provider),
@@ -33,7 +33,7 @@ class ZeelNumberPad extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          ButtonBar(
+          OverflowBar(
             alignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               _calcButton('4', ref, context, provider),
@@ -44,7 +44,7 @@ class ZeelNumberPad extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          ButtonBar(
+          OverflowBar(
             alignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               _calcButton('7', ref, context, provider),
@@ -55,7 +55,7 @@ class ZeelNumberPad extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          ButtonBar(
+          OverflowBar(
             alignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               _calcButton('.', ref, context, provider),

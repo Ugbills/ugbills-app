@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:zeelpay/helpers/api/exceptions_helper.dart';
-import 'package:zeelpay/helpers/storage/token.dart';
-import 'package:zeelpay/services/http_service.dart';
+import 'package:ugbills/helpers/api/exceptions_helper.dart';
+import 'package:ugbills/helpers/storage/token.dart';
+import 'package:ugbills/services/http_service.dart';
 
 class ApiRepository {
   ///This function handles all the api requests

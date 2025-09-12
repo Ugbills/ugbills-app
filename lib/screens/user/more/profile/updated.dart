@@ -1,7 +1,7 @@
 // import 'package:flutter/material.dart';
-// import 'package:zeelpay/screens/onboarding/onboarding.dart';
-// import 'package:zeelpay/screens/user/user.dart';
-// import 'package:zeelpay/themes/palette.dart';
+// import 'package:ugbills/screens/onboarding/onboarding.dart';
+// import 'package:ugbills/screens/user/user.dart';
+// import 'package:ugbills/themes/palette.dart';
 
 // class ProfileUpdated extends StatelessWidget {
 //   const ProfileUpdated({super.key});
@@ -20,7 +20,7 @@
 //               "Updated",
 //               style: TextStyle(
 //                   fontWeight: FontWeight.w700,
-//                   color: ZealPalette.primaryPurple),
+//                   color: ZealPalette.primaryBlue),
 //             ),
 //             const Text(
 //               "You have successfully updated your email address.",

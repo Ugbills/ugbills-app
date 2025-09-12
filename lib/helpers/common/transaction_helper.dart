@@ -8,7 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:zeelpay/helpers/snacks/snacks_helper.dart';
+import 'package:ugbills/helpers/snacks/snacks_helper.dart';
 
 class TransactionHelper {
   // Future<String> saveReceipt(

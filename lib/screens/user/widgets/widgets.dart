@@ -27,7 +27,7 @@ class ZeelNetwork extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
             ),
             child: Center(
-              child: ShadImage("https://devapi.zeelpay.app$icon"),
+              child: ShadImage("https://devapi.UgBills.app$icon"),
             ),
           ),
           selected!

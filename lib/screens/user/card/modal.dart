@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:zeelpay/constants/assets/png.dart';
-import 'package:zeelpay/screens/user/card/create/type.dart';
-import 'package:zeelpay/screens/user/widgets/zeel_tile.dart';
+import 'package:ugbills/constants/assets/png.dart';
+import 'package:ugbills/screens/user/card/create/type.dart';
+import 'package:ugbills/screens/user/widgets/zeel_tile.dart';
 
 class CardModal {
   static void showModal(BuildContext context) {

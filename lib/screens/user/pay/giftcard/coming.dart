@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
 
 class ComingSoon extends StatelessWidget {
   const ComingSoon({super.key});

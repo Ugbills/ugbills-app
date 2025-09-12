@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:zeelpay/providers/user_provider.dart';
-import 'package:zeelpay/screens/widgets/beneficiary_widget.dart';
+import 'package:ugbills/providers/user_provider.dart';
+import 'package:ugbills/screens/widgets/beneficiary_widget.dart';
 
-import 'package:zeelpay/screens/widgets/texts_widget.dart';
-import 'package:zeelpay/themes/palette.dart';
+import 'package:ugbills/screens/widgets/texts_widget.dart';
+import 'package:ugbills/themes/palette.dart';
 
 class SavedBeneficiaries extends ConsumerStatefulWidget {
   const SavedBeneficiaries({super.key});

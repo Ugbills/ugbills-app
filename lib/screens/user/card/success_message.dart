@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/constants/assets/png.dart';
-import 'package:zeelpay/screens/user/user.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
-import 'package:zeelpay/themes/palette.dart';
+import 'package:ugbills/constants/assets/png.dart';
+import 'package:ugbills/screens/user/user.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/themes/palette.dart';
 
 class SuccessMessage extends StatelessWidget {
   final String title, body;
@@ -22,8 +22,7 @@ class SuccessMessage extends StatelessWidget {
             Text(
               title,
               style: const TextStyle(
-                  fontWeight: FontWeight.w700,
-                  color: ZealPalette.primaryPurple),
+                  fontWeight: FontWeight.w700, color: ZealPalette.primaryBlue),
             ),
             Text(
               body,

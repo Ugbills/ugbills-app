@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:zeelpay/helpers/common/amount_formatter.dart';
-import 'package:zeelpay/helpers/common/data_formatter.dart';
-import 'package:zeelpay/models/api/transactions_model.dart';
-import 'package:zeelpay/themes/palette.dart';
+import 'package:ugbills/helpers/common/amount_formatter.dart';
+import 'package:ugbills/helpers/common/data_formatter.dart';
+import 'package:ugbills/models/api/transactions_model.dart';
+import 'package:ugbills/themes/palette.dart';
 
 buildReciept({required ResponseData transaction}) => Scaffold(
       body: Column(
@@ -14,7 +14,7 @@ buildReciept({required ResponseData transaction}) => Scaffold(
                 const EdgeInsets.only(right: 30, left: 30, top: 50, bottom: 10),
             width: double.infinity,
             decoration: const BoxDecoration(
-              color: ZealPalette.primaryPurple,
+              color: ZealPalette.primaryBlue,
               image: DecorationImage(
                 image: AssetImage("assets/images/bcc.png"),
                 fit: BoxFit.cover,
@@ -27,7 +27,7 @@ buildReciept({required ResponseData transaction}) => Scaffold(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ShadImage(
-                      "assets/images/zeel.png",
+                      "assets/images/ug.png",
                       height: 25,
                       width: 105,
                     ),
@@ -254,7 +254,7 @@ buildReciept({required ResponseData transaction}) => Scaffold(
                   height: 10,
                 ),
                 const Text(
-                    "If you have any questions, contact ZeelPay Technologies Limited at support@zeelpay.com or call at +2348142364195"),
+                    "If you have any questions, contact UgBills Technologies Limited at support@UgBills.com or call at +2348142364195"),
               ],
             ),
           ),

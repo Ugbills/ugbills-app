@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/screens/user/more/security/confirm.dart';
-import 'package:zeelpay/screens/widgets/texts_widget.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
-import 'package:zeelpay/themes/palette.dart';
+import 'package:ugbills/screens/user/more/security/confirm.dart';
+import 'package:ugbills/screens/widgets/texts_widget.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/themes/palette.dart';
 
 class ResetTransactionPin extends StatefulWidget {
   final String otp;
@@ -112,7 +112,7 @@ class _ResetTransactionPinState extends State<ResetTransactionPin> {
                                 ? pinProgress
                                     ? Colors.grey
                                     : Colors.grey
-                                : ZealPalette.primaryPurple.withOpacity(0),
+                                : ZealPalette.primaryBlue.withOpacity(0),
                           ),
                         ),
                         child: index < enteredPin.length

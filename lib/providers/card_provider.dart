@@ -4,14 +4,14 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:zeelpay/constants/api/endpoints.dart';
-import 'package:zeelpay/helpers/api/response_helper.dart';
-import 'package:zeelpay/helpers/storage/token.dart';
-import 'package:zeelpay/models/api/card_transaction_mode.dart';
-import 'package:zeelpay/models/api/card_type_model.dart';
-import 'package:zeelpay/models/api/cards_model.dart';
-import 'package:zeelpay/models/api/virtual_card_model.dart';
-import 'package:zeelpay/services/http_service.dart';
+import 'package:ugbills/constants/api/endpoints.dart';
+import 'package:ugbills/helpers/api/response_helper.dart';
+import 'package:ugbills/helpers/storage/token.dart';
+import 'package:ugbills/models/api/card_transaction_mode.dart';
+import 'package:ugbills/models/api/card_type_model.dart';
+import 'package:ugbills/models/api/cards_model.dart';
+import 'package:ugbills/models/api/virtual_card_model.dart';
+import 'package:ugbills/services/http_service.dart';
 
 part 'card_provider.g.dart';
 
@@ -76,8 +76,7 @@ Future<CardsModel?> getAllCards(Ref ref) async {
 }
 
 @Riverpod(keepAlive: false)
-Future<VirtualCardModel?> getCard(Ref ref,
-    {required String cardId}) async {
+Future<VirtualCardModel?> getCard(Ref ref, {required String cardId}) async {
   try {
     var token = await tokenStorage.getToken();
     var response = await httpService.getRequest(Endpoints.cardDetails,

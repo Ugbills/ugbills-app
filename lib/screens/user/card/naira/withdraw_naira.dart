@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:zeelpay/constants/assets/svg.dart';
-import 'package:zeelpay/screens/user/card/success_message.dart';
-import 'package:zeelpay/screens/widgets/number_pad.dart';
-import 'package:zeelpay/screens/widgets/zeel_button_widget.dart';
-import 'package:zeelpay/themes/palette.dart';
+import 'package:ugbills/constants/assets/svg.dart';
+import 'package:ugbills/screens/user/card/success_message.dart';
+import 'package:ugbills/screens/widgets/number_pad.dart';
+import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
+import 'package:ugbills/themes/palette.dart';
 
 class WithdrawNaira extends ConsumerWidget {
   const WithdrawNaira({super.key});

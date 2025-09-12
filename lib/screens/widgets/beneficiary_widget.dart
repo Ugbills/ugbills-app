@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zeelpay/themes/palette.dart';
+import 'package:ugbills/themes/palette.dart';
 
 class BeneficiaryTile extends StatelessWidget {
   final String name;
