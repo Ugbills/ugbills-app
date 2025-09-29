@@ -14,6 +14,7 @@ import 'package:ugbills/screens/account_screen.dart';
 import 'package:ugbills/screens/auth/bio.dart';
 import 'package:ugbills/screens/auth/create/set_pin.dart';
 import 'package:ugbills/screens/onboarding/onboarding.dart';
+import 'package:ugbills/screens/user/user.dart';
 
 import 'helpers/storage/onboarding.dart';
 
@@ -110,7 +111,7 @@ class _MyAppState extends ConsumerState<MyApp> {
                   }
                   if (snapshot.hasData) {
                     return snapshot.data!
-                        ? const BiometricsLoginScreen()
+                        ? const UserScreen()
                         : const AccountScreen();
                   }
                   return const Onboarding();

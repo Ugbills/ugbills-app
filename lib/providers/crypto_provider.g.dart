@@ -194,7 +194,7 @@ class _FetchCryptoBuyQuoteProviderElement
 }
 
 String _$fetchCryptoSellQuoteHash() =>
-    r'c832d4926334a3fe29392d19248a7a236b5d873d';
+    r'd3e94c5bddf77b0dfe35c265d5476a3c882ecc4a';
 
 /// See also [fetchCryptoSellQuote].
 @ProviderFor(fetchCryptoSellQuote)

@@ -1,183 +1,283 @@
 class TransactionsModel {
   bool? success;
-  int? code;
   String? message;
-  Data? data;
+  List<Transaction>? transactions;
+  Meta? meta;
 
-  TransactionsModel({this.success, this.code, this.message, this.data});
+  TransactionsModel({this.success, this.message, this.transactions, this.meta});
 
   TransactionsModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
-    code = json['code'];
     message = json['message'];
-    data = json['data'] != null ? Data.fromJson(json['data']) : null;
+    if (json['transactions'] != null) {
+      transactions = <Transaction>[];
+      json['transactions'].forEach((v) {
+        transactions!.add(Transaction.fromJson(v));
+      });
+    }
+    meta = json['meta'] != null ? Meta.fromJson(json['meta']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['success'] = success;
-    data['code'] = code;
     data['message'] = message;
-    if (this.data != null) {
-      data['data'] = this.data!.toJson();
+    if (transactions != null) {
+      data['transactions'] = transactions!.map((v) => v.toJson()).toList();
+    }
+    if (meta != null) {
+      data['meta'] = meta!.toJson();
     }
     return data;
   }
 }
 
-class Data {
-  List<ResponseData>? responseData;
-  int? page;
-  int? size;
-  bool? nexpage;
+class Transaction {
+  int? id;
+  String? reference;
+  String? status;
+  dynamic amount;
+  dynamic balanceBefore;
+  dynamic balanceAfter;
+  String? type;
+  String? walletType;
+  String? operation;
+  String? beneficiary;
+  String? description;
+  String? createdAt;
+  Product? product;
+  Variation? variation;
+  dynamic metadata;
 
-  Data({this.responseData, this.page, this.size, this.nexpage});
+  Transaction({
+    this.id,
+    this.reference,
+    this.status,
+    this.amount,
+    this.balanceBefore,
+    this.balanceAfter,
+    this.type,
+    this.walletType,
+    this.operation,
+    this.beneficiary,
+    this.description,
+    this.createdAt,
+    this.product,
+    this.variation,
+    this.metadata,
+  });
 
-  Data.fromJson(Map<String, dynamic> json) {
-    if (json['response_data'] != null) {
-      responseData = <ResponseData>[];
-      json['response_data'].forEach((v) {
-        responseData!.add(ResponseData.fromJson(v));
+  Transaction.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    reference = json['reference'];
+    status = json['status'];
+    amount = json['amount'];
+    balanceBefore = json['balance_before'];
+    balanceAfter = json['balance_after'];
+    type = json['type'];
+    walletType = json['wallet_type'];
+    operation = json['operation'];
+    beneficiary = json['beneficiary'];
+    description = json['description'];
+    createdAt = json['created_at'];
+    product =
+        json['product'] != null ? Product.fromJson(json['product']) : null;
+    variation = json['variation'] != null
+        ? Variation.fromJson(json['variation'])
+        : null;
+    metadata = json['metadata'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['reference'] = reference;
+    data['status'] = status;
+    data['amount'] = amount;
+    data['balance_before'] = balanceBefore;
+    data['balance_after'] = balanceAfter;
+    data['type'] = type;
+    data['wallet_type'] = walletType;
+    data['operation'] = operation;
+    data['beneficiary'] = beneficiary;
+    data['description'] = description;
+    data['created_at'] = createdAt;
+    if (product != null) {
+      data['product'] = product!.toJson();
+    }
+    if (variation != null) {
+      data['variation'] = variation!.toJson();
+    }
+    data['metadata'] = metadata;
+    return data;
+  }
+}
+
+class Product {
+  String? name;
+  String? code;
+  String? image;
+  int? minAmount;
+  int? maxAmount;
+  Cashback? cashback;
+  bool? visible;
+  List<Variation>? variations;
+
+  Product({
+    this.name,
+    this.code,
+    this.image,
+    this.minAmount,
+    this.maxAmount,
+    this.cashback,
+    this.visible,
+    this.variations,
+  });
+
+  Product.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    code = json['code'];
+    image = json['image'];
+    minAmount = json['min_amount'];
+    maxAmount = json['max_amount'];
+    cashback =
+        json['cashback'] != null ? Cashback.fromJson(json['cashback']) : null;
+    visible = json['visible'];
+    if (json['variations'] != null) {
+      variations = <Variation>[];
+      json['variations'].forEach((v) {
+        variations!.add(Variation.fromJson(v));
       });
     }
-    page = json['page'];
-    size = json['size'];
-    nexpage = json['nexpage'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    if (responseData != null) {
-      data['response_data'] = responseData!.map((v) => v.toJson()).toList();
+    data['name'] = name;
+    data['code'] = code;
+    data['image'] = image;
+    data['min_amount'] = minAmount;
+    data['max_amount'] = maxAmount;
+    if (cashback != null) {
+      data['cashback'] = cashback!.toJson();
     }
-    data['page'] = page;
-    data['size'] = size;
-    data['nexpage'] = nexpage;
+    data['visible'] = visible;
+    if (variations != null) {
+      data['variations'] = variations!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }
 
-class ResponseData {
-  dynamic fee;
-  String? accountNumber;
-  String? reference;
-  String? id;
-  dynamic balanceBefore;
-  String? senderAccount;
-  String? status;
-  String? createdAt;
-  dynamic balanceAfter;
-  String? recipient;
-  String? transactionId;
-  String? updatedAt;
-  dynamic usdBalanceBefore;
-  String? sender;
-  String? sessionId;
-  String? userId;
-  dynamic usdBalanceAfter;
-  String? title;
-  String? billProvider;
-  String? transactionType;
-  String? note;
-  String? receiptString;
-  String? transactionKind;
-  String? currency;
-  int? pkid;
-  dynamic amount;
-  String? bank;
-  String? method;
+class Variation {
+  String? name;
+  String? code;
+  int? productId;
+  dynamic price;
+  dynamic agentPrice;
+  Cashback? cashback;
+  bool? visible;
 
-  ResponseData(
-      {this.fee,
-      this.accountNumber,
-      this.reference,
-      this.id,
-      this.balanceBefore,
-      this.senderAccount,
-      this.status,
-      this.createdAt,
-      this.balanceAfter,
-      this.recipient,
-      this.transactionId,
-      this.updatedAt,
-      this.usdBalanceBefore,
-      this.sender,
-      this.sessionId,
-      this.userId,
-      this.usdBalanceAfter,
-      this.title,
-      this.billProvider,
-      this.transactionType,
-      this.note,
-      this.receiptString,
-      this.transactionKind,
-      this.currency,
-      this.pkid,
-      this.amount,
-      this.bank,
-      this.method});
+  Variation({
+    this.name,
+    this.code,
+    this.productId,
+    this.price,
+    this.agentPrice,
+    this.cashback,
+    this.visible,
+  });
 
-  ResponseData.fromJson(Map<String, dynamic> json) {
-    fee = json['fee'];
-    accountNumber = json['account_number'];
-    reference = json['reference'];
-    id = json['id'];
-    balanceBefore = json['balance_before'];
-    senderAccount = json['sender_account'];
-    status = json['status'];
-    createdAt = json['created_at'];
-    balanceAfter = json['balance_after'];
-    recipient = json['recipient'];
-    transactionId = json['transaction_id'];
-    updatedAt = json['updated_at'];
-    usdBalanceBefore = json['usd_balance_before'];
-    sender = json['sender'];
-    sessionId = json['session_id'];
-    userId = json['user_id'];
-    usdBalanceAfter = json['usd_balance_after'];
-    title = json['title'];
-    billProvider = json['bill_provider'];
-    transactionType = json['transaction_type'];
-    note = json['note'];
-    receiptString = json['receipt_string'];
-    transactionKind = json['transaction_kind'];
-    currency = json['currency'];
-    pkid = json['pkid'];
-    amount = json['amount'];
-    bank = json['bank'];
-    method = json['method'];
+  Variation.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    code = json['code'];
+    productId = json['product_id'];
+    price = json['price'];
+    agentPrice = json['agent_price'];
+    cashback =
+        json['cashback'] != null ? Cashback.fromJson(json['cashback']) : null;
+    visible = json['visible'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['fee'] = fee;
-    data['account_number'] = accountNumber;
-    data['reference'] = reference;
-    data['id'] = id;
-    data['balance_before'] = balanceBefore;
-    data['sender_account'] = senderAccount;
-    data['status'] = status;
-    data['created_at'] = createdAt;
-    data['balance_after'] = balanceAfter;
-    data['recipient'] = recipient;
-    data['transaction_id'] = transactionId;
-    data['updated_at'] = updatedAt;
-    data['usd_balance_before'] = usdBalanceBefore;
-    data['sender'] = sender;
-    data['session_id'] = sessionId;
-    data['user_id'] = userId;
-    data['usd_balance_after'] = usdBalanceAfter;
-    data['title'] = title;
-    data['bill_provider'] = billProvider;
-    data['transaction_type'] = transactionType;
-    data['note'] = note;
-    data['receipt_string'] = receiptString;
-    data['transaction_kind'] = transactionKind;
-    data['currency'] = currency;
-    data['pkid'] = pkid;
-    data['amount'] = amount;
-    data['bank'] = bank;
-    data['method'] = method;
+    data['name'] = name;
+    data['code'] = code;
+    data['product_id'] = productId;
+    data['price'] = price;
+    data['agent_price'] = agentPrice;
+    if (cashback != null) {
+      data['cashback'] = cashback!.toJson();
+    }
+    data['visible'] = visible;
+    return data;
+  }
+}
+
+class Cashback {
+  int? type;
+  dynamic value;
+  Agent? agent;
+
+  Cashback({this.type, this.value, this.agent});
+
+  Cashback.fromJson(Map<String, dynamic> json) {
+    type = json['type'];
+    value = json['value'];
+    agent = json['agent'] != null ? Agent.fromJson(json['agent']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['type'] = type;
+    data['value'] = value;
+    if (agent != null) {
+      data['agent'] = agent!.toJson();
+    }
+    return data;
+  }
+}
+
+class Agent {
+  int? type;
+  dynamic value;
+
+  Agent({this.type, this.value});
+
+  Agent.fromJson(Map<String, dynamic> json) {
+    type = json['type'];
+    value = json['value'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['type'] = type;
+    data['value'] = value;
+    return data;
+  }
+}
+
+class Meta {
+  int? items;
+  int? total;
+  int? next;
+  int? prev;
+
+  Meta({this.items, this.total, this.next, this.prev});
+
+  Meta.fromJson(Map<String, dynamic> json) {
+    items = json['items'];
+    total = json['total'];
+    next = json['next'];
+    prev = json['prev'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['items'] = items;
+    data['total'] = total;
+    data['next'] = next;
+    data['prev'] = prev;
     return data;
   }
 }

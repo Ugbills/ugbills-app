@@ -5,7 +5,7 @@ import 'package:ugbills/helpers/common/data_formatter.dart';
 import 'package:ugbills/models/api/transactions_model.dart';
 import 'package:ugbills/themes/palette.dart';
 
-buildReciept({required ResponseData transaction}) => Scaffold(
+buildReciept({required Transaction transaction}) => Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -76,7 +76,7 @@ buildReciept({required ResponseData transaction}) => Scaffold(
                     ),
                     Expanded(
                       child: Text(
-                        transaction.recipient!,
+                        transaction.beneficiary ?? "N/A",
                         textAlign: TextAlign.end,
                         overflow: TextOverflow.clip,
                       ),
@@ -87,7 +87,7 @@ buildReciept({required ResponseData transaction}) => Scaffold(
                 const SizedBox(
                   height: 10,
                 ),
-                transaction.method!.toLowerCase() == "transfer"
+                transaction.type?.toLowerCase() == "transfer"
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -99,7 +99,7 @@ buildReciept({required ResponseData transaction}) => Scaffold(
                               ),
                               Expanded(
                                 child: Text(
-                                  transaction.accountNumber!,
+                                  transaction.beneficiary ?? "N/A",
                                   textAlign: TextAlign.end,
                                   overflow: TextOverflow.clip,
                                 ),
@@ -114,11 +114,11 @@ buildReciept({required ResponseData transaction}) => Scaffold(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               const Expanded(
-                                child: Text("Beneficiary Bank"),
+                                child: Text("Product"),
                               ),
                               Expanded(
                                 child: Text(
-                                  transaction.bank!,
+                                  transaction.product?.name ?? "N/A",
                                   textAlign: TextAlign.end,
                                   overflow: TextOverflow.clip,
                                 ),
@@ -140,7 +140,7 @@ buildReciept({required ResponseData transaction}) => Scaffold(
                     ),
                     Expanded(
                       child: Text(
-                        "₦${returnAmount(transaction.fee!)}",
+                        "₦${returnAmount(transaction.amount)}",
                         textAlign: TextAlign.end,
                         overflow: TextOverflow.clip,
                       ),
@@ -155,11 +155,11 @@ buildReciept({required ResponseData transaction}) => Scaffold(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Expanded(
-                      child: Text("Naration"),
+                      child: Text("Description"),
                     ),
                     Expanded(
                       child: Text(
-                        transaction.note!,
+                        transaction.description ?? "N/A",
                         textAlign: TextAlign.end,
                         overflow: TextOverflow.clip,
                       ),
@@ -178,7 +178,7 @@ buildReciept({required ResponseData transaction}) => Scaffold(
                     ),
                     Expanded(
                       child: Text(
-                        formartDate(transaction.createdAt!),
+                        formartDate(transaction.createdAt ?? ""),
                         textAlign: TextAlign.end,
                         overflow: TextOverflow.clip,
                       ),
@@ -197,7 +197,7 @@ buildReciept({required ResponseData transaction}) => Scaffold(
                     ),
                     Expanded(
                       child: Text(
-                        transaction.reference!,
+                        transaction.reference ?? "N/A",
                         textAlign: TextAlign.end,
                         overflow: TextOverflow.clip,
                       ),
@@ -216,7 +216,7 @@ buildReciept({required ResponseData transaction}) => Scaffold(
                     ),
                     Expanded(
                       child: Text(
-                        transaction.transactionId!,
+                        transaction.id?.toString() ?? "N/A",
                         textAlign: TextAlign.end,
                         overflow: TextOverflow.clip,
                       ),
@@ -235,7 +235,7 @@ buildReciept({required ResponseData transaction}) => Scaffold(
                     ),
                     Expanded(
                       child: Text(
-                        transaction.status!,
+                        transaction.status ?? "N/A",
                         textAlign: TextAlign.end,
                         overflow: TextOverflow.clip,
                       ),

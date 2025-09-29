@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:short_navigation/short_navigation.dart';
 import 'package:ugbills/controllers/bills/electricity_controller.dart';
-import 'package:ugbills/providers/electricity_provider.dart';
+import 'package:ugbills/helpers/common/amount_formatter.dart';
+import 'package:ugbills/models/api/mobile_electricity_model.dart';
+import 'package:ugbills/providers/mobile_electricity_provider.dart';
 import 'package:ugbills/providers/state/loading_state_provider.dart';
 import 'package:ugbills/screens/user/pay/electricity/electricity_transaction_details.dart';
 import 'package:ugbills/screens/widgets/authenticate_transaction.dart';
@@ -24,6 +26,14 @@ class _ElectricityBillsState extends ConsumerState<ElectricityBills> {
   final TextEditingController _meterNumberController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _typeController = TextEditingController();
+  MobileElectricityProduct? _selectedProvider;
+
+  // Electricity provider icon mapping helper
+  String getElectricityIcon(String providerName) {
+    // Use a default electricity icon or map specific providers
+    return "assets/images/electricity.png"; // Default electricity icon
+  }
+
   @override
   Widget build(BuildContext context) {
     var isValidating = ref.watch(isValidatingProvider);
@@ -43,10 +53,17 @@ class _ElectricityBillsState extends ConsumerState<ElectricityBills> {
           children: [
             const ZeelTextFieldTitle(text: "Select Provider"),
             ZeelSelectTextField(
-                onTap: () => Navigator.push(
-                    context,
-                    _createRoute(ElectricityProvidersWidget(
-                        _providerController, _providerIdController))),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      _createRoute(ElectricityProvidersWidget(
+                          _providerController, _providerIdController,
+                          (provider) {
+                        setState(() {
+                          _selectedProvider = provider;
+                        });
+                      })));
+                },
                 hint: "Select Provider",
                 controller: _providerController),
             const SizedBox(
@@ -94,20 +111,36 @@ class _ElectricityBillsState extends ConsumerState<ElectricityBills> {
                 hint: "Enter your meter number",
                 onEditingComplete: () async {
                   FocusScope.of(context).unfocus();
-                  await ref
-                      .read(electricityControllerProvider.notifier)
-                      .validateName(
-                        customerId: _meterNumberController.text,
-                        productID: _providerIdController.text,
-                        meterType: _typeController.text.toLowerCase(),
-                        ref: ref,
-                      )
-                      .then((value) {
-                    if (value != null) {
-                      ref.read(customerNameProvider.notifier).state =
-                          value.name!;
+                  if (_selectedProvider != null &&
+                      _meterNumberController.text.isNotEmpty) {
+                    try {
+                      ref.read(isValidatingProvider.notifier).state = true;
+                      String? customerName =
+                          await ref.read(validateMobileElectricityMeterProvider(
+                        productCode: _selectedProvider!.code!,
+                        meterNumber: _meterNumberController.text,
+                        meterType: _typeController.text.isNotEmpty
+                            ? _typeController.text
+                            : 'prepaid',
+                      ).future);
+
+                      if (customerName != null) {
+                        ref.read(customerNameProvider.notifier).state =
+                            customerName;
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text('Could not validate meter number')),
+                        );
+                      }
+                    } catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Error: $e')),
+                      );
+                    } finally {
+                      ref.read(isValidatingProvider.notifier).state = false;
                     }
-                  });
+                  }
                 },
                 enabled: true,
                 controller: _meterNumberController),
@@ -133,7 +166,11 @@ class _ElectricityBillsState extends ConsumerState<ElectricityBills> {
             ),
             const ZeelTextFieldTitle(text: "Amount"),
             ZeelTextField(
-                hint: "NGN1000", enabled: true, controller: _amountController),
+                hint: _selectedProvider != null
+                    ? "Min: ₦${returnAmount(_selectedProvider!.minAmount)}"
+                    : "NGN1000",
+                enabled: true,
+                controller: _amountController),
             Expanded(
               child: Align(
                 alignment: Alignment.bottomCenter,
@@ -143,24 +180,33 @@ class _ElectricityBillsState extends ConsumerState<ElectricityBills> {
                           _meterNumberController.text.isNotEmpty
                       ? () {
                           if (customerNameController.isEmpty) {
-                            if (_meterNumberController.text.isEmpty) {
+                            if (_meterNumberController.text.isEmpty ||
+                                _selectedProvider == null) {
                               return;
                             } else {
+                              ref.read(isValidatingProvider.notifier).state =
+                                  true;
                               ref
-                                  .read(electricityControllerProvider.notifier)
-                                  .validateName(
-                                    customerId: _meterNumberController.text,
-                                    productID: _providerIdController.text,
-                                    meterType:
-                                        _typeController.text.toLowerCase(),
-                                    ref: ref,
-                                  )
+                                  .read(validateMobileElectricityMeterProvider(
+                                productCode: _selectedProvider!.code!,
+                                meterNumber: _meterNumberController.text,
+                                meterType: _typeController.text.isNotEmpty
+                                    ? _typeController.text
+                                    : 'prepaid',
+                              ).future)
                                   .then((value) {
                                 if (value != null) {
                                   ref
                                       .read(customerNameProvider.notifier)
-                                      .state = value.name!;
+                                      .state = value;
                                 }
+                              }).catchError((e) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('Error: $e')),
+                                );
+                              }).whenComplete(() {
+                                ref.read(isValidatingProvider.notifier).state =
+                                    false;
                               });
                             }
                           } else {
@@ -195,7 +241,7 @@ class _ElectricityBillsState extends ConsumerState<ElectricityBills> {
                                           _meterNumberController.text, context),
                                       showDetails("Customer Name",
                                           customerNameController, context),
-                                      showDetails("Fee", "₦10.00", context),
+                                      showDetails("Fee", "₦0.00", context),
                                       const SizedBox(height: 24),
                                       ZeelButton(
                                         text: "Confirm",
@@ -207,6 +253,8 @@ class _ElectricityBillsState extends ConsumerState<ElectricityBills> {
                                                     electricityControllerProvider
                                                         .notifier)
                                                 .buy(
+                                                    disco: _providerController
+                                                        .text,
                                                     meterType:
                                                         _typeController.text,
                                                     customerId:
@@ -240,44 +288,80 @@ class _ElectricityBillsState extends ConsumerState<ElectricityBills> {
 class ElectricityProvidersWidget extends ConsumerWidget {
   final TextEditingController providerController;
   final TextEditingController providerIdController;
-  const ElectricityProvidersWidget(
-      this.providerController, this.providerIdController,
+  final Function(MobileElectricityProduct) onProviderSelected;
+  const ElectricityProvidersWidget(this.providerController,
+      this.providerIdController, this.onProviderSelected,
       {super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var providers = ref.watch(fetchElectricityProviderProvider);
+    var providers = ref.watch(fetchMobileElectricityProvidersProvider);
     return Scaffold(
       appBar: AppBar(
         forceMaterialTransparency: true,
-        title: const Text('Providers'),
+        title: const Text('Electricity Providers'),
         leadingWidth: 100,
         leading: const ZeelBackButton(),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0).copyWith(top: 24),
         child: providers.when(
-            error: (error, stackTrace) => Center(child: Text(error.toString())),
+            error: (error, stackTrace) => Center(child: Text('Error: $error')),
             loading: () => const Center(
                   child: CircularProgressIndicator(),
                 ),
-            data: (plans) => ListView.separated(
-                separatorBuilder: (context, index) => const Divider(),
-                itemCount: plans!.data!.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    onTap: () {
-                      providerController.text =
-                          plans.data![index].disco!.toUpperCase();
-                      providerIdController.text = plans.data![index].productId!;
-                      Go.back();
-                    },
-                    title: Text(plans.data![index].disco!.toUpperCase()),
-                    trailing: Text(
-                      "₦${plans.data![index].minAmount} - ₦${plans.data![index].maxAmount}",
-                      overflow: TextOverflow.clip,
-                    ),
-                  );
-                })),
+            data: (products) => products == null || products.isEmpty
+                ? const Center(
+                    child: Text('No electricity providers available'),
+                  )
+                : ListView.separated(
+                    separatorBuilder: (context, index) => const Divider(),
+                    itemCount: products.length,
+                    itemBuilder: (context, index) {
+                      final provider = products[index];
+                      if (provider.visible != true)
+                        return const SizedBox.shrink();
+
+                      return ListTile(
+                        leading: provider.image != null &&
+                                provider.image!.isNotEmpty
+                            ? CircleAvatar(
+                                backgroundImage: NetworkImage(provider.image!),
+                                onBackgroundImageError: (_, __) {},
+                                child: const Icon(Icons.electrical_services),
+                              )
+                            : const CircleAvatar(
+                                child: Icon(Icons.electrical_services),
+                              ),
+                        onTap: () {
+                          providerController.text = provider.name ?? '';
+                          providerIdController.text = provider.code ?? '';
+                          onProviderSelected(provider);
+                          Go.back();
+                        },
+                        title: Text(
+                          provider.name ?? 'Unknown Provider',
+                          style: const TextStyle(fontSize: 14),
+                        ),
+                        subtitle: Text(
+                          "Min: ₦${returnAmount(provider.minAmount)}",
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        trailing:
+                            provider.maxAmount != null && provider.maxAmount > 0
+                                ? Text(
+                                    "Max: ₦${returnAmount(provider.maxAmount)}",
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.green,
+                                    ),
+                                  )
+                                : null,
+                      );
+                    })),
       ),
     );
   }

@@ -12,7 +12,7 @@ import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
 import 'package:ugbills/themes/palette.dart';
 
 class TransactionDetails extends StatelessWidget {
-  final ResponseData transaction;
+  final Transaction transaction;
   const TransactionDetails({
     super.key,
     required this.transaction,
@@ -48,38 +48,40 @@ class TransactionDetails extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ShadAvatar(
-                      transaction.method == "electricity"
+                      transaction.type == "electricity"
                           ? ZeelSvg.electricity
-                          : transaction.method == "cabletv"
+                          : transaction.type == "cabletv"
                               ? ZeelSvg.cable
-                              : transaction.method == "betting"
+                              : transaction.type == "betting"
                                   ? ZeelSvg.bet
-                                  : (transaction.method == "data" ||
-                                          transaction.method == "airtime")
-                                      ? getNetWorkIcon(
-                                              transaction.billProvider!)
+                                  : (transaction.type == "data" ||
+                                          transaction.type == "airtime")
+                                      ? getNetWorkIcon(transaction
+                                                  .product?.name ??
+                                              "MTN")
                                           .toString()
-                                      : transaction.method == "buy_crypto" ||
-                                              transaction.method ==
-                                                  "sell_crypto"
+                                      : transaction.type == "buy_crypto" ||
+                                              transaction.type == "sell_crypto"
                                           ? getCryptoIcon(
-                                                  transaction.billProvider!)
+                                                  transaction.product?.name ??
+                                                      "BTC")
                                               .toString()
-                                          : transaction.method == "coupon"
+                                          : transaction.type == "coupon"
                                               ? ZeelSvg.coupon
-                                              : transaction.method == "transfer"
+                                              : transaction.type == "transfer"
                                                   ? ZeelSvg.money
-                                                  : transaction.method ==
+                                                  : transaction.type ==
                                                           "virtual_card"
                                                       ? ZeelSvg.vc
-                                                      : transaction.method ==
+                                                      : transaction.type ==
                                                               "reward"
                                                           ? ZeelSvg.reward
-                                                          : transaction
-                                                                      .method ==
+                                                          : transaction.type ==
                                                                   "giftcard"
                                                               ? transaction
-                                                                  .billProvider!
+                                                                      .product
+                                                                      ?.name ??
+                                                                  "Gift"
                                                               : ZeelSvg.money,
                       size: const Size(70, 70),
                     ),
@@ -129,16 +131,18 @@ class TransactionDetails extends StatelessWidget {
                     const Text("Transaction details"),
                     const SizedBox(height: 12),
                     showDetails("Transaction Type",
-                        transaction.transactionKind!.toUpperCase(), context),
+                        transaction.type?.toUpperCase() ?? "N/A", context),
                     showDetails("Transaction ID",
-                        transaction.reference!.toUpperCase(), context),
+                        transaction.reference?.toUpperCase() ?? "N/A", context),
                     showDetails("Date & time",
-                        formartDateTime(transaction.createdAt!), context),
-                    showDetails("Recipient", transaction.recipient!, context),
+                        formartDateTime(transaction.createdAt ?? ""), context),
                     showDetails(
-                        "Fee", "₦${returnAmount(transaction.fee)}", context),
-                    showDetails("Note", transaction.note!, context),
-                    showDetails("Session ID", transaction.sessionId!, context),
+                        "Recipient", transaction.beneficiary ?? "N/A", context),
+                    showDetails("Amount",
+                        "₦${returnAmount(transaction.amount)}", context),
+                    showDetails("Description", transaction.description ?? "N/A",
+                        context),
+                    showDetails("Status", transaction.status ?? "N/A", context),
                     const Spacer(),
                     ZeelButton(
                       text: "Share Transaction",

@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:short_navigation/short_navigation.dart';
 import 'package:ugbills/helpers/common/amount_formatter.dart';
 import 'package:ugbills/providers/user_provider.dart';
-import 'package:ugbills/screens/user/more/account_level/tier-2/kyc.dart';
-import 'package:ugbills/screens/user/more/account_level/tier-3/address.dart';
 import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
 import 'package:ugbills/themes/palette.dart';
 
@@ -41,8 +38,7 @@ class AccountLevel extends ConsumerWidget {
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemBuilder: (context, index) {
                                   return selectedTier(
-                                      user!.data!.level! ==
-                                          levels.data![index].levelId!,
+                                      1 == levels.data![index].levelId!,
                                       levels.data![index].name!.toUpperCase(),
                                       "₦${returnAmount(levels.data![index].amountPerDay)}",
                                       levels.data![index].levelId!.toString(),
@@ -52,16 +48,15 @@ class AccountLevel extends ConsumerWidget {
                                 itemCount: levels!.data!.length,
                                 shrinkWrap: true),
                           ),
-                          user!.data!.level! < 3
+                          1 < 3
                               ? Padding(
                                   padding: const EdgeInsets.all(24.0),
                                   child: ZeelButton(
-                                    text:
-                                        "Upgrade to Tier ${user.data!.level! + 1}",
+                                    text: "Upgrade to Tier ${1 + 1}",
                                     onPressed: () {
-                                      Go.to(user.data!.level! == 1
-                                          ? const KYCVerification()
-                                          : EnterAddress());
+                                      // Go.to(user.data!.level! == 1
+                                      //     ? const KYCVerification()
+                                      //     : EnterAddress());
                                     },
                                   ),
                                 )

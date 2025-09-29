@@ -1,9 +1,11 @@
-import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:short_navigation/short_navigation.dart';
 import 'package:ugbills/controllers/bills/tv_controller.dart';
+import 'package:ugbills/helpers/common/amount_formatter.dart';
+import 'package:ugbills/models/api/mobile_cable_model.dart';
 import 'package:ugbills/providers/cable_provider.dart';
+import 'package:ugbills/providers/mobile_cable_provider.dart';
 import 'package:ugbills/providers/state/loading_state_provider.dart';
 import 'package:ugbills/screens/widgets/authenticate_transaction.dart';
 import 'package:ugbills/screens/widgets/text_field_widgets.dart';
@@ -24,13 +26,16 @@ class _TVBillsState extends ConsumerState<TVBills> {
   final TextEditingController _planIdController = TextEditingController();
   final TextEditingController _smartCardController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
+  MobileCableProduct? _selectedProvider;
+  // MobileCableVariation? _selectedVariation; // Will be used for future features
   var plans = [];
   @override
   Widget build(BuildContext context) {
-    var cables = ref.watch(fetchTvProvidersProvider);
+    var cables = ref.watch(fetchMobileCableProvidersProvider);
     var packageController = ref.watch(packageNameProvider);
     var customerNameController = ref.watch(customerNameProvider);
     var isValidating = ref.watch(isValidatingProvider);
+    var isLoading = ref.watch(isLoadingProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('TV'),
@@ -49,7 +54,7 @@ class _TVBillsState extends ConsumerState<TVBills> {
                 ),
                 error: (error, stackTrace) => Center(
                   child: ZeelText(
-                    text: error.toString(),
+                    text: stackTrace.toString(),
                     center: TextAlign.center,
                   ),
                 ),
@@ -68,26 +73,44 @@ class _TVBillsState extends ConsumerState<TVBills> {
                           builder: (context) {
                             return Container(
                               padding: const EdgeInsets.all(10),
-                              height: MediaQuery.of(context).size.height * 0.3,
+                              height: MediaQuery.of(context).size.height * 0.4,
                               child: ListView.separated(
                                 separatorBuilder: (context, index) =>
                                     const Divider(),
                                 itemCount: data!.length,
                                 itemBuilder: (context, index) {
+                                  final provider = data[index];
                                   return Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 10.0),
                                     child: ListTile(
                                       title: Text(
-                                        data[index].toString().capitalize,
+                                        provider.name ?? 'Unknown Provider',
                                         style: const TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
+                                      subtitle: Text(
+                                        provider.code ?? '',
+                                        style: const TextStyle(fontSize: 12),
+                                      ),
                                       onTap: () {
-                                        _providerController.text =
-                                            data[index].toString().capitalize;
+                                        setState(() {
+                                          _selectedProvider = provider;
+                                          _providerController.text =
+                                              provider.name ?? '';
+                                          _packageIdController.clear();
+                                          _amountController.clear();
+                                          ref
+                                              .read(
+                                                  packageNameProvider.notifier)
+                                              .state = '';
+                                          ref
+                                              .read(
+                                                  customerNameProvider.notifier)
+                                              .state = '';
+                                        });
                                         Navigator.pop(context);
                                       },
                                     ),
@@ -104,22 +127,94 @@ class _TVBillsState extends ConsumerState<TVBills> {
                     ),
                     const ZeelTextFieldTitle(text: "Package"),
                     ZeelSelectTextField(
-                      hint: packageController,
-                      onTap: () => {
-                        if (_providerController.text.isEmpty)
-                          {}
-                        else
-                          {
-                            Navigator.push(
-                              context,
-                              _createRoute(BillsPackagesWidget(
-                                  _providerController.text,
-                                  packageNameProvider,
-                                  _packageIdController,
-                                  _planIdController,
-                                  _amountController)),
-                            )
-                          }
+                      hint: packageController.isEmpty
+                          ? "Select Package"
+                          : packageController,
+                      onTap: () {
+                        if (_selectedProvider == null ||
+                            _selectedProvider!.variations == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content:
+                                    Text('Please select a provider first')),
+                          );
+                          return;
+                        }
+
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return Container(
+                              padding: const EdgeInsets.all(10),
+                              height: MediaQuery.of(context).size.height * 0.5,
+                              child: Column(
+                                children: [
+                                  Text(
+                                    'Select ${_selectedProvider!.name} Package',
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Expanded(
+                                    child: ListView.separated(
+                                      separatorBuilder: (context, index) =>
+                                          const Divider(),
+                                      itemCount:
+                                          _selectedProvider!.variations!.length,
+                                      itemBuilder: (context, index) {
+                                        final variation = _selectedProvider!
+                                            .variations![index];
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10.0),
+                                          child: ListTile(
+                                            title: Text(
+                                              variation.name ??
+                                                  'Unknown Package',
+                                              style: const TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            subtitle: Text(
+                                              '₦${returnAmount(variation.price)}',
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.green,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                            onTap: () {
+                                              setState(() {
+                                                _packageIdController.text =
+                                                    variation.code ?? '';
+                                                _amountController.text =
+                                                    variation.price.toString();
+                                                ref
+                                                        .read(
+                                                            packageNameProvider
+                                                                .notifier)
+                                                        .state =
+                                                    variation.name ?? '';
+                                                ref
+                                                    .read(customerNameProvider
+                                                        .notifier)
+                                                    .state = '';
+                                              });
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
                       },
                     ),
                     const SizedBox(
@@ -136,20 +231,41 @@ class _TVBillsState extends ConsumerState<TVBills> {
                                 hint: "Enter your smartcard number",
                                 onEditingComplete: () async {
                                   FocusScope.of(context).unfocus();
-                                  await ref
-                                      .read(tvControllerProvider.notifier)
-                                      .validateName(
-                                        customerId: _smartCardController.text,
-                                        productID: _packageIdController.text,
-                                        ref: ref,
-                                      )
-                                      .then((value) {
-                                    if (value != null) {
+                                  if (_selectedProvider != null &&
+                                      _smartCardController.text.isNotEmpty) {
+                                    try {
                                       ref
-                                          .read(customerNameProvider.notifier)
-                                          .state = value.name!;
+                                          .read(isValidatingProvider.notifier)
+                                          .state = true;
+                                      String? customerName = await ref.read(
+                                          validateMobileCableSmartcardProvider(
+                                        productCode: _selectedProvider!.code!,
+                                        smartcard: _smartCardController.text,
+                                      ).future);
+
+                                      if (customerName != null) {
+                                        ref
+                                            .read(customerNameProvider.notifier)
+                                            .state = customerName;
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                              content: Text(
+                                                  'Could not validate smartcard number')),
+                                        );
+                                      }
+                                    } catch (e) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(content: Text('Error: $e')),
+                                      );
+                                    } finally {
+                                      ref
+                                          .read(isValidatingProvider.notifier)
+                                          .state = false;
                                     }
-                                  });
+                                  }
                                 },
                                 enabled: true,
                                 controller: _smartCardController,
@@ -192,28 +308,39 @@ class _TVBillsState extends ConsumerState<TVBills> {
                               ? "Validate"
                               : "Pay",
                           onPressed: _packageIdController.text.isNotEmpty &&
-                                  _smartCardController.text.isNotEmpty
+                                  _smartCardController.text.isNotEmpty &&
+                                  _selectedProvider != null
                               ? () {
                                   if (customerNameController.isEmpty) {
-                                    if (_smartCardController.text.isEmpty) {
+                                    if (_smartCardController.text.isEmpty ||
+                                        _selectedProvider == null) {
                                       return;
                                     } else {
                                       ref
-                                          .read(tvControllerProvider.notifier)
-                                          .validateName(
-                                            customerId:
-                                                _smartCardController.text,
-                                            productID:
-                                                _packageIdController.text,
-                                            ref: ref,
-                                          )
+                                          .read(isValidatingProvider.notifier)
+                                          .state = true;
+                                      ref
+                                          .read(
+                                              validateMobileCableSmartcardProvider(
+                                        productCode: _selectedProvider!.code!,
+                                        smartcard: _smartCardController.text,
+                                      ).future)
                                           .then((value) {
                                         if (value != null) {
                                           ref
                                               .read(
                                                   customerNameProvider.notifier)
-                                              .state = value.name!;
+                                              .state = value;
                                         }
+                                      }).catchError((e) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(content: Text('Error: $e')),
+                                        );
+                                      }).whenComplete(() {
+                                        ref
+                                            .read(isValidatingProvider.notifier)
+                                            .state = false;
                                       });
                                     }
                                   } else {
@@ -264,34 +391,38 @@ class _TVBillsState extends ConsumerState<TVBills> {
                                               const SizedBox(height: 24),
                                               ZeelButton(
                                                 text: "Confirm",
-                                                onPressed: () {
-                                                  Go.to(ConfirmTransaction(
-                                                      onPinComplete: (pin) {
-                                                    ref
-                                                        .read(
-                                                            tvControllerProvider
-                                                                .notifier)
-                                                        .buy(
-                                                            customerId:
-                                                                _smartCardController
-                                                                    .text,
-                                                            productID:
-                                                                _packageIdController
-                                                                    .text,
-                                                            planId:
-                                                                _planIdController
-                                                                    .text,
-                                                            pin: pin!,
-                                                            context: context,
-                                                            cableName:
-                                                                _providerController
-                                                                    .text,
-                                                            amount:
-                                                                _amountController
-                                                                    .text,
-                                                            ref: ref);
-                                                  }));
-                                                },
+                                                isLoading: isLoading,
+                                                onPressed: isLoading
+                                                    ? null
+                                                    : () {
+                                                        Go.to(
+                                                            ConfirmTransaction(
+                                                                onPinComplete:
+                                                                    (pin) {
+                                                          ref
+                                                              .read(tvControllerProvider
+                                                                  .notifier)
+                                                              .buy(
+                                                                  customerId:
+                                                                      _smartCardController
+                                                                          .text,
+                                                                  productID:
+                                                                      _selectedProvider!
+                                                                          .code!,
+                                                                  planId:
+                                                                      _planIdController
+                                                                          .text,
+                                                                  pin: pin!,
+                                                                  context: context,
+                                                                  cableName:
+                                                                      _selectedProvider!
+                                                                          .name!,
+                                                                  amount:
+                                                                      _amountController
+                                                                          .text,
+                                                                  ref: ref);
+                                                        }));
+                                                      },
                                               )
                                             ])));
                                   }
@@ -363,27 +494,6 @@ class BillsPackagesWidget extends ConsumerWidget {
       ),
     );
   }
-}
-
-Route _createRoute(Widget child) {
-  return PageRouteBuilder(
-    transitionDuration: const Duration(milliseconds: 300),
-    reverseTransitionDuration: const Duration(milliseconds: 300),
-    pageBuilder: (context, animation, secondaryAnimation) => child,
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(0.0, 1.0);
-      const end = Offset.zero;
-      const curve = Curves.ease;
-      final tween =
-          Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-      final offsetAnimation = animation.drive(tween);
-
-      return SlideTransition(
-        position: offsetAnimation,
-        child: child,
-      );
-    },
-  );
 }
 
 Widget showDetails(String lead, String trail, BuildContext context) {

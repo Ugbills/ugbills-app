@@ -6,7 +6,7 @@ part of 'tv_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$tvControllerHash() => r'5cc9c6e3c709a7731e002a194de6358a6a7f348a';
+String _$tvControllerHash() => r'1071e1aa66c0001dfa40cc16e629d47472352d18';
 
 /// See also [TvController].
 @ProviderFor(TvController)

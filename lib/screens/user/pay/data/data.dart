@@ -7,11 +7,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:short_navigation/short_navigation.dart';
+import 'package:ugbills/constants/assets/png.dart';
 import 'package:ugbills/controllers/bills/data_controller.dart';
 import 'package:ugbills/helpers/common/amount_formatter.dart';
 import 'package:ugbills/helpers/common/number_formarter.dart';
 import 'package:ugbills/helpers/forms/validators.dart';
-import 'package:ugbills/providers/network_provider.dart';
+import 'package:ugbills/models/api/databundle_model.dart';
+import 'package:ugbills/providers/databundle_provider.dart';
 import 'package:ugbills/providers/user_provider.dart';
 import 'package:ugbills/screens/user/widgets/widgets.dart';
 import 'package:ugbills/screens/widgets/authenticate_transaction.dart';
@@ -32,12 +34,33 @@ class _DataBillsState extends ConsumerState<DataBills> {
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _planController = TextEditingController();
   final TextEditingController _packageIdController = TextEditingController();
-  var _selectedNetwork = "";
+  DataBundleProduct? _selectedProduct;
   var formKey = GlobalKey<FormState>();
+
+  // Network icon mapping helper
+  String getNetworkIcon(String networkName) {
+    switch (networkName.toLowerCase()) {
+      case 'mtn':
+      case 'mtn bundle':
+        return ZeelPng.mtn;
+      case 'airtel':
+      case 'airtel bundle':
+        return ZeelPng.airtel;
+      case 'glo':
+      case 'glo bundle':
+        return ZeelPng.glo;
+      case '9mobile':
+      case 'etisalat':
+        return ZeelPng.mobile;
+      default:
+        return ZeelPng.mtn;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    var networks = ref.watch(getNetworksProvider);
-    var user = ref.watch(fetchUserInformationProvider);
+    var user = ref.watch(fetchMobileUserInformationProvider);
+    var dataBundles = ref.watch(fetchDataBundlesProvider);
     var theme = ShadTheme.of(context);
     return Scaffold(
       appBar: AppBar(
@@ -53,8 +76,8 @@ class _DataBillsState extends ConsumerState<DataBills> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              networks.when(
-                data: (network) => SizedBox(
+              dataBundles.when(
+                data: (products) => SizedBox(
                   height: 80,
                   child: ListView.separated(
                       separatorBuilder: (context, index) => const SizedBox(
@@ -63,20 +86,32 @@ class _DataBillsState extends ConsumerState<DataBills> {
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
+                        final product = products![index];
                         return ZeelNetwork(
-                          icon: network.data![index].icon!,
-                          selected: _selectedNetwork == network.data![index].id,
+                          icon: getNetworkIcon(product.name ?? ''),
+                          selected: _selectedProduct?.code == product.code,
                           onTap: () {
                             setState(() {
-                              _selectedNetwork = network.data![index].id!;
+                              _selectedProduct = product;
+                              _planController.clear();
+                              _packageIdController.clear();
+                              _amountController.clear();
                             });
                           },
                         );
                       },
-                      itemCount: network!.data!.length),
+                      itemCount: products?.length ?? 0),
                 ),
-                error: (error, _) => Text(error.toString()),
-                loading: () => const CircularProgressIndicator(),
+                loading: () => const SizedBox(
+                  height: 80,
+                  child: Center(child: CircularProgressIndicator()),
+                ),
+                error: (error, _) => SizedBox(
+                  height: 80,
+                  child: Center(
+                    child: Text('Error loading networks: $error'),
+                  ),
+                ),
               ),
               const SizedBox(
                 height: 20,
@@ -92,12 +127,17 @@ class _DataBillsState extends ConsumerState<DataBills> {
                       validator: packageValidator,
                       controller: _planController,
                       onTap: () {
-                        if (_selectedNetwork.isEmpty) {
+                        if (_selectedProduct == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Please select a network first'),
+                            ),
+                          );
                         } else {
                           Navigator.push(
                             context,
                             _createRoute(BillsPackagesWidget(
-                                _selectedNetwork,
+                                _selectedProduct!,
                                 _planController,
                                 _packageIdController,
                                 _amountController)),
@@ -182,16 +222,18 @@ class _DataBillsState extends ConsumerState<DataBills> {
                           MaterialPageRoute(
                             builder: (_) => ConfirmTransaction(
                               onPinComplete: (pin) async {
-                                await buyData(
-                                  context: context,
-                                  planId: _packageIdController.text,
-                                  dataPlan: _planController.text,
-                                  phoneNumber: _phoneNumberController.text,
-                                  pin: pin!,
-                                  ref: ref,
-                                  amount: _amountController.text,
-                                  network: _selectedNetwork,
-                                );
+                                await ref
+                                    .read(dataControllerProvider.notifier)
+                                    .buy(
+                                      context: context,
+                                      phoneNumber: _phoneNumberController.text,
+                                      planId: _packageIdController.text,
+                                      dataPlan: _planController.text,
+                                      amount: _amountController.text,
+                                      pin: pin!,
+                                      ref: ref,
+                                      network: _selectedProduct!.code!,
+                                    );
                               },
                             ),
                           ),
@@ -210,45 +252,55 @@ class _DataBillsState extends ConsumerState<DataBills> {
 }
 
 class BillsPackagesWidget extends ConsumerWidget {
-  final String networkId;
+  final DataBundleProduct product;
   final TextEditingController packageController;
   final TextEditingController packageIdController;
   final TextEditingController amountController;
-  const BillsPackagesWidget(this.networkId, this.packageController,
+  const BillsPackagesWidget(this.product, this.packageController,
       this.packageIdController, this.amountController,
       {super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var plans = ref.watch(getDataPlansProvider(networkId: networkId));
     return Scaffold(
       appBar: AppBar(
         forceMaterialTransparency: true,
-        title: const Text('Bills & Packages'),
+        title: Text('${product.name} Plans'),
         leadingWidth: 100,
         leading: const ZeelBackButton(),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0).copyWith(top: 24),
-        child: plans.when(
-            error: (error, stackTrace) => Center(child: Text(error.toString())),
-            loading: () => const Center(
-                  child: CircularProgressIndicator(),
-                ),
-            data: (plans) => ListView.separated(
+        child: product.variations?.isEmpty ?? true
+            ? const Center(
+                child: Text('No plans available for this network'),
+              )
+            : ListView.separated(
                 separatorBuilder: (context, index) => const Divider(),
-                itemCount: plans!.data!.length,
+                itemCount: product.variations?.length ?? 0,
                 itemBuilder: (context, index) {
+                  final variation = product.variations![index];
+                  if (variation.visible != true) return const SizedBox.shrink();
+
                   return ListTile(
                     onTap: () {
-                      packageController.text = plans.data![index].plan!;
-                      packageIdController.text = plans.data![index].id!;
-                      amountController.text = "NGN${plans.data![index].cost}";
+                      packageController.text = variation.name ?? '';
+                      packageIdController.text = variation.code ?? '';
+                      amountController.text = "NGN${variation.price}";
                       Go.back();
                     },
-                    title: Text(plans.data![index].plan!),
-                    trailing: Text("₦${plans.data![index].cost}"),
+                    title: Text(
+                      variation.name ?? 'Unknown Plan',
+                      style: const TextStyle(fontSize: 14),
+                    ),
+                    trailing: Text(
+                      "₦${returnAmount(variation.price)}",
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.green,
+                      ),
+                    ),
                   );
-                })),
+                }),
       ),
     );
   }

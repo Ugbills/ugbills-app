@@ -12,6 +12,7 @@ class ElectricityTransactionDetails extends StatelessWidget {
       serviceProvider,
       type,
       pin,
+      units,
       fee;
   const ElectricityTransactionDetails({
     super.key,
@@ -24,6 +25,7 @@ class ElectricityTransactionDetails extends StatelessWidget {
     required this.type,
     required this.pin,
     required this.fee,
+    required this.units,
   });
 
   @override
@@ -112,7 +114,8 @@ class ElectricityTransactionDetails extends StatelessWidget {
                     showDetails("Meter Number", meterNumber, context),
                     showDetails("Service Provider", serviceProvider, context),
                     showDetails("Type", type, context),
-                    showDetails("Pin", pin, context),
+                    showDetails("Token", pin, context),
+                    showDetails("Units", units, context),
                     showDetails("Fee", "₦$fee", context),
                     const Spacer(),
                     ZeelButton(

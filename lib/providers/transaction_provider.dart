@@ -18,7 +18,7 @@ var tokenStorage = TokenStorage();
 var httpService = HttpService();
 
 @Riverpod(keepAlive: false)
-Future<List<ResponseData>?> fetchUserTransactions(
+Future<List<Transaction>?> fetchUserTransactions(
   FetchUserTransactionsRef ref, {
   int? page = 1,
   int? limit = 10,
@@ -28,18 +28,14 @@ Future<List<ResponseData>?> fetchUserTransactions(
     log(token!);
     var response = await httpService.getRequest(
         "${Endpoints.userTransactions}?page=$page&size=$limit",
-        headers: {
-          'X-Forwarded-For': '1234',
-          'Y-decryption-key': '1234',
-          "ZEEL-SECURE-KEY": token
-        },
+        headers: {"ZEEL-SECURE-KEY": token},
         responseType: ResponseType.plain);
     if (response.statusCode == 200) {
       log(response.data);
       var data = jsonDecode(response.data);
 
       var transactions = TransactionsModel.fromJson(data);
-      return transactions.data!.responseData;
+      return transactions.transactions;
     }
   } on DioException catch (e) {
     throw Exception(e);

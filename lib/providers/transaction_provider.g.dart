@@ -7,7 +7,7 @@ part of 'transaction_provider.dart';
 // **************************************************************************
 
 String _$fetchUserTransactionsHash() =>
-    r'8f56f0088cca43248649ec78c1e7a39d789c6170';
+    r'4d2cf60307f6405f462170cce752fbf7146d3af8';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -36,7 +36,7 @@ const fetchUserTransactionsProvider = FetchUserTransactionsFamily();
 
 /// See also [fetchUserTransactions].
 class FetchUserTransactionsFamily
-    extends Family<AsyncValue<List<ResponseData>?>> {
+    extends Family<AsyncValue<List<Transaction>?>> {
   /// See also [fetchUserTransactions].
   const FetchUserTransactionsFamily();
 
@@ -78,7 +78,7 @@ class FetchUserTransactionsFamily
 
 /// See also [fetchUserTransactions].
 class FetchUserTransactionsProvider
-    extends AutoDisposeFutureProvider<List<ResponseData>?> {
+    extends AutoDisposeFutureProvider<List<Transaction>?> {
   /// See also [fetchUserTransactions].
   FetchUserTransactionsProvider({
     int? page = 1,
@@ -118,7 +118,7 @@ class FetchUserTransactionsProvider
 
   @override
   Override overrideWith(
-    FutureOr<List<ResponseData>?> Function(FetchUserTransactionsRef provider)
+    FutureOr<List<Transaction>?> Function(FetchUserTransactionsRef provider)
         create,
   ) {
     return ProviderOverride(
@@ -137,7 +137,7 @@ class FetchUserTransactionsProvider
   }
 
   @override
-  AutoDisposeFutureProviderElement<List<ResponseData>?> createElement() {
+  AutoDisposeFutureProviderElement<List<Transaction>?> createElement() {
     return _FetchUserTransactionsProviderElement(this);
   }
 
@@ -159,7 +159,7 @@ class FetchUserTransactionsProvider
 }
 
 mixin FetchUserTransactionsRef
-    on AutoDisposeFutureProviderRef<List<ResponseData>?> {
+    on AutoDisposeFutureProviderRef<List<Transaction>?> {
   /// The parameter `page` of this provider.
   int? get page;
 
@@ -168,7 +168,7 @@ mixin FetchUserTransactionsRef
 }
 
 class _FetchUserTransactionsProviderElement
-    extends AutoDisposeFutureProviderElement<List<ResponseData>?>
+    extends AutoDisposeFutureProviderElement<List<Transaction>?>
     with FetchUserTransactionsRef {
   _FetchUserTransactionsProviderElement(super.provider);
 

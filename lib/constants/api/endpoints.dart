@@ -1,12 +1,15 @@
 class Endpoints {
   // Base URL
-  static const baseUrl = 'https://devapi.UgBills.app/api/v1/';
+  static const baseUrl = 'https://192.168.1.153:3443/api/';
+
+  // Mobile API Base
+  static const mobileApi = '${baseUrl}mobile/v1/';
 
   // Auth
   static const auth = 'auth/';
-  static const login = '${auth}login/';
-  static const passwordLogin = '${login}password';
-  static const pinLogin = '${login}pin';
+  static const login = '${auth}login';
+  static const passwordLogin = login;
+  static const pinLogin = '$login/pin';
   static const signupStart = '${auth}start';
   static const signup = '${auth}signup';
   static const verifyEmail = '${auth}verify/email';
@@ -28,12 +31,16 @@ class Endpoints {
   static const userNotificationToken = '$user/notification/token';
 
   static const userNotifications = '$user/notifications/';
-  static const userTransactions = '$user/transactions';
+  static const userTransactions = '${mobileApi}transactions';
   static const userBeneficiaries = '$user/bank/beneficiaries';
   static const userReferrals = '$user/refferals';
   static const userDelete = '$user/account/close';
   static const bvnUpdate = '$user/upgrade/level2/submit';
   static const addressUpdate = '$user/upgrade/level3';
+
+  // Mobile API endpoints
+  static const mobileMe = '${mobileApi}me';
+  static const mobileDataBundle = '${mobileApi}databundle';
 
   //coupon
   static const redeemCoupon = '${baseUrl}coupon/redeem';

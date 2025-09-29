@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:short_navigation/short_navigation.dart';
 import 'package:ugbills/constants/assets/svg.dart';
-import 'package:ugbills/controllers/bills/data_controller.dart';
 import 'package:ugbills/helpers/common/data_formatter.dart';
 import 'package:ugbills/providers/transaction_provider.dart';
 import 'package:ugbills/screens/user/home/transaction/details.dart';
@@ -44,46 +43,8 @@ class TransactionHistoryWidget extends ConsumerWidget {
                         children: [
                           Row(
                             children: [
-                              ShadImage(
-                                activity[index].method == "electricity"
-                                    ? ZeelSvg.electricity
-                                    : activity[index].method == "cabletv"
-                                        ? ZeelSvg.cable
-                                        : activity[index].method == "betting"
-                                            ? ZeelSvg.bet
-                                            : (activity[index].method ==
-                                                        "data" ||
-                                                    activity[index].method ==
-                                                        "airtime")
-                                                ? getNetWorkIcon(activity[index]
-                                                        .billProvider!)
-                                                    .toString()
-                                                : activity[index].method ==
-                                                            "buy_crypto" ||
-                                                        activity[index].method ==
-                                                            "sell_crypto"
-                                                    ? getCryptoIcon(
-                                                            activity[index]
-                                                                .billProvider!)
-                                                        .toString()
-                                                    : activity[index].method ==
-                                                            "coupon"
-                                                        ? ZeelSvg.coupon
-                                                        : activity[index]
-                                                                    .method ==
-                                                                "transfer"
-                                                            ? ZeelSvg.money
-                                                            : activity[index]
-                                                                        .method ==
-                                                                    "virtual_card"
-                                                                ? ZeelSvg.vc
-                                                                : activity[index]
-                                                                            .method ==
-                                                                        "reward"
-                                                                    ? ZeelSvg
-                                                                        .reward
-                                                                    : ZeelSvg
-                                                                        .money,
+                              const ShadImage(
+                                ZeelSvg.money,
                                 height: 40,
                                 width: 40,
                                 fit: BoxFit.contain,
@@ -93,8 +54,7 @@ class TransactionHistoryWidget extends ConsumerWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    activity[index]
-                                        .method!
+                                    (activity[index].operation ?? "N/A")
                                         .toUpperCase()
                                         .replaceAll("_", " "),
                                     style: const TextStyle(
@@ -102,7 +62,8 @@ class TransactionHistoryWidget extends ConsumerWidget {
                                     ),
                                   ),
                                   Text(
-                                    formartDate(activity[index].createdAt!),
+                                    formartDate(
+                                        activity[index].createdAt ?? ""),
                                     style: const TextStyle(
                                       fontSize: 10,
                                       color: Colors.grey,
@@ -116,7 +77,7 @@ class TransactionHistoryWidget extends ConsumerWidget {
                             "NGN${activity[index].amount}",
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
-                              color: activity[index].status!.toLowerCase() ==
+                              color: activity[index].status?.toLowerCase() ==
                                       "success"
                                   ? ZealPalette.successGreen
                                   : ZealPalette.errorRed,

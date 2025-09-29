@@ -5,6 +5,7 @@ import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:short_navigation/short_navigation.dart';
 import 'package:ugbills/constants/assets/png.dart';
 import 'package:ugbills/constants/assets/svg.dart';
+import 'package:ugbills/providers/user_provider.dart';
 import 'package:ugbills/screens/user/home/transaction/history.dart';
 import 'package:ugbills/screens/user/home/transaction/widgets/transaction_history_widget.dart';
 import 'package:ugbills/screens/user/more/account_level/tier-2/kyc.dart';
@@ -29,13 +30,37 @@ class DashBoardScreen extends ConsumerStatefulWidget {
 class _DashBoardScreenState extends ConsumerState<DashBoardScreen> {
   bool stealthMode = false;
 
+  String formatCurrency(dynamic amount) {
+    if (amount == null) return '₦0.00';
+
+    // Handle both string and numeric values
+    double value = 0.0;
+    if (amount is String) {
+      value = double.tryParse(amount) ?? 0.0;
+    } else if (amount is num) {
+      value = amount.toDouble();
+    }
+
+    // Format with commas
+    final formatted = value.toStringAsFixed(2);
+    final parts = formatted.split('.');
+    final whole = parts[0].replaceAllMapped(
+      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+      (match) => '${match[1]},',
+    );
+
+    return '₦$whole.${parts[1]}';
+  }
+
   @override
   Widget build(BuildContext context) {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       backgroundColor: isDark ? ZealPalette.scaffoldBlack : null,
       body: RefreshIndicator(
-          onRefresh: () async {},
+          onRefresh: () async {
+            ref.refresh(fetchMobileUserInformationProvider);
+          },
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -45,6 +70,7 @@ class _DashBoardScreenState extends ConsumerState<DashBoardScreen> {
                     // Balance card section with background image
                     Container(
                       decoration: const BoxDecoration(
+                        color: Color(0xff1C41AB),
                         image: DecorationImage(
                           opacity: 0.22,
                           image: AssetImage(ZeelPng.backgroundImage),
@@ -57,53 +83,82 @@ class _DashBoardScreenState extends ConsumerState<DashBoardScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const SizedBox(
-                              height: 40,
+                              height: 50,
                             ),
-                            const Text(
-                              "Balance",
+                            Text(
+                              "Wallet Balance",
                               style: TextStyle(
                                 fontSize: 18,
-                                color: Colors.grey,
+                                color: Colors.grey[200],
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      stealthMode ? "₦****" : "₦2,000,000",
-                                      style: const TextStyle(
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Row(
-                                      children: [
-                                        Container(
-                                          margin:
-                                              const EdgeInsets.only(top: 10),
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 8, vertical: 4),
-                                          decoration: const BoxDecoration(
-                                            color: Color.fromARGB(
-                                                255, 255, 230, 230),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(20)),
-                                          ),
-                                          child: const Text(
-                                            "Daily Limit: ₦500,000",
-                                            style: TextStyle(
-                                              color: Colors.red,
-                                              fontWeight: FontWeight.bold,
+                                Expanded(
+                                  child: Consumer(
+                                    builder: (context, ref, child) {
+                                      final userAsyncValue = ref.watch(
+                                          fetchMobileUserInformationProvider);
+
+                                      return userAsyncValue.when(
+                                        data: (userModel) {
+                                          final walletBalance =
+                                              userModel?.data?.walletBalance ??
+                                                  0;
+                                          final displayBalance = stealthMode
+                                              ? "₦****"
+                                              : formatCurrency(walletBalance);
+
+                                          return Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                displayBalance,
+                                                style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 22,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                        loading: () => Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              stealthMode
+                                                  ? "₦****"
+                                                  : "Loading...",
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 22,
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                             ),
-                                          ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                  ],
+                                        error: (error, stackTrace) => Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              stealthMode ? "₦****" : "₦0.00",
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 22,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 ),
                                 const SizedBox(
                                   width: 20,
@@ -118,9 +173,7 @@ class _DashBoardScreenState extends ConsumerState<DashBoardScreen> {
                                     stealthMode
                                         ? ZeelSvg.eye
                                         : ZeelSvg.eyeSlash,
-                                    color: ShadTheme.of(context)
-                                        .colorScheme
-                                        .primary,
+                                    color: Colors.white,
                                     width: 25,
                                     height: 25,
                                   ),
@@ -133,6 +186,90 @@ class _DashBoardScreenState extends ConsumerState<DashBoardScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: () {
+                                      Go.to(const FundOptions());
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.all(10),
+                                      height: 60,
+                                      width: MediaQuery.of(context).size.width,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: ShadTheme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                        ),
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: isDark
+                                            ? ZealPalette.darkModeSend
+                                            : Colors.white,
+                                      ),
+                                      child: Center(
+                                          child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "Fund Wallet",
+                                            style: TextStyle(
+                                              color: ShadTheme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
+                                      )),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: () {
+                                      Go.to(const FundOptions());
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.all(10),
+                                      height: 60,
+                                      width: MediaQuery.of(context).size.width,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: ShadTheme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                        ),
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: isDark
+                                            ? ZealPalette.darkModeSend
+                                            : Colors.white,
+                                      ),
+                                      child: Center(
+                                          child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "Transfer",
+                                            style: TextStyle(
+                                              color: ShadTheme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
+                                      )),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
                                 Expanded(
                                   child: InkWell(
                                     onTap: () {
@@ -206,52 +343,6 @@ class _DashBoardScreenState extends ConsumerState<DashBoardScreen> {
                                       height: 60,
                                       width: MediaQuery.of(context).size.width,
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: isDark
-                                            ? ZealPalette.darkModeSend
-                                            : ShadTheme.of(context)
-                                                .colorScheme
-                                                .primary,
-                                      ),
-                                      child: const Center(
-                                          child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            "Send Money",
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          ShadImage(
-                                            ZeelSvg.fund,
-                                            color: Colors.white,
-                                            width: 20,
-                                            height: 20,
-                                          )
-                                        ],
-                                      )),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Expanded(
-                                  child: InkWell(
-                                    onTap: () {
-                                      Go.to(const FundOptions());
-                                    },
-                                    child: Container(
-                                      padding: const EdgeInsets.all(10),
-                                      height: 60,
-                                      width: MediaQuery.of(context).size.width,
-                                      decoration: BoxDecoration(
                                         border: Border.all(
                                           color: ShadTheme.of(context)
                                               .colorScheme
@@ -268,7 +359,7 @@ class _DashBoardScreenState extends ConsumerState<DashBoardScreen> {
                                             MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                            "Fund Wallet",
+                                            "Withdraw",
                                             style: TextStyle(
                                               color: ShadTheme.of(context)
                                                   .colorScheme
@@ -276,17 +367,6 @@ class _DashBoardScreenState extends ConsumerState<DashBoardScreen> {
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          ShadImage(
-                                            ZeelSvg.send,
-                                            color: ShadTheme.of(context)
-                                                .colorScheme
-                                                .primary,
-                                            width: 20,
-                                            height: 20,
-                                          )
                                         ],
                                       )),
                                     ),
@@ -450,6 +530,9 @@ class _DashBoardScreenState extends ConsumerState<DashBoardScreen> {
       margin: const EdgeInsets.symmetric(vertical: 24).copyWith(bottom: 10),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.white,
+        ),
         color: ZealPalette.primaryBlue,
         borderRadius: BorderRadius.circular(10),
       ),
@@ -605,3 +688,29 @@ List<Widget> _buildMenuItems(BuildContext context) {
 //     },
 //   );
 // }
+
+
+
+                                    // Row(
+                                    //   children: [
+                                    //     Container(
+                                    //       margin:
+                                    //           const EdgeInsets.only(top: 10),
+                                    //       padding: const EdgeInsets.symmetric(
+                                    //           horizontal: 8, vertical: 4),
+                                    //       decoration: const BoxDecoration(
+                                    //         color: Color.fromARGB(
+                                    //             255, 255, 230, 230),
+                                    //         borderRadius: BorderRadius.all(
+                                    //             Radius.circular(20)),
+                                    //       ),
+                                    //       child: const Text(
+                                    //         "Daily Limit: ₦500,000",
+                                    //         style: TextStyle(
+                                    //           color: Colors.red,
+                                    //           fontWeight: FontWeight.bold,
+                                    //         ),
+                                    //       ),
+                                    //     ),
+                                    //   ],
+                                    // ),

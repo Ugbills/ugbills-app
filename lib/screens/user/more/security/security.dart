@@ -18,7 +18,7 @@ class SecuritySettings extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var user = ref.watch(fetchUserInformationProvider);
+    var user = ref.watch(fetchMobileUserInformationProvider);
 
     var biometrics = ref.watch(biometricsProvider);
     //show dialog to reset pin

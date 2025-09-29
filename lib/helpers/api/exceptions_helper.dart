@@ -57,7 +57,7 @@ class ApiExceptions {
         errorDescription = 'Send Timeout';
       }
       if (e.type == DioExceptionType.unknown) {
-        errorDescription = 'Unknown Error';
+        errorDescription = 'Unexpected Error occurred';
       }
     }
     return errorDescription;

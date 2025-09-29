@@ -24,11 +24,11 @@ class ZeelActionButton extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            height: 70,
+            height: 80,
             width: 80,
             decoration: BoxDecoration(
               color: color,
-              borderRadius: BorderRadius.circular(5),
+              borderRadius: BorderRadius.circular(100),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -38,7 +38,7 @@ class ZeelActionButton extends StatelessWidget {
                   color: isDark
                       ? ZealPalette.primaryBlue
                       : ZealPalette.primaryBlue,
-                  size: 20,
+                  size: 30,
                 ),
               ],
             ),

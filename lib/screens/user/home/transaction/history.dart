@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:short_navigation/short_navigation.dart';
 import 'package:ugbills/constants/assets/svg.dart';
-import 'package:ugbills/controllers/bills/data_controller.dart';
 import 'package:ugbills/helpers/common/amount_formatter.dart';
 import 'package:ugbills/helpers/common/data_formatter.dart';
 import 'package:ugbills/providers/transaction_provider.dart';
@@ -46,8 +45,14 @@ class TransactionHistory extends ConsumerWidget {
               : GroupedListView<dynamic, String>(
                   elements: activity,
                   groupBy: (element) {
-                    final date = DateTime.parse(element.createdAt!);
-                    return "${date.year}-${date.month.toString().padLeft(2, '0')}-01";
+                    final dateStr = element.createdAt ?? "";
+                    if (dateStr.isEmpty) return "1970-01-01";
+                    try {
+                      final date = DateTime.parse(dateStr);
+                      return "${date.year}-${date.month.toString().padLeft(2, '0')}-01";
+                    } catch (e) {
+                      return "1970-01-01";
+                    }
                   },
                   groupSeparatorBuilder: (String groupByValue) {
                     final date = DateTime.parse(groupByValue);
@@ -88,50 +93,8 @@ class TransactionHistory extends ConsumerWidget {
                                     height: 40,
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(100),
-                                      child: ShadImage(
-                                        element.method == "electricity"
-                                            ? ZeelSvg.electricity
-                                            : element.method == "cabletv"
-                                                ? ZeelSvg.cable
-                                                : element.method == "betting"
-                                                    ? ZeelSvg.bet
-                                                    : (element.method ==
-                                                                "data" ||
-                                                            element.method ==
-                                                                "airtime")
-                                                        ? getNetWorkIcon(element
-                                                                .billProvider)
-                                                            .toString()
-                                                        : element.method ==
-                                                                "swap"
-                                                            ? getNetWorkIcon(
-                                                                    element
-                                                                        .billProvider)
-                                                                .toString()
-                                                            : element.method ==
-                                                                        "buy_crypto" ||
-                                                                    element.method ==
-                                                                        "sell_crypto"
-                                                                ? getCryptoIcon(
-                                                                        element
-                                                                            .billProvider)
-                                                                    .toString()
-                                                                : element.method ==
-                                                                        "coupon"
-                                                                    ? ZeelSvg
-                                                                        .coupon
-                                                                    : element.method ==
-                                                                            "transfer"
-                                                                        ? ZeelSvg
-                                                                            .money
-                                                                        : element.method ==
-                                                                                "virtual_card"
-                                                                            ? ZeelSvg.vc
-                                                                            : element.method == "reward"
-                                                                                ? ZeelSvg.reward
-                                                                                : element.method == "giftcard"
-                                                                                    ? element.billProvider!.toString()
-                                                                                    : ZeelSvg.money,
+                                      child: const ShadImage<String>(
+                                        ZeelSvg.money,
                                         height: 40,
                                         width: 40,
                                         fit: BoxFit.contain,
@@ -144,7 +107,7 @@ class TransactionHistory extends ConsumerWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        element.method!
+                                        (element.operation ?? "N/A")
                                             .toUpperCase()
                                             .replaceAll("_", " "),
                                         overflow: TextOverflow.clip,
@@ -154,7 +117,7 @@ class TransactionHistory extends ConsumerWidget {
                                         ),
                                       ),
                                       Text(
-                                        formartDate(element.createdAt!),
+                                        formartDate(element.createdAt ?? ""),
                                         style: const TextStyle(
                                           fontSize: 10,
                                           color: Colors.grey,
@@ -165,7 +128,7 @@ class TransactionHistory extends ConsumerWidget {
                                 ],
                               ),
                               Text(
-                                "₦${returnAmount(element.amount!)}",
+                                "₦${returnAmount(element.amount)}",
                                 style: const TextStyle(
                                   fontWeight: FontWeight.w700,
                                 ),
@@ -176,8 +139,11 @@ class TransactionHistory extends ConsumerWidget {
                       ),
                     );
                   },
-                  itemComparator: (item1, item2) =>
-                      item1.createdAt!.compareTo(item2.createdAt!),
+                  itemComparator: (item1, item2) {
+                    final date1 = item1.createdAt ?? "";
+                    final date2 = item2.createdAt ?? "";
+                    return date1.compareTo(date2);
+                  },
                   order: GroupedListOrder.DESC,
                 ),
         ),

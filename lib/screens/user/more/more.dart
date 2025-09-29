@@ -2,20 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:short_navigation/short_navigation.dart';
-import 'package:ugbills/constants/assets/png.dart';
 import 'package:ugbills/constants/assets/svg.dart';
-import 'package:ugbills/helpers/common/amount_formatter.dart';
 import 'package:ugbills/helpers/storage/theme.dart';
 import 'package:ugbills/providers/state/theme_state_provider.dart';
 import 'package:ugbills/providers/user_provider.dart';
 import 'package:ugbills/screens/user/more/about/about.dart';
-import 'package:ugbills/screens/user/more/account_level/account_level.dart';
-import 'package:ugbills/screens/user/more/beneficiaries/beneficiaries.dart';
 import 'package:ugbills/screens/user/more/contact/contact.dart';
 import 'package:ugbills/screens/user/more/profile/edit.dart';
 import 'package:ugbills/screens/user/more/refer-and-earn/refer_and_earn.dart';
 import 'package:ugbills/screens/user/more/security/security.dart';
-import 'package:ugbills/screens/user/more/statement/statement.dart';
 import 'package:ugbills/screens/user/widgets/zeel_tile.dart';
 import 'package:ugbills/themes/palette.dart';
 
@@ -25,7 +20,7 @@ class More extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
-    var userinfo = ref.watch(fetchUserInformationProvider);
+    var userinfo = ref.watch(fetchMobileUserInformationProvider);
 
     var darkMode = ref.watch(themeModeProvider);
     return Scaffold(
@@ -46,20 +41,13 @@ class More extends ConsumerWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            CircleAvatar(
-                              radius: 30,
-                              backgroundImage: user!
-                                      .data!.profilePicture!.isEmpty
-                                  ? const AssetImage(ZeelPng.avatar)
-                                  : NetworkImage(user.data!.profilePicture!),
-                            ),
                             const SizedBox(width: 10),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                    "${user.data!.firstName!} ${user.data!.lastName!}",
+                                    "${user!.data!.firstName!} ${user.data!.lastName!}",
                                     style: ShadTheme.of(context)
                                         .textTheme
                                         .small
@@ -73,7 +61,7 @@ class More extends ConsumerWidget {
                                     const Text("Transfer Limit: "),
                                     Text(
                                         overflow: TextOverflow.clip,
-                                        "₦${returnAmount(user.data!.transferLimit!)} / ₦${returnAmount(user.data!.transferLevelLimit!)}",
+                                        "₦",
                                         style: ShadTheme.of(context)
                                             .textTheme
                                             .small
@@ -155,24 +143,9 @@ List<Tiles> tiles = [
     route: EditProfile(),
   ),
   Tiles(
-    title: "Account Statement",
-    leadingIcon: ZeelSvg.accountStatement,
-    route: const AccountStatement(),
-  ),
-  Tiles(
-    title: "Account Levels",
-    leadingIcon: ZeelSvg.accountLevels,
-    route: const AccountLevel(),
-  ),
-  Tiles(
     title: "Refer and Earn",
     leadingIcon: ZeelSvg.refer,
     route: const ReferAndEarn(),
-  ),
-  Tiles(
-    title: "Beneficiaries",
-    leadingIcon: ZeelSvg.beneficiary,
-    route: const SavedBeneficiaries(),
   ),
   Tiles(
     title: "Security Settings",

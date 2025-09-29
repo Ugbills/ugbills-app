@@ -18,7 +18,7 @@ class FundAmountScreen extends ConsumerWidget {
     var amount = ref.watch(amountProvider);
     bool isDark = Theme.of(context).brightness == Brightness.dark;
 
-    var user = ref.watch(fetchUserInformationProvider);
+    var user = ref.watch(fetchMobileUserInformationProvider);
     return Scaffold(
       backgroundColor:
           isDark ? ZealPalette.scaffoldBlack : theme.colorScheme.primary,

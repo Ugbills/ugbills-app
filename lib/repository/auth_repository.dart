@@ -1,15 +1,12 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:short_navigation/short_navigation.dart';
-import 'package:ugbills/constants/api/endpoints.dart';
+import 'package:ugbills/constants/api/mobile_endpoints.dart';
 import 'package:ugbills/helpers/api/response_helper.dart';
 import 'package:ugbills/helpers/snacks/snacks_helper.dart';
 import 'package:ugbills/helpers/storage/token.dart';
@@ -35,34 +32,32 @@ class AuthRepository {
       BuildContext context) async {
     try {
       //get devices notification token
-      var token = await FirebaseMessaging.instance.getToken();
-      log(token.toString());
+      // var token = await FirebaseMessaging.instance.getToken();
+      // log(token.toString());
 
       var message = "";
       await api.handleRequest(
-          endpoint: Endpoints.passwordLogin,
+          endpoint: MobileEndpoints.login,
           requestType: RequestType.post,
-          data: {
-            'email': email.trim(),
-            'password': password,
-            "device_name": "string",
-            "device_id": token,
-            "operating_system": Platform.operatingSystem,
-            "latitude": "string",
-            "longitude": "string"
-          },
+          data: {'email': email.trim(), 'password': password},
           onSuccess: (data) async {
             var json = jsonDecode(data);
-            message = json["message"];
-            await TokenStorage().storeToken(json["data"]["access_key"]);
-            await UserStorage().update(json["data"]["user_id"]);
-            await UserStorage().updateEmail(email.trim());
-            // await UserStorage().updatePin(json["data"]["pin"]);
-            ref.invalidate(fetchUserInformationProvider);
-            ref.invalidate(fetchUserTransactionsProvider());
-            saveNotificationToken();
-            await successSnack(context, message);
-            Go.toRemoveAll(const UserScreen());
+            log(json.toString());
+            if (json["success"] == true) {
+              message = json["message"];
+              await TokenStorage().storeToken(json["data"]["access_key"]);
+              await UserStorage().update(json["data"]["user_id"].toString());
+              await UserStorage().updateEmail(email.trim());
+              // ref.invalidate(fetchUserInformationProvider);
+              // ref.invalidate(fetchUserTransactionsProvider());
+              // saveNotificationToken();
+              await successSnack(context, message);
+              Go.toRemoveAll(const UserScreen());
+            } else {
+              log(json.toString());
+              message = json["message"] ?? "Login failed";
+              errorSnack(context, message);
+            }
           },
           onError: (getmessage) async {
             errorSnack(context, getmessage);
@@ -71,6 +66,7 @@ class AuthRepository {
           });
       return message;
     } catch (e) {
+      log("something went wrong");
       log(e.toString());
       throw Exception(e);
     }
@@ -323,31 +319,41 @@ class AuthRepository {
       required WidgetRef ref}) async {
     try {
       ref.read(isLoadingProvider.notifier).state = true;
-      var response = await httpService.postRequest(Endpoints.pinLogin,
-          headers: {'Y-decryption-key': '1234'},
-          data: {"pin": pin, "user_id": UserStorage().get()});
-      ref.read(isLoadingProvider.notifier).state = false;
 
-      if (response.statusCode == 200) {
-        ref.read(isLoadingProvider.notifier).state = false;
-        var json = jsonDecode(response.data);
-        var message = json["message"];
-        await TokenStorage().storeToken(json["data"]["access_key"]);
-        await UserStorage().update(json["data"]["user_id"]);
-        await UserStorage().updatePin(pin);
-        ref.invalidate(fetchUserInformationProvider);
-        ref.invalidate(fetchUserTransactionsProvider());
-        await successSnack(context, message);
-        Go.toRemoveAll(const UserScreen());
-      }
-    } on DioException catch (e) {
+      var message = "";
+      await api.handleRequest(
+          endpoint: MobileEndpoints.pinLogin,
+          requestType: RequestType.post,
+          data: {'pin': pin, 'user_id': UserStorage().get()},
+          onSuccess: (data) async {
+            var json = jsonDecode(data);
+            log(json.toString());
+            if (json["success"] == true) {
+              message = json["message"];
+              await TokenStorage().storeToken(json["data"]["access_key"]);
+              await UserStorage().update(json["data"]["user_id"].toString());
+              await UserStorage().updatePin(pin);
+              ref.invalidate(fetchMobileUserInformationProvider);
+              ref.invalidate(fetchUserTransactionsProvider());
+              await successSnack(context, message);
+              Go.toRemoveAll(const UserScreen());
+            } else {
+              log(json.toString());
+              message = json["message"] ?? "PIN login failed";
+              errorSnack(context, message);
+            }
+          },
+          onError: (getmessage) async {
+            errorSnack(context, getmessage);
+            message = getmessage;
+            log(message);
+          });
+
+      ref.read(isLoadingProvider.notifier).state = false;
+    } catch (e) {
+      log("PIN login went wrong");
       log(e.toString());
       ref.read(isLoadingProvider.notifier).state = false;
-      if (e.response!.data != null) {
-        var data = jsonDecode(e.response!.data);
-        log(data["message"]);
-        errorSnack(context, data["message"]);
-      }
       throw Exception(e);
     }
   }

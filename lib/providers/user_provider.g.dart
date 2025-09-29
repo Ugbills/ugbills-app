@@ -7,7 +7,7 @@ part of 'user_provider.dart';
 // **************************************************************************
 
 String _$fetchUserInformationHash() =>
-    r'8d8981f4459527cf690aa23b7896464931a4b19f';
+    r'd287fbd3524ecc62e062db90638f65f571a296ae';
 
 /// See also [fetchUserInformation].
 @ProviderFor(fetchUserInformation)
@@ -23,8 +23,26 @@ final fetchUserInformationProvider =
 );
 
 typedef FetchUserInformationRef = AutoDisposeFutureProviderRef<UserModel?>;
+String _$fetchMobileUserInformationHash() =>
+    r'95d54cdf1ecdb6e3ae027afbe4ae010a7a56b808';
+
+/// See also [fetchMobileUserInformation].
+@ProviderFor(fetchMobileUserInformation)
+final fetchMobileUserInformationProvider =
+    AutoDisposeFutureProvider<UserModel?>.internal(
+  fetchMobileUserInformation,
+  name: r'fetchMobileUserInformationProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$fetchMobileUserInformationHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef FetchMobileUserInformationRef
+    = AutoDisposeFutureProviderRef<UserModel?>;
 String _$fetchUserBeneficiariesHash() =>
-    r'eda24765bf886a6d73c9a1a515ea2b6dd29b9fef';
+    r'1f1d5c7cd239e74109aed4283cc6c30b0b1b6917';
 
 /// See also [fetchUserBeneficiaries].
 @ProviderFor(fetchUserBeneficiaries)
@@ -42,7 +60,7 @@ final fetchUserBeneficiariesProvider =
 typedef FetchUserBeneficiariesRef
     = AutoDisposeFutureProviderRef<BeneficiariesModel?>;
 String _$fetchUserReferralsHash() =>
-    r'3e75d9decd419552d57acfaa5af2631474abf9b3';
+    r'094e4662e054516c7572a81f1edfecb813e2ca64';
 
 /// See also [fetchUserReferrals].
 @ProviderFor(fetchUserReferrals)
@@ -58,7 +76,7 @@ final fetchUserReferralsProvider =
 );
 
 typedef FetchUserReferralsRef = AutoDisposeFutureProviderRef<ReferralsModel?>;
-String _$oneTimeAccountHash() => r'3eea832ef4c8dff9a55c5cea0781426c8c46d747';
+String _$oneTimeAccountHash() => r'ad24b7f8df96c6d24038570464a2183468a0d7d7';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -209,7 +227,7 @@ class _OneTimeAccountProviderElement
 }
 
 String _$fetchUserVirtualAccountHash() =>
-    r'c9f8baf1cf619bf3a6200f034edc5b257715446c';
+    r'a9c712eee1f6d6b168f35adac5195e3b0be363d0';
 
 /// See also [fetchUserVirtualAccount].
 @ProviderFor(fetchUserVirtualAccount)
@@ -226,7 +244,7 @@ final fetchUserVirtualAccountProvider =
 
 typedef FetchUserVirtualAccountRef
     = AutoDisposeFutureProviderRef<BankAccountModel?>;
-String _$fetchAccountLevelHash() => r'd2d7aff58c614f57c0d8cd7978745b176f11d7b2';
+String _$fetchAccountLevelHash() => r'a636a44ef134c1d4754a3147ec002e3adbe79a06';
 
 /// See also [fetchAccountLevel].
 @ProviderFor(fetchAccountLevel)
@@ -242,5 +260,23 @@ final fetchAccountLevelProvider =
 );
 
 typedef FetchAccountLevelRef = AutoDisposeFutureProviderRef<AccountLevelModel?>;
+String _$fetchMobileDepositDetailsHash() =>
+    r'0f8dfbd83b02b68efec1b8ab787d42a03c001889';
+
+/// See also [fetchMobileDepositDetails].
+@ProviderFor(fetchMobileDepositDetails)
+final fetchMobileDepositDetailsProvider =
+    AutoDisposeFutureProvider<DepositDetailsModel?>.internal(
+  fetchMobileDepositDetails,
+  name: r'fetchMobileDepositDetailsProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$fetchMobileDepositDetailsHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef FetchMobileDepositDetailsRef
+    = AutoDisposeFutureProviderRef<DepositDetailsModel?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

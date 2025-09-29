@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:short_navigation/short_navigation.dart';
 import 'package:ugbills/constants/api/endpoints.dart';
+import 'package:ugbills/constants/api/mobile_endpoints.dart' hide Endpoints;
 import 'package:ugbills/constants/assets/svg.dart';
 import 'package:ugbills/controllers/auth/auth_helper.dart';
 import 'package:ugbills/controllers/transfer/transfer_controller.dart';
@@ -69,7 +70,7 @@ class TvController extends _$TvController {
     return null;
   }
 
-// buy method
+// buy method - updated for mobile API
   Future buy({
     required String customerId,
     required String productID,
@@ -85,16 +86,13 @@ class TvController extends _$TvController {
 
       var token = await tokenStorage.getToken();
       var response =
-          await httpService.postRequest(Endpoints.cableBuy, headers: {
-        'X-Forwarded-For': '1234',
-        'Y-decryption-key': '1234',
+          await httpService.postRequest(MobileEndpoints.cable, headers: {
         "ZEEL-SECURE-KEY": token
       }, data: {
         "pin": pin,
-        "cable_name": cableName,
-        "product_id": productID,
-        "plan_id": planId,
-        "customer_id": customerId
+        "product_code": productID,
+        "variation_code": planId,
+        "smartcard": customerId
       });
 
       ref.read(isLoadingProvider.notifier).state = false;
@@ -104,30 +102,35 @@ class TvController extends _$TvController {
         log(response.data.toString());
 
         var data = jsonDecode(response.data);
-        var transaction = data["data"];
 
         Go.to(SentSuccessfully(
-          title: "Completed",
-          body: data["message"],
+          title: "Cable Subscription Successful",
+          body: data["msg"]?.toString() ??
+              "Cable subscription completed successfully",
           nextPage: TvTransactionDetails(
             tvLogo: ZeelSvg.cable,
-            amount: returnAmount(transaction["amount"]),
-            transactionID: transaction["reference"],
+            amount: returnAmount(double.parse(amount).toInt()),
+            transactionID:
+                data["transaction"]?["reference"]?.toString().toUpperCase() ??
+                    '',
             dateAndTime: formartDateTime(DateTime.now().toString()),
             smartcardNumber: customerId,
             serviceProvider: cableName.toUpperCase(),
-            plan: "DSTV Premium",
-            fee: returnAmount(transaction["fee"]),
+            plan: "Cable Subscription",
+            fee: "0.00",
           ),
         ));
       }
     } on DioException catch (e) {
       ref.read(isLoadingProvider.notifier).state = false;
 
-      if (e.response!.data != null) {
+      if (e.response?.data != null) {
         var data = jsonDecode(e.response!.data);
-        log(data["message"]);
-        errorSnack(context, data["message"]);
+        log(data["errors"][0] ?? data["msg"] ?? "Purchase failed");
+        errorSnack(
+            context, data["errors"][0] ?? data["msg"] ?? "Purchase failed");
+      } else {
+        errorSnack(context, "Failed to purchase cable subscription");
       }
       log(e.toString());
       throw Exception(e);

@@ -7,7 +7,7 @@ part of 'electricity_controller.dart';
 // **************************************************************************
 
 String _$electricityControllerHash() =>
-    r'cc4062c63698100f4e9d648e54f86cad35dd9dfb';
+    r'04ac95c227851790040a1febcc036f6278004a90';
 
 /// See also [ElectricityController].
 @ProviderFor(ElectricityController)

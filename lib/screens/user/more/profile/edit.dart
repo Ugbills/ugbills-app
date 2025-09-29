@@ -6,7 +6,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:short_navigation/short_navigation.dart';
-import 'package:ugbills/constants/assets/png.dart';
 import 'package:ugbills/controllers/user/user_controller.dart';
 import 'package:ugbills/helpers/forms/validators.dart';
 import 'package:ugbills/providers/user_provider.dart';
@@ -26,8 +25,7 @@ class EditProfile extends HookConsumerWidget {
     final phoneNumberController = useTextEditingController();
     final userNameController = useTextEditingController();
 
-    final image = ref.watch(imageProvider);
-    var user = ref.watch(fetchUserInformationProvider);
+    var user = ref.watch(fetchMobileUserInformationProvider);
 
     final pendingUpdate = useState<Future<void>?>(null);
 
@@ -51,33 +49,6 @@ class EditProfile extends HookConsumerWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 24)
                       .copyWith(top: 24),
                   children: [
-                    GestureDetector(
-                      onTap: () async => getImage(ref, context),
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          image != null
-                              ? ClipRRect(
-                                  borderRadius: BorderRadius.circular(100),
-                                  child: Image.file(
-                                    image,
-                                    height: 130,
-                                    width: 130,
-                                    fit: BoxFit.cover,
-                                  ),
-                                )
-                              : ShadAvatar(
-                                  size: const Size(100, 100),
-                                  user!.data!.profilePicture!.isNotEmpty
-                                      ? user.data!.profilePicture!
-                                      : ZeelPng.avatar,
-                                  fit: BoxFit.cover,
-                                ),
-                          const Icon(Icons.camera_alt_outlined,
-                              color: Colors.white),
-                        ],
-                      ),
-                    ),
                     const SizedBox(height: 12),
                     const ZeelTextFieldTitle(text: "Username"),
                     ZeelTextField(

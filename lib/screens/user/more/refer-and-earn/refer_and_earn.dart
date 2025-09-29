@@ -26,7 +26,7 @@ class ReferAndEarn extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
-    var user = ref.watch(fetchUserInformationProvider);
+    var user = ref.watch(fetchMobileUserInformationProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -66,15 +66,17 @@ class ReferAndEarn extends ConsumerWidget {
                             style: TextStyle(color: Colors.grey),
                           ),
                           const SizedBox(height: 24),
-                          referral(context, data!.data!.refferalId!),
+                          referral(
+                              context, data!.data!.referralCode!.toString()),
                         ],
                       ),
                     ),
                     // const Spacer(),
                     ZeelButton(
-                      text: "Copy Referral ID",
+                      text: "Copy Referral Code",
                       onPressed: () {
-                        shareReferralLink(data.data!.refferalId!, context);
+                        shareReferralLink(
+                            data.data!.referralCode!.toString(), context);
                       },
                     ),
                     const SizedBox(height: 12),
