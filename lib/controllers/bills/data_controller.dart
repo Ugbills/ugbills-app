@@ -94,9 +94,8 @@ class DataController extends _$DataController {
 
       if (e.response?.data != null) {
         var data = jsonDecode(e.response!.data);
-        log(data["errors"][0] ?? data["msg"] ?? "Purchase failed");
-        errorSnack(
-            context, data["errors"][0] ?? data["msg"] ?? "Purchase failed");
+        log(data["msg"] ?? "Purchase failed");
+        errorSnack(context, data["msg"] ?? "Purchase failed");
       } else {
         errorSnack(context, "Failed to purchase data");
       }

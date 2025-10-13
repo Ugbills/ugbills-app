@@ -135,6 +135,10 @@ class RegisterScreen extends HookConsumerWidget {
                                         context: context,
                                         email: emailController.text,
                                         password: passwordController.text,
+                                        fullName: fullNameController.text,
+                                        phoneNumber: phoneController.text,
+                                        referralCode: referralController.text,
+                                        userName: usernameController.text,
                                         ref: ref,
                                       );
                                       pendingRegister.value = future;

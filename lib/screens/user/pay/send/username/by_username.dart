@@ -16,7 +16,6 @@ class SendByUsername extends ConsumerStatefulWidget {
 }
 
 class _SendByUsernameState extends ConsumerState<SendByUsername> {
-  String? avatar;
   final TextEditingController userNameController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController noteController = TextEditingController();
@@ -62,7 +61,7 @@ class _SendByUsernameState extends ConsumerState<SendByUsername> {
               ZeelTextField(hint: "₦$amount", enabled: false),
               const ZeelTextFieldTitle(text: "Username"),
               ZeelTextField(
-                hint: "@",
+                hint: "",
                 enabled: true,
                 controller: userNameController,
                 onChanged: (value) {
@@ -72,27 +71,29 @@ class _SendByUsernameState extends ConsumerState<SendByUsername> {
                 },
                 onEditingComplete: () async {
                   if (userNameController.text.isNotEmpty) {
+                    FocusScope.of(context).unfocus();
                     ref.read(isLoadingProvider.notifier).state = true;
                     await validateUgBillsAccount(
-                            username: userNameController.text)
+                            context: context, username: userNameController.text)
                         .then((value) {
                       ref.read(isLoadingProvider.notifier).state = false;
                       if (value != null) {
                         setState(() {
+                          FocusScope.of(context).unfocus();
                           nameController.text = value.data!.fullName!;
-                          avatar = value.data!.avatar!;
                         });
                       }
                     });
                   }
                 },
               ),
-              const ZeelTextFieldTitle(text: "Full Name"),
-              ZeelTextField(
-                hint: "",
-                enabled: false,
-                controller: nameController,
-              ),
+              nameController.text.isNotEmpty
+                  ? ZeelTextField(
+                      hint: nameController.text,
+                      enabled: false,
+                      controller: nameController,
+                    )
+                  : const SizedBox.shrink(),
               const ZeelTextFieldTitle(text: "Note (Optional)"),
               ZeelTextField(
                 hint: "Add a note",
@@ -113,9 +114,9 @@ class _SendByUsernameState extends ConsumerState<SendByUsername> {
                                 pin: pin!,
                                 ref: ref,
                                 username: userNameController.text,
+                                fullname: nameController.text,
                                 amount:
-                                    double.parse(amount.replaceAll(",", "")),
-                                avatar: avatar!),
+                                    double.parse(amount.replaceAll(",", ""))),
                           ));
                         },
                   text: "Send",

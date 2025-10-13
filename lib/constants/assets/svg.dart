@@ -52,5 +52,10 @@ class ZeelSvg {
   static const String coupon = 'assets/svgs/coupon.svg';
   static const String money = 'assets/svgs/money.svg';
   static const String vc = 'assets/svgs/vc.svg';
-   static const String reward = 'assets/svgs/reward.svg';
+  static const String reward = 'assets/svgs/reward.svg';
+  static const String wifi = 'assets/svgs/wifi.svg';
+  static const String power = 'assets/svgs/power.svg';
+  static const String soccer = 'assets/svgs/soccer.svg';
+  static const String cables = 'assets/svgs/cables.svg';
+  static const String swap = 'assets/svgs/swap.svg';
 }

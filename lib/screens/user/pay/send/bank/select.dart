@@ -44,8 +44,8 @@ class _SelectBankState extends ConsumerState<SelectBank> {
                         setState(() {
                           _searchedWord = value;
 
-                          searchedList = bank!.data!
-                              .where((element) => element.bankName!
+                          searchedList = bank!.banks!
+                              .where((element) => element.name!
                                   .toLowerCase()
                                   .startsWith(value.toLowerCase()))
                               .toList();
@@ -72,53 +72,134 @@ class _SelectBankState extends ConsumerState<SelectBank> {
                       height: 10,
                     ),
                     Expanded(
-                        child: ListView.builder(
-                      itemCount: bank!.data!
-                          .where((element) => element.bankName!
-                              .toLowerCase()
-                              .contains(_searchedWord.toLowerCase()))
-                          .length,
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () {
-                            ref.read(widget.bankNameProvider.notifier).state =
-                                bank.data!
-                                    .where((element) => element.bankName!
+                        child: bank!.banks!.isEmpty
+                            ? const Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.account_balance,
+                                      size: 64,
+                                      color: Colors.grey,
+                                    ),
+                                    SizedBox(height: 16),
+                                    Text(
+                                      'No banks available',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : ListView.builder(
+                                itemCount: bank.banks!
+                                    .where((element) => element.name!
                                         .toLowerCase()
                                         .contains(_searchedWord.toLowerCase()))
-                                    .toList()[index]
-                                    .bankName;
-                            ref.read(widget.bankCodeProvider.notifier).state =
-                                bank.data!
-                                    .where((element) => element.bankName!
-                                        .toLowerCase()
-                                        .contains(_searchedWord.toLowerCase()))
-                                    .toList()[index]
-                                    .bankCode;
-                            Navigator.pop(context);
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.all(14),
-                            margin: const EdgeInsets.symmetric(vertical: 6),
-                            decoration: BoxDecoration(
-                              color: isDark
-                                  ? ZealPalette.lighterBlack
-                                  : Colors.white,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Text(
-                              bank.data!
-                                  .where((element) => element.bankName!
-                                      .toLowerCase()
-                                      .contains(_searchedWord.toLowerCase()))
-                                  .toList()[index]
-                                  .bankName!,
-                              overflow: TextOverflow.clip,
-                            ),
-                          ),
-                        );
-                      },
-                    )),
+                                    .length,
+                                itemBuilder: (context, index) {
+                                  final filteredBanks = bank.banks!
+                                      .where((element) => element.name!
+                                          .toLowerCase()
+                                          .contains(
+                                              _searchedWord.toLowerCase()))
+                                      .toList();
+
+                                  if (filteredBanks.isEmpty) {
+                                    return const Center(
+                                      child: Padding(
+                                        padding: EdgeInsets.all(32.0),
+                                        child: Column(
+                                          children: [
+                                            Icon(
+                                              Icons.search_off,
+                                              size: 48,
+                                              color: Colors.grey,
+                                            ),
+                                            SizedBox(height: 16),
+                                            Text(
+                                              'No banks found',
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  }
+
+                                  final bankItem = filteredBanks[index];
+
+                                  return InkWell(
+                                    onTap: () {
+                                      ref
+                                          .read(
+                                              widget.bankNameProvider.notifier)
+                                          .state = bankItem.name!;
+                                      ref
+                                          .read(
+                                              widget.bankCodeProvider.notifier)
+                                          .state = bankItem.code!;
+                                      Navigator.pop(context);
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.all(16),
+                                      margin: const EdgeInsets.symmetric(
+                                          vertical: 4),
+                                      decoration: BoxDecoration(
+                                        color: isDark
+                                            ? ZealPalette.lighterBlack
+                                            : Colors.white,
+                                        borderRadius: BorderRadius.circular(12),
+                                        border: Border.all(
+                                          color: Colors.grey.withOpacity(0.3),
+                                        ),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            width: 40,
+                                            height: 40,
+                                            decoration: BoxDecoration(
+                                              color: Theme.of(context)
+                                                  .primaryColor
+                                                  .withOpacity(0.1),
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ),
+                                            child: Icon(
+                                              Icons.account_balance,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                              size: 20,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 12),
+                                          Expanded(
+                                            child: Text(
+                                              bankItem.name!,
+                                              style: const TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                          Icon(
+                                            Icons.arrow_forward_ios,
+                                            size: 16,
+                                            color: Colors.grey.shade600,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              )),
                   ],
                 )),
       ),

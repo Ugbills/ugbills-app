@@ -1,6 +1,6 @@
 class MobileEndpoints {
   // Mobile API Base URL - Separate from web API
-  static const baseUrl = 'https://192.168.1.153:3443/api/mobile/v1/';
+  static const baseUrl = 'https://192.168.1.49:3443/api/mobile/v1/';
 
   // Mobile Authentication Endpoints
   static const auth = '${baseUrl}auth/';
@@ -40,11 +40,11 @@ class MobileEndpoints {
   static const airtime = '${baseUrl}airtime';
   static const data = '${baseUrl}data';
   static const databundle = '${baseUrl}databundle';
+  static const internet = '${baseUrl}internet';
   static const cable = '${baseUrl}cable';
   static const cableVerify = '$cable/verify';
   static const electricity = '${baseUrl}electricity';
   static const electricityVerify = '$electricity/verify';
-  static const internet = '${baseUrl}internet';
   static const pins = '${baseUrl}pins';
 
   // Mobile Validation Endpoints
@@ -53,6 +53,8 @@ class MobileEndpoints {
   static const validateBvn = '${validation}bvn';
   static const validateNin = '${validation}nin';
   static const validatePhone = '${validation}phone';
+  static const validateUser = '${validation}user';
+  static const validateWallet = '${validation}wallet';
 
   // Mobile Transfer Endpoints
   static const transfer = '${baseUrl}transfer/';
@@ -76,7 +78,6 @@ class Endpoints {
   static const login = '${auth}login';
   static const passwordLogin = login;
   static const pinLogin = '$login/pin';
-  static const signupStart = '${auth}start';
   static const signup = '${auth}signup';
   static const verifyEmail = '${auth}verify/email';
   static const resendEmailVerify = '${auth}resend/email';

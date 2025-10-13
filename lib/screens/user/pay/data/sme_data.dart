@@ -8,12 +8,12 @@ import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:short_navigation/short_navigation.dart';
 import 'package:ugbills/constants/assets/png.dart';
-import 'package:ugbills/controllers/bills/data_controller.dart';
+import 'package:ugbills/controllers/bills/sme_data_controller.dart';
 import 'package:ugbills/helpers/common/amount_formatter.dart';
 import 'package:ugbills/helpers/common/number_formarter.dart';
 import 'package:ugbills/helpers/forms/validators.dart';
-import 'package:ugbills/models/api/databundle_model.dart';
-import 'package:ugbills/providers/databundle_provider.dart';
+import 'package:ugbills/models/api/sme_data_model.dart';
+import 'package:ugbills/providers/sme_data_provider.dart';
 import 'package:ugbills/providers/user_provider.dart';
 import 'package:ugbills/screens/user/widgets/widgets.dart';
 import 'package:ugbills/screens/widgets/authenticate_transaction.dart';
@@ -22,32 +22,32 @@ import 'package:ugbills/screens/widgets/texts_widget.dart';
 import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
 import 'package:ugbills/screens/widgets/zeel_scrollable_widget.dart';
 
-class DataBills extends ConsumerStatefulWidget {
-  const DataBills({super.key});
+class SMEDataBills extends ConsumerStatefulWidget {
+  const SMEDataBills({super.key});
 
   @override
-  ConsumerState<DataBills> createState() => _DataBillsState();
+  ConsumerState<SMEDataBills> createState() => _SMEDataBillsState();
 }
 
-class _DataBillsState extends ConsumerState<DataBills> {
+class _SMEDataBillsState extends ConsumerState<SMEDataBills> {
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _planController = TextEditingController();
   final TextEditingController _packageIdController = TextEditingController();
-  DataBundleProduct? _selectedProduct;
+  SMEDataProduct? _selectedProduct;
   var formKey = GlobalKey<FormState>();
 
   // Network icon mapping helper
   String getNetworkIcon(String networkName) {
     switch (networkName.toLowerCase()) {
       case 'mtn':
-      case 'mtn bundle':
+      case 'mtn sme':
         return ZeelPng.mtn;
       case 'airtel':
-      case 'airtel bundle':
+      case 'airtel sme':
         return ZeelPng.airtel;
       case 'glo':
-      case 'glo bundle':
+      case 'glo sme':
         return ZeelPng.glo;
       case '9mobile':
       case 'etisalat':
@@ -60,12 +60,12 @@ class _DataBillsState extends ConsumerState<DataBills> {
   @override
   Widget build(BuildContext context) {
     var user = ref.watch(fetchMobileUserInformationProvider);
-    var dataBundles = ref.watch(fetchDataBundlesProvider);
+    var smeData = ref.watch(fetchSMEDataProvider);
     var theme = ShadTheme.of(context);
     return Scaffold(
       appBar: AppBar(
         forceMaterialTransparency: true,
-        title: const Text('Buy Data'),
+        title: const Text('SME Data'),
         leadingWidth: 100,
         leading: const ZeelBackButton(),
       ),
@@ -76,7 +76,7 @@ class _DataBillsState extends ConsumerState<DataBills> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              dataBundles.when(
+              smeData.when(
                 data: (products) => SizedBox(
                   height: 80,
                   child: ListView.separated(
@@ -136,7 +136,7 @@ class _DataBillsState extends ConsumerState<DataBills> {
                         } else {
                           Navigator.push(
                             context,
-                            _createRoute(BillsPackagesWidget(
+                            _createRoute(SMEDataPackagesWidget(
                                 _selectedProduct!,
                                 _planController,
                                 _packageIdController,
@@ -210,6 +210,9 @@ class _DataBillsState extends ConsumerState<DataBills> {
                       ),
                   error: (error, _) => Text(error.toString()),
                   loading: () => const SizedBox.shrink()),
+              const SizedBox(
+                height: 20,
+              ),
               Expanded(
                 child: Align(
                   alignment: Alignment.bottomCenter,
@@ -223,7 +226,7 @@ class _DataBillsState extends ConsumerState<DataBills> {
                             builder: (_) => ConfirmTransaction(
                               onPinComplete: (pin) async {
                                 await ref
-                                    .read(dataControllerProvider.notifier)
+                                    .read(sMEDataControllerProvider.notifier)
                                     .buy(
                                       context: context,
                                       phoneNumber: _phoneNumberController.text,
@@ -251,12 +254,12 @@ class _DataBillsState extends ConsumerState<DataBills> {
   }
 }
 
-class BillsPackagesWidget extends ConsumerWidget {
-  final DataBundleProduct product;
+class SMEDataPackagesWidget extends ConsumerWidget {
+  final SMEDataProduct product;
   final TextEditingController packageController;
   final TextEditingController packageIdController;
   final TextEditingController amountController;
-  const BillsPackagesWidget(this.product, this.packageController,
+  const SMEDataPackagesWidget(this.product, this.packageController,
       this.packageIdController, this.amountController,
       {super.key});
   @override
@@ -306,15 +309,13 @@ class BillsPackagesWidget extends ConsumerWidget {
                     ),
                     trailing: Container(
                         decoration: BoxDecoration(
-                          //make it circular
-
                           border: Border.all(color: Colors.blue, width: 2),
                           borderRadius: BorderRadius.circular(100),
                         ),
                         height: 30,
                         width: 30,
                         child: (packageIdController.text == variation.code)
-                            ? const Icon(LucideIcons.check)
+                            ? const Icon(Icons.check)
                             : null),
                   );
                 }),
@@ -334,10 +335,8 @@ Route _createRoute(Widget child) {
       const curve = Curves.ease;
       final tween =
           Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-      final offsetAnimation = animation.drive(tween);
-
       return SlideTransition(
-        position: offsetAnimation,
+        position: animation.drive(tween),
         child: child,
       );
     },

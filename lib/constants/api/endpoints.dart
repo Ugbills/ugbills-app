@@ -1,6 +1,6 @@
 class Endpoints {
   // Base URL
-  static const baseUrl = 'https://192.168.1.153:3443/api/';
+  static const baseUrl = 'https://192.168.1.49:3443/api/';
 
   // Mobile API Base
   static const mobileApi = '${baseUrl}mobile/v1/';

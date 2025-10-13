@@ -18,6 +18,10 @@ class CreateAccountScreen extends ConsumerStatefulWidget {
 class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController fullNameController = TextEditingController();
+  final TextEditingController userNameController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
+  final TextEditingController referralController = TextEditingController();
   final TextEditingController confirmPasswordController =
       TextEditingController();
   final formKey = GlobalKey<FormState>();
@@ -55,22 +59,41 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
                         text: "Create Account",
                       ),
                       const SizedBox(height: 10.0),
-                      const ZeelText(
-                        text:
-                            "Create your account and unlock a world of financial possibilities.",
-                      ),
-                      const SizedBox(height: 50.0),
                       Form(
                         key: formKey,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            const ZeelTextFieldTitle(text: "Username"),
+                            ZeelTextField(
+                              enabled: true,
+                              validator: usernameValidator,
+                              controller: userNameController,
+                              hint: "@",
+                            ),
+                            const ZeelTextFieldTitle(text: "Full Name"),
+                            ZeelTextField(
+                              enabled: true,
+                              controller: fullNameController,
+                              validator: fullNameValidator,
+                              hint: "Enter your full name",
+                            ),
                             const ZeelTextFieldTitle(text: "Email"),
                             ZeelTextField(
                               enabled: true,
                               validator: emailValidator,
                               controller: emailController,
                               hint: "Enter your email",
+                            ),
+
+                            const ZeelTextFieldTitle(text: "Phone Number"),
+                            ZeelTextField(
+                              enabled: true,
+                              keyboardType: TextInputType.phone,
+                              controller: phoneNumberController,
+                              maxLength: 11,
+                              validator: phoneNumberValidator,
+                              hint: "Enter your phone number",
                             ),
 
                             const ZeelTextFieldTitle(text: "Password"),
@@ -119,6 +142,16 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
                         ),
                       ),
                       const SizedBox(
+                        height: 10,
+                      ),
+                      const ZeelTextFieldTitle(
+                          text: "Referral code (Optional)"),
+                      ZeelTextField(
+                        enabled: true,
+                        controller: referralController,
+                        hint: "Enter referral code",
+                      ),
+                      const SizedBox(
                         height: 20,
                       ),
                       Expanded(
@@ -128,7 +161,7 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               ZeelButton(
-                                text: "Next",
+                                text: "SignUp",
                                 isLoading: isloading,
                                 onPressed: () {
                                   if (formKey.currentState!.validate()) {
@@ -139,6 +172,11 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
                                                 passwordController.text) ==
                                             "Medium") {
                                       AuthRepository().signUp(
+                                          fullName: fullNameController.text,
+                                          userName: userNameController.text,
+                                          phoneNumber:
+                                              phoneNumberController.text,
+                                          referralCode: referralController.text,
                                           context: context,
                                           email: emailController.text,
                                           password: passwordController.text,

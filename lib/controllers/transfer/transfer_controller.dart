@@ -8,7 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:short_navigation/short_navigation.dart';
-import 'package:ugbills/constants/api/endpoints.dart';
+import 'package:ugbills/constants/api/endpoints.dart' as WebEndpoints;
+import 'package:ugbills/constants/api/mobile_endpoints.dart';
+import 'package:ugbills/constants/assets/png.dart';
 import 'package:ugbills/constants/assets/svg.dart';
 import 'package:ugbills/controllers/transfer/model.dart';
 import 'package:ugbills/helpers/api/response_helper.dart';
@@ -35,15 +37,16 @@ class TransferController extends _$TransferController {
     throw UnimplementedError();
   }
 
-  //get fetchpackages
+  //validate bank account using mobile endpoint
   Future<AccountInfoModel?> validateAccount(
       {required String accountNumber,
       required String bankCode,
-      required TextEditingController accountNameController}) async {
+      required TextEditingController accountNameController,
+      required BuildContext context}) async {
     try {
       var token = await tokenStorage.getToken();
-      var response = await httpService
-          .postRequest(Endpoints.transferBankValidate, headers: {
+      var response =
+          await httpService.postRequest(MobileEndpoints.validateBank, headers: {
         'X-Forwarded-For': '1234',
         'Y-decryption-key': '1234',
         "ZEEL-SECURE-KEY": token
@@ -52,25 +55,27 @@ class TransferController extends _$TransferController {
         "bank_code": bankCode,
       });
 
-      if (response.statusCode == 200) {
-        log(response.data);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        log('Account validation response: ${response.data}');
 
         var data = jsonDecode(response.data);
 
-        var info = AccountInfoModel.fromJson(data["data"]);
-
+        var info = AccountInfoModel.fromJson(data);
         return info;
       }
     } on DioException catch (e) {
-      log(e.toString());
-      throw Exception(e);
+      log('Account validation error: ${e.toString()}');
+      if (e.response?.data != null) {
+        var errorData = jsonDecode(e.response!.data);
+        errorSnack(context, errorData['msg'] ?? 'Account validation failed');
+      }
+      return null;
     }
     return null;
   }
 
   Future transfer({
     required BuildContext context,
-    required String sessionId,
     required String note,
     required String pin,
     required WidgetRef ref,
@@ -88,18 +93,15 @@ class TransferController extends _$TransferController {
       var request = {
         "pin": pin,
         "amount": amount,
-        "narration": note,
-        "name_enquiry_id": sessionId,
-        "account_name": accountName,
+        "description": note,
         "account_number": accountNumber,
         "bank_code": bankCode,
-        "bank_name": bankName
       };
 
-      print(request);
+      log('Transfer request: $request');
 
       var response = await httpService.postRequest(
-        Endpoints.transferInitiate,
+        MobileEndpoints.bankTransfer,
         data: request,
         headers: {
           'X-Forwarded-For': '1234',
@@ -110,56 +112,71 @@ class TransferController extends _$TransferController {
 
       ref.read(isLoadingProvider.notifier).state = false;
 
-      if (response.statusCode == 200) {
+      log(response.toString());
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
         var data = jsonDecode(response.data);
-        print(data);
+        log('Transfer response: $data');
+
         Go.to(SentSuccessfully(
           title: "Sent",
-          body: data["message"],
+          body: data["msg"] ?? "Transfer completed successfully",
           nextPage: BankTransactionDetails(
             bankLogo: ZeelSvg.money,
-            sessionId: data["data"]["session_id"],
+            sessionId: "",
             amount: "₦$amount",
-            transactionID: data["data"]["reference"],
-            dateAndTime: data["data"]["date"],
+            transactionID: data["transaction"]["reference"] ?? "N/A",
+            dateAndTime:
+                data["transaction"]["created_at"] ?? DateTime.now().toString(),
             bankName: bankName,
             accountName: accountName,
             accountNumber: accountNumber,
-            fee: "₦${data["data"]["fee"]}",
-            note: data["data"]["remark"],
+            fee: "₦${data["transaction"]["charges"] ?? '50.00'}",
+            note: note,
           ),
         ));
       }
     } on DioException catch (e) {
       ref.read(isLoadingProvider.notifier).state = false;
 
-      if (e.response!.data != null) {
+      if (e.response?.data != null) {
         var data = jsonDecode(e.response!.data);
-        log(data["message"]);
-        errorSnack(context, data["message"]);
+        String errorMessage = "Transfer failed";
+        if (data["errors"] != null &&
+            data["errors"] is List &&
+            data["errors"].isNotEmpty) {
+          errorMessage = data["errors"][0];
+        } else if (data["msg"] != null) {
+          errorMessage = data["msg"];
+        }
+        errorSnack(context, errorMessage);
+      } else {
+        log('Network error: ${e.toString()}');
+        errorSnack(context, "Network error. Please try again.");
       }
-      log(e.toString());
       throw Exception(e);
     }
   }
 }
 
 //get fetchpackages
-Future<ZeePayInfo?> validateUgBillsAccount({required String username}) async {
+Future<ZeePayInfo?> validateUgBillsAccount(
+    {required String username, required BuildContext context}) async {
   try {
     var token = await tokenStorage.getToken();
     var response =
-        await httpService.getRequest(Endpoints.fundingValidate, headers: {
+        await httpService.postRequest(MobileEndpoints.validateWallet, headers: {
+      'X-Forwarded-For': '1234',
       'Y-decryption-key': '1234',
       "ZEEL-SECURE-KEY": token
-    }, queryParameters: {
+    }, data: {
       "username": username,
     });
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       log(response.data.toString());
 
-      var data = response.data;
+      var data = jsonDecode(response.data);
 
       var info = ZeePayInfo.fromJson(data);
 
@@ -167,6 +184,11 @@ Future<ZeePayInfo?> validateUgBillsAccount({required String username}) async {
     }
   } on DioException catch (e) {
     log(e.toString());
+    if (e.response?.data != null) {
+      var errorData = jsonDecode(e.response!.data);
+      errorSnack(context, errorData['message'] ?? 'Account validation failed');
+    }
+
     return null;
   }
   return null;
@@ -178,8 +200,8 @@ Future transferUgBills({
   required String pin,
   required WidgetRef ref,
   required double amount,
-  required String avatar,
   required String username,
+  required String fullname,
 }) async {
   try {
     var token = await tokenStorage.getToken();
@@ -189,14 +211,18 @@ Future transferUgBills({
     var request = {
       "pin": pin,
       "amount": amount,
-      "receipient": username,
-      "reason": note
+      "username": username,
+      "description": note
     };
 
     var response = await httpService.postRequest(
-      Endpoints.fundingInitiate,
+      MobileEndpoints.walletTransfer,
       data: request,
-      headers: {'Y-decryption-key': '1234', "ZEEL-SECURE-KEY": token},
+      headers: {
+        'X-Forwarded-For': '1234',
+        'Y-decryption-key': '1234',
+        "ZEEL-SECURE-KEY": token
+      },
     );
 
     ref.read(isLoadingProvider.notifier).state = false;
@@ -205,18 +231,18 @@ Future transferUgBills({
       var data = jsonDecode(response.data);
       Go.to(SentSuccessfully(
         title: "Sent",
-        body: data["message"],
+        body: data["msg"],
         nextPage: BankTransactionDetails(
-          bankLogo: avatar,
+          bankLogo: ZeelPng.avatar,
           sessionId: "",
-          amount: "₦${returnAmount(data["data"]["amount"])}",
-          transactionID: data["data"]["reference"],
-          dateAndTime: data["data"]["date"],
+          amount: "₦${returnAmount(amount)}",
+          transactionID: data["transaction"]["reference"],
+          dateAndTime: DateTime.now().toString(),
           bankName: "UgBills",
-          accountName: data["data"]["full_name"],
-          accountNumber: "",
-          fee: "₦${returnAmount(data["data"]["fee"])}",
-          note: data["data"]["note"],
+          accountName: fullname,
+          accountNumber: username,
+          fee: "₦${data["transaction"]["charges"] ?? '0.00'}",
+          note: note,
         ),
       ));
     }
@@ -225,8 +251,15 @@ Future transferUgBills({
 
     if (e.response!.data != null) {
       var data = jsonDecode(e.response!.data);
-      log(data["message"]);
-      errorSnack(context, data["message"]);
+      String errorMessage = "Transfer failed";
+      if (data["errors"] != null &&
+          data["errors"] is List &&
+          data["errors"].isNotEmpty) {
+        errorMessage = data["errors"][0];
+      } else if (data["msg"] != null) {
+        errorMessage = data["msg"];
+      }
+      errorSnack(context, errorMessage);
     }
     log(e.toString());
     throw Exception(e);
@@ -243,7 +276,7 @@ Future confirmTransfer(
     ref.read(isLoadingProvider.notifier).state = true;
 
     var response = await httpService.getRequest(
-      "${Endpoints.oneTimeAccount}/$reference",
+      "${WebEndpoints.Endpoints.oneTimeAccount}/$reference",
       headers: {'Y-decryption-key': '1234', "ZEEL-SECURE-KEY": token},
     );
 

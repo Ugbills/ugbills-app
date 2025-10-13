@@ -6,7 +6,7 @@ part of 'bank_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$fetchBanksHash() => r'f1f764390016459b0e0239e03e1cb621d90ccdb0';
+String _$fetchBanksHash() => r'6a54dc31a08032cdea7ad10db7664f8a41fe7483';
 
 /// See also [fetchBanks].
 @ProviderFor(fetchBanks)

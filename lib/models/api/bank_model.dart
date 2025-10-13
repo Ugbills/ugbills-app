@@ -1,38 +1,66 @@
 class BankModel {
-  int? code;
-  String? message;
-  String? title;
-  bool? success;
-  List<Data>? data;
+  List<BankData>? banks;
 
-  BankModel({this.code, this.message, this.title, this.success, this.data});
+  BankModel({this.banks});
 
-  BankModel.fromJson(Map<String, dynamic> json) {
-    code = json['code'];
-    message = json['message'];
-    title = json['title'];
-    success = json['success'];
-    if (json['data'] != null) {
-      data = <Data>[];
-      json['data'].forEach((v) {
-        data!.add(Data.fromJson(v));
-      });
+  BankModel.fromJson(List<dynamic> json) {
+    banks = <BankData>[];
+    for (var v in json) {
+      banks!.add(BankData.fromJson(v));
     }
+  }
+
+  List<dynamic> toJson() {
+    if (banks != null) {
+      return banks!.map((v) => v.toJson()).toList();
+    }
+    return [];
+  }
+}
+
+class BankData {
+  String? name;
+  String? code;
+  String? ussdTemplate;
+  String? baseUssdCode;
+  String? transferUssdTemplate;
+  String? bankId;
+  String? nipBankCode;
+
+  BankData({
+    this.name,
+    this.code,
+    this.ussdTemplate,
+    this.baseUssdCode,
+    this.transferUssdTemplate,
+    this.bankId,
+    this.nipBankCode,
+  });
+
+  BankData.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    code = json['code'];
+    ussdTemplate = json['ussdTemplate'];
+    baseUssdCode = json['baseUssdCode'];
+    transferUssdTemplate = json['transferUssdTemplate'];
+    bankId = json['bankId'];
+    nipBankCode = json['nipBankCode'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
     data['code'] = code;
-    data['message'] = message;
-    data['title'] = title;
-    data['success'] = success;
-    if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
-    }
+    data['ussdTemplate'] = ussdTemplate;
+    data['baseUssdCode'] = baseUssdCode;
+    data['transferUssdTemplate'] = transferUssdTemplate;
+    data['bankId'] = bankId;
+    data['nipBankCode'] = nipBankCode;
     return data;
   }
 }
 
+// Keep old Data class for backward compatibility if needed
 class Data {
   String? bankCode;
   String? bankName;

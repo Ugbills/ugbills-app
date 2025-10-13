@@ -11,6 +11,8 @@ import 'package:ugbills/screens/user/home/transaction/widgets/transaction_histor
 import 'package:ugbills/screens/user/more/account_level/tier-2/kyc.dart';
 import 'package:ugbills/screens/user/pay/airtime/airtime.dart';
 import 'package:ugbills/screens/user/pay/data/data.dart';
+import 'package:ugbills/screens/user/pay/data/internet_data.dart';
+import 'package:ugbills/screens/user/pay/data/sme_data.dart';
 import 'package:ugbills/screens/user/pay/electricity/electricity.dart';
 import 'package:ugbills/screens/user/pay/fund/fund_options.dart';
 import 'package:ugbills/screens/user/pay/send/amount_screen.dart';
@@ -231,48 +233,6 @@ class _DashBoardScreenState extends ConsumerState<DashBoardScreen> {
                                 Expanded(
                                   child: InkWell(
                                     onTap: () {
-                                      Go.to(const FundOptions());
-                                    },
-                                    child: Container(
-                                      padding: const EdgeInsets.all(10),
-                                      height: 60,
-                                      width: MediaQuery.of(context).size.width,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: ShadTheme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                        ),
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: isDark
-                                            ? ZealPalette.darkModeSend
-                                            : Colors.white,
-                                      ),
-                                      child: Center(
-                                          child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            "Transfer",
-                                            style: TextStyle(
-                                              color: ShadTheme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ],
-                                      )),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Expanded(
-                                  child: InkWell(
-                                    onTap: () {
                                       showModalBottomSheet(
                                           isDismissible: true,
                                           useSafeArea: true,
@@ -337,6 +297,50 @@ class _DashBoardScreenState extends ConsumerState<DashBoardScreen> {
                                                   ],
                                                 ),
                                               ));
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.all(10),
+                                      height: 60,
+                                      width: MediaQuery.of(context).size.width,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: ShadTheme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                        ),
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: isDark
+                                            ? ZealPalette.darkModeSend
+                                            : Colors.white,
+                                      ),
+                                      child: Center(
+                                          child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "Transfer",
+                                            style: TextStyle(
+                                              color: ShadTheme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
+                                      )),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: () {
+                                      Go.to(AmountScreen(
+                                        page: BankTransfer(),
+                                      ));
                                     },
                                     child: Container(
                                       padding: const EdgeInsets.all(10),
@@ -510,7 +514,7 @@ class _DashBoardScreenState extends ConsumerState<DashBoardScreen> {
                       ),
                       const Expanded(
                         child: TransactionHistoryWidget(
-                          limit: 3,
+                          limit: 5,
                         ),
                       ),
                     ],
@@ -637,15 +641,76 @@ List<Widget> _buildMenuItems(BuildContext context) {
       onTap: () => Go.to(const AirtimeBills()),
       child: ZeelActionButton(
         text: "Airtime",
-        icon: ZeelSvg.airtime,
+        icon: ZeelSvg.contact,
         color: isDark ? ZealPalette.darkModeFund : ZealPalette.lightBlue,
       ),
     ),
     GestureDetector(
-      onTap: () => Go.to(const DataBills()),
+      onTap: () {
+        showModalBottomSheet(
+            isDismissible: true,
+            useSafeArea: true,
+            context: context,
+            builder: (context) => Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border(
+                          top: BorderSide(
+                              width: 0.5,
+                              color:
+                                  ShadTheme.of(context).colorScheme.primary))),
+                  child: Wrap(
+                    children: [
+                      ListTile(
+                        onTap: () {
+                          Navigator.pop(context);
+                          Go.to(const DataBills());
+                        },
+                        subtitle:
+                            const Text("Purchase data bundles with cashback"),
+                        title: Text("Data Bundle",
+                            style:
+                                ShadTheme.of(context).textTheme.small.copyWith(
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 20,
+                                    )),
+                      ),
+                      const Divider(),
+                      ListTile(
+                        onTap: () {
+                          Navigator.pop(context);
+                          Go.to(const SMEDataBills());
+                        },
+                        subtitle: const Text("Purchase SME data plans"),
+                        title: Text("SME Data",
+                            style:
+                                ShadTheme.of(context).textTheme.small.copyWith(
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 20,
+                                    )),
+                      ),
+                      const Divider(),
+                      ListTile(
+                        onTap: () {
+                          Navigator.pop(context);
+                          Go.to(const InternetDataBills());
+                        },
+                        subtitle: const Text("Purchase internet data plans"),
+                        title: Text("Internet Data",
+                            style:
+                                ShadTheme.of(context).textTheme.small.copyWith(
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 20,
+                                    )),
+                      ),
+                    ],
+                  ),
+                ));
+      },
       child: ZeelActionButton(
         text: "Data",
-        icon: ZeelSvg.data,
+        icon: ZeelSvg.wifi,
         color: isDark ? ZealPalette.darkModeSend : ZealPalette.lightBlue,
       ),
     ),
@@ -653,7 +718,7 @@ List<Widget> _buildMenuItems(BuildContext context) {
       onTap: () => Go.to(const ElectricityBills()),
       child: ZeelActionButton(
         text: "Electricity",
-        icon: ZeelSvg.electricity,
+        icon: ZeelSvg.power,
         color: isDark ? ZealPalette.darkModeTV : ZealPalette.lightBlue,
       ),
     ),
@@ -661,7 +726,7 @@ List<Widget> _buildMenuItems(BuildContext context) {
       onTap: () => Go.to(const TVBills()),
       child: ZeelActionButton(
         text: "Cable",
-        icon: ZeelSvg.tv,
+        icon: ZeelSvg.cables,
         color: isDark ? ZealPalette.darkModeTV : ZealPalette.lightBlue,
       ),
     ),

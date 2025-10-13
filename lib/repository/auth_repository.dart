@@ -16,10 +16,8 @@ import 'package:ugbills/providers/transaction_provider.dart';
 import 'package:ugbills/providers/user_provider.dart';
 import 'package:ugbills/screens/account_screen.dart';
 import 'package:ugbills/screens/auth/create/account_created.dart';
-import 'package:ugbills/screens/auth/create/profile_information_screen.dart';
-import 'package:ugbills/screens/auth/create/verify_otp_screen.dart';
+import 'package:ugbills/screens/auth/create/set_pin.dart';
 import 'package:ugbills/screens/auth/reset/link_sent_screen.dart';
-import 'package:ugbills/screens/auth/reset/password_saved_screen.dart';
 import 'package:ugbills/screens/user/user.dart';
 import 'package:ugbills/services/http_service.dart';
 
@@ -168,7 +166,7 @@ class AuthRepository {
       if (response.statusCode == 200) {
         var data = jsonDecode(response.data);
         log(data.toString());
-        Go.to(const PassswordSavedScreen());
+        Go.to(const SetransactionPin());
       }
     } on DioException catch (e) {
       log(e.toString());
@@ -186,36 +184,6 @@ class AuthRepository {
       {required BuildContext context,
       required String email,
       required String password,
-      required WidgetRef ref}) async {
-    try {
-      ref.read(isLoadingProvider.notifier).state = true;
-      var response = await httpService.postRequest(Endpoints.signupStart,
-          headers: {'Y-decryption-key': '1234'},
-          data: {"email": email.trim(), "password": password});
-
-      ref.read(isLoadingProvider.notifier).state = false;
-
-      if (response.statusCode == 201) {
-        var data = jsonDecode(response.data);
-        log(data.toString());
-        Go.to(ProfileInfoScreen(userId: data["data"]["user_id"], email: email));
-      }
-    } on DioException catch (e) {
-      log(e.toString());
-      ref.read(isLoadingProvider.notifier).state = false;
-      if (e.response!.data != null) {
-        var data = jsonDecode(e.response!.data);
-        log(data["message"]);
-        errorSnack(context, data["message"]);
-      }
-      throw Exception(e);
-    }
-  }
-
-  Future completeSignUp(
-      {required BuildContext context,
-      required String userId,
-      required String email,
       required String fullName,
       required String phoneNumber,
       required String userName,
@@ -223,24 +191,25 @@ class AuthRepository {
       required WidgetRef ref}) async {
     try {
       ref.read(isLoadingProvider.notifier).state = true;
-      var response = await httpService.postRequest(Endpoints.signup, headers: {
-        'Y-decryption-key': '1234'
+      var response =
+          await httpService.postRequest(MobileEndpoints.register, headers: {
+        'Content-Type': 'application/json'
       }, data: {
-        "user_id": userId,
-        "full_name": fullName.trim(),
-        "phone_number": phoneNumber,
-        "username": userName.trim(),
-        "refferal_code": referralCode
+        "email": email.trim(),
+        "password1": password,
+        "fullname": fullName,
+        "phone": phoneNumber,
+        "username": userName,
+        "refname": referralCode,
+        "password2": password
       });
 
       ref.read(isLoadingProvider.notifier).state = false;
 
-      if (response.statusCode == 201) {
+      if (response.statusCode == 201 || response.statusCode == 200) {
         var data = jsonDecode(response.data);
         log(data.toString());
-        Go.to(VerifyOtpScreen(
-          email: email,
-        ));
+        Go.to(const AccountCreatedScreen());
       }
     } on DioException catch (e) {
       log(e.toString());
@@ -248,6 +217,7 @@ class AuthRepository {
       if (e.response!.data != null) {
         var data = jsonDecode(e.response!.data);
         log(data["message"]);
+        // ignore: use_build_context_synchronously
         errorSnack(context, data["message"]);
       }
       throw Exception(e);

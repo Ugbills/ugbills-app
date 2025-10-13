@@ -8,64 +8,43 @@ import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:short_navigation/short_navigation.dart';
 import 'package:ugbills/constants/assets/png.dart';
-import 'package:ugbills/controllers/bills/data_controller.dart';
+import 'package:ugbills/controllers/bills/internet_data_controller.dart';
 import 'package:ugbills/helpers/common/amount_formatter.dart';
 import 'package:ugbills/helpers/common/number_formarter.dart';
 import 'package:ugbills/helpers/forms/validators.dart';
-import 'package:ugbills/models/api/databundle_model.dart';
-import 'package:ugbills/providers/databundle_provider.dart';
+import 'package:ugbills/models/api/internet_data_model.dart';
+import 'package:ugbills/providers/internet_data_provider.dart';
 import 'package:ugbills/providers/user_provider.dart';
-import 'package:ugbills/screens/user/widgets/widgets.dart';
 import 'package:ugbills/screens/widgets/authenticate_transaction.dart';
 import 'package:ugbills/screens/widgets/text_field_widgets.dart';
 import 'package:ugbills/screens/widgets/texts_widget.dart';
 import 'package:ugbills/screens/widgets/zeel_button_widget.dart';
 import 'package:ugbills/screens/widgets/zeel_scrollable_widget.dart';
 
-class DataBills extends ConsumerStatefulWidget {
-  const DataBills({super.key});
+class InternetDataBills extends ConsumerStatefulWidget {
+  const InternetDataBills({super.key});
 
   @override
-  ConsumerState<DataBills> createState() => _DataBillsState();
+  ConsumerState<InternetDataBills> createState() => _InternetDataBillsState();
 }
 
-class _DataBillsState extends ConsumerState<DataBills> {
+class _InternetDataBillsState extends ConsumerState<InternetDataBills> {
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _planController = TextEditingController();
   final TextEditingController _packageIdController = TextEditingController();
-  DataBundleProduct? _selectedProduct;
+  InternetDataProduct? _selectedProduct;
   var formKey = GlobalKey<FormState>();
-
-  // Network icon mapping helper
-  String getNetworkIcon(String networkName) {
-    switch (networkName.toLowerCase()) {
-      case 'mtn':
-      case 'mtn bundle':
-        return ZeelPng.mtn;
-      case 'airtel':
-      case 'airtel bundle':
-        return ZeelPng.airtel;
-      case 'glo':
-      case 'glo bundle':
-        return ZeelPng.glo;
-      case '9mobile':
-      case 'etisalat':
-        return ZeelPng.mobile;
-      default:
-        return ZeelPng.mtn;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     var user = ref.watch(fetchMobileUserInformationProvider);
-    var dataBundles = ref.watch(fetchDataBundlesProvider);
+    var internetData = ref.watch(fetchInternetDataProvider);
     var theme = ShadTheme.of(context);
     return Scaffold(
       appBar: AppBar(
         forceMaterialTransparency: true,
-        title: const Text('Buy Data'),
+        title: const Text('Internet Data'),
         leadingWidth: 100,
         leading: const ZeelBackButton(),
       ),
@@ -76,7 +55,7 @@ class _DataBillsState extends ConsumerState<DataBills> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              dataBundles.when(
+              internetData.when(
                 data: (products) => SizedBox(
                   height: 80,
                   child: ListView.separated(
@@ -87,8 +66,8 @@ class _DataBillsState extends ConsumerState<DataBills> {
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
                         final product = products![index];
-                        return ZeelNetwork(
-                          icon: getNetworkIcon(product.name ?? ''),
+                        return InternetProviderWidget(
+                          product: product,
                           selected: _selectedProduct?.code == product.code,
                           onTap: () {
                             setState(() {
@@ -136,7 +115,7 @@ class _DataBillsState extends ConsumerState<DataBills> {
                         } else {
                           Navigator.push(
                             context,
-                            _createRoute(BillsPackagesWidget(
+                            _createRoute(InternetDataPackagesWidget(
                                 _selectedProduct!,
                                 _planController,
                                 _packageIdController,
@@ -210,6 +189,9 @@ class _DataBillsState extends ConsumerState<DataBills> {
                       ),
                   error: (error, _) => Text(error.toString()),
                   loading: () => const SizedBox.shrink()),
+              const SizedBox(
+                height: 20,
+              ),
               Expanded(
                 child: Align(
                   alignment: Alignment.bottomCenter,
@@ -223,7 +205,8 @@ class _DataBillsState extends ConsumerState<DataBills> {
                             builder: (_) => ConfirmTransaction(
                               onPinComplete: (pin) async {
                                 await ref
-                                    .read(dataControllerProvider.notifier)
+                                    .read(
+                                        internetDataControllerProvider.notifier)
                                     .buy(
                                       context: context,
                                       phoneNumber: _phoneNumberController.text,
@@ -251,12 +234,12 @@ class _DataBillsState extends ConsumerState<DataBills> {
   }
 }
 
-class BillsPackagesWidget extends ConsumerWidget {
-  final DataBundleProduct product;
+class InternetDataPackagesWidget extends ConsumerWidget {
+  final InternetDataProduct product;
   final TextEditingController packageController;
   final TextEditingController packageIdController;
   final TextEditingController amountController;
-  const BillsPackagesWidget(this.product, this.packageController,
+  const InternetDataPackagesWidget(this.product, this.packageController,
       this.packageIdController, this.amountController,
       {super.key});
   @override
@@ -306,15 +289,13 @@ class BillsPackagesWidget extends ConsumerWidget {
                     ),
                     trailing: Container(
                         decoration: BoxDecoration(
-                          //make it circular
-
                           border: Border.all(color: Colors.blue, width: 2),
                           borderRadius: BorderRadius.circular(100),
                         ),
                         height: 30,
                         width: 30,
                         child: (packageIdController.text == variation.code)
-                            ? const Icon(LucideIcons.check)
+                            ? const Icon(Icons.check)
                             : null),
                   );
                 }),
@@ -334,12 +315,97 @@ Route _createRoute(Widget child) {
       const curve = Curves.ease;
       final tween =
           Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-      final offsetAnimation = animation.drive(tween);
-
       return SlideTransition(
-        position: offsetAnimation,
+        position: animation.drive(tween),
         child: child,
       );
     },
   );
+}
+
+class InternetProviderWidget extends StatelessWidget {
+  final InternetDataProduct product;
+  final bool selected;
+  final VoidCallback onTap;
+
+  const InternetProviderWidget({
+    super.key,
+    required this.product,
+    required this.selected,
+    required this.onTap,
+  });
+
+  String getNetworkIcon(String networkName) {
+    switch (networkName.toLowerCase()) {
+      case 'spectranet':
+        return ZeelPng.mtn; // Fallback for now
+      case 'swift':
+      case 'swift networks':
+        return ZeelPng.airtel;
+      case 'smile':
+      case 'smile communications':
+        return ZeelPng.glo;
+      case 'ipnx':
+        return ZeelPng.mobile;
+      case 'mtn':
+      case 'mtn internet':
+        return ZeelPng.mtn;
+      case 'airtel':
+      case 'airtel internet':
+        return ZeelPng.airtel;
+      case 'glo':
+      case 'glo internet':
+        return ZeelPng.glo;
+      case '9mobile':
+      case 'etisalat':
+        return ZeelPng.mobile;
+      default:
+        return ZeelPng.mtn; // fallback
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Stack(
+        children: [
+          Container(
+            height: 80,
+            width: 80,
+            padding: const EdgeInsets.all(15),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Center(
+              child: ShadImage(product.image!.isEmpty
+                  ? getNetworkIcon(product.name!)
+                  : product.image!),
+            ),
+          ),
+          if (selected)
+            Positioned(
+              top: 5,
+              right: 5,
+              child: Container(
+                height: 20,
+                width: 20,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                  shape: BoxShape.circle,
+                ),
+                child: const Center(
+                  child: Icon(
+                    Icons.check,
+                    color: Colors.white,
+                    size: 15,
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
 }

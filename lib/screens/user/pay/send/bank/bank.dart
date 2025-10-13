@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -16,7 +18,6 @@ import 'package:ugbills/screens/widgets/zeel_scrollable_widget.dart';
 class BankTransfer extends HookConsumerWidget {
   BankTransfer({super.key});
 
-  var sessionId = '';
   final TextEditingController _accountNumberController =
       TextEditingController();
   final TextEditingController _accountNameController = TextEditingController();
@@ -30,7 +31,6 @@ class BankTransfer extends HookConsumerWidget {
 
     var selectedBank = ref.watch(selectedBankProvider);
     var selectedBankCode = ref.watch(selectedBankCodeProvider);
-    var saveBeneficiary = ref.watch(saveBeneficiaryProvider);
     var theme = ShadTheme.of(context);
     final amount = ModalRoute.of(context)!.settings.arguments as String;
 
@@ -99,6 +99,7 @@ class BankTransfer extends HookConsumerWidget {
                                 var future = ref
                                     .read(transferControllerProvider.notifier)
                                     .validateAccount(
+                                        context: context,
                                         accountNameController:
                                             _accountNameController,
                                         accountNumber:
@@ -106,9 +107,13 @@ class BankTransfer extends HookConsumerWidget {
                                         bankCode: selectedBankCode)
                                     .then((value) {
                                   if (value != null) {
+                                    log("user validated");
+                                    log("Account Name: ${value.accountName}");
+
                                     _accountNameController.text =
                                         value.accountName!;
-                                    sessionId = value.nameEnquiryId!;
+                                  } else {
+                                    _accountNameController.text = '';
                                   }
                                 });
 
@@ -144,27 +149,6 @@ class BankTransfer extends HookConsumerWidget {
                                   ),
                                 ],
                               ),
-                selectedBank.isEmpty | _accountNameController.text.isEmpty
-                    ? const SizedBox.shrink()
-                    : Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          ShadSwitch(
-                            value: saveBeneficiary,
-                            onChanged: (value) {
-                              ref.read(saveBeneficiaryProvider.notifier).state =
-                                  value;
-                            },
-                          ),
-                          Text(
-                            "Save Beneficiary",
-                            style: theme.textTheme.small.copyWith(
-                              color: theme.colorScheme.primary,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )
-                        ],
-                      ),
                 const SizedBox(height: 20),
                 selectedBank.isEmpty | _accountNameController.text.isEmpty
                     ? const SizedBox.shrink()
@@ -218,7 +202,7 @@ class BankTransfer extends HookConsumerWidget {
                                       "Bank Name", selectedBank, context),
                                   showDetails("Account Name",
                                       _accountNameController.text, context),
-                                  showDetails("Fee", "₦20.00", context),
+                                  showDetails("Fee", "₦50.00", context),
                                   const SizedBox(height: 24),
                                   ZeelButton(
                                     text: "Confirm",
@@ -230,7 +214,6 @@ class BankTransfer extends HookConsumerWidget {
                                                   .notifier)
                                               .transfer(
                                                   context: context,
-                                                  sessionId: sessionId,
                                                   note: _noteController.text,
                                                   pin: pin!,
                                                   ref: ref,

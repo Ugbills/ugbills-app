@@ -58,7 +58,7 @@ class UserScreen extends ConsumerWidget {
                     ? ShadTheme.of(context).colorScheme.primary
                     : Colors.grey,
               ),
-              label: 'More',
+              label: 'Profile',
             ),
           ]),
       body: _screens[currentIndex],
