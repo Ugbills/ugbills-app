@@ -1,6 +1,6 @@
 class MobileEndpoints {
   // Mobile API Base URL - Separate from web API
-  static const baseUrl = 'https://192.168.1.49:3443/api/mobile/v1/';
+  static const baseUrl = 'https://ugbills.zappyglobal.ng/api/mobile/v1/';
 
   // Mobile Authentication Endpoints
   static const auth = '${baseUrl}auth/';
